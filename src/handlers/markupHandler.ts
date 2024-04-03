@@ -1,19 +1,7 @@
 import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
-
-enum FileExtensions {
-  html = 'html',
-  pug = 'pug',
-  hbs = 'hbs',
-  ejs = 'ejs',
-  css = 'css',
-  scss = 'scss',
-  sass = 'sass',
-  stylus = 'styl',
-  javascript = 'js',
-  typescript = 'ts',
-}
+import { FileExtensions, getExtensions } from 'utils/utils';
 
 async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, FileExtensions>) {
   const fileContent = await fs.readFile(srcPath, 'utf-8');
@@ -24,10 +12,6 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
   }
 
   await fs.writeFile(destPath, modifiedContent, 'utf-8');
-}
-
-function getExtensions(tech: UserChoises[keyof UserChoises]) {
-  return FileExtensions[tech as keyof typeof FileExtensions];
 }
 
 export async function markupHandler(userChoise: UserChoises, projectPath: string) {

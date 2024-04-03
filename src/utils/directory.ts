@@ -72,7 +72,7 @@ async function whetherToClearDir(path: string) {
   return userChoise === 'remove' ? true : false;
 }
 
-export async function clearDir(path) {
+export async function clearDir(path:string) {
   const answer = await confirm({
     message: `All files in directory "${path}" will be erased. Continue?`,
     default: false,

@@ -22,3 +22,14 @@ interface QuestionTypes {
 }
 
 type QuestionList = Record<Technologies, QuestionTypes['select'] | QuestionTypes['confirm']>;
+
+interface PackageJson {
+  name: string;
+  version: string;
+  description: string;  
+  scripts: Record<string, string>;
+  author: string;
+  license: string;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
+}

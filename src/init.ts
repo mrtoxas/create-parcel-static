@@ -1,6 +1,7 @@
 import { getProjectInitData, clearDir } from './utils/directory';
 import { choice } from './choises';
 import { markupHandler } from './handlers/markupHandler';
+import { packageJsonHandler } from './handlers/packageJsonHandler';
 
 const userChoise: UserChoises & { set: (key: keyof UserChoises) => Promise<void> } = {
   markup: undefined,
@@ -11,8 +12,8 @@ const userChoise: UserChoises & { set: (key: keyof UserChoises) => Promise<void>
   },
 };
 
-export async function init() {
-  const { projectPath, whetherToClear } = await getProjectInitData();
+export async function init() { 
+  const { packageName, projectPath, whetherToClear } = await getProjectInitData();
 
   const keys: (keyof UserChoises)[] = ['markup', 'style', 'script', 'prettier', 'stylelint', 'eslint'];
 
@@ -21,4 +22,5 @@ export async function init() {
   if (whetherToClear) await clearDir(projectPath);
 
   await markupHandler(userChoise, projectPath);
+  await packageJsonHandler(userChoise, projectPath, packageName);
 }

@@ -1,11 +1,11 @@
 {
-  "name": "create-bepmfqpxunci",
+  "name": "create-bepmfqpxuncoo",
   "version": "1.0.0",  
   "type": "module",
   "author": "mrtoxas",
   "license": "MIT",
   "bin": {
-    "create-bepmfqpxunci": "dist/index.mjs"
+    "create-bepmfqpxuncoo": "dist/index.mjs"
   },
   "files": [
     "index.js",
