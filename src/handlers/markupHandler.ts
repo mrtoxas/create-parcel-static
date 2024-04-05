@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { FileExtensions, getExtensions } from 'utils/utils';
+import { store } from 'store';
 
 async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, FileExtensions>) {
   const fileContent = await fs.readFile(srcPath, 'utf-8');
@@ -14,13 +15,15 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
   await fs.writeFile(destPath, modifiedContent, 'utf-8');
 }
 
-export async function markupHandler(userChoise: UserChoises, projectPath: string) {
+export async function markupHandler() {
+  const { projectData, userProjectChoiсe } = store;
+  
   const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../templates');
-  const srcDir = path.join(projectPath, 'src');
+  const srcDir = path.join(projectData.projectPath, 'src');
 
-  const scriptExtension = getExtensions(userChoise.script);
-  const styleExtension = getExtensions(userChoise.style);
-  const markupExtension = getExtensions(userChoise.markup);
+  const scriptExtension = getExtensions(userProjectChoiсe.script);
+  const styleExtension = getExtensions(userProjectChoiсe.style);
+  const markupExtension = getExtensions(userProjectChoiсe.markup);
 
   const scriptFile = `main.${scriptExtension}`;
   const styleFile = `main.${styleExtension}`;
@@ -35,12 +38,12 @@ export async function markupHandler(userChoise: UserChoises, projectPath: string
   const destIndexFilePath = path.join(srcDir, indexFile);
 
   const replacementsIndex = {
-    '{{style-ext}}': getExtensions(userChoise.style),
-    '{{script-ext}}': getExtensions(userChoise.script),
+    '{{style-ext}}': getExtensions(userProjectChoiсe.style),
+    '{{script-ext}}': getExtensions(userProjectChoiсe.script),
   };
 
   try {
-    await fs.copy(srcMarkupTemplatePath, projectPath);
+    await fs.copy(srcMarkupTemplatePath, projectData.projectPath);
 
     fs.copy(srcSctiptFilePath, destSctiptFilePath);
     fs.copy(srcStyleFilePath, destStyleFilePath);

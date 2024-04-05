@@ -1,18 +1,32 @@
-interface UserChoises  {
+interface Store {
+  userProjectChoiсe: UserProjectChoiсes;
+  projectData: ProjectData;
+  setUserChoiсe: (key: keyof UserProjectChoiсes, value: string | boolean) => void;
+  setProjectData: (data: ProjectData) => void;
+}
+
+interface ProjectData {
+  projectPath: string | undefined;
+  projectName: string | undefined;
+  packageName: string | undefined;
+  whetherToClear: boolean;
+}
+
+interface UserProjectChoiсes {
   markup: 'html' | 'pug' | 'EJS' | 'Handlebars' | undefined;
   style: 'css' | 'scss' | 'sass' | 'stylus' | undefined;
   script: 'js' | 'ts' | undefined;
   prettier?: boolean;
   eslint?: boolean;
-  stylelint?: boolean;    
+  stylelint?: boolean;
 }
 
-type Technologies = keyof UserChoises;
+type Technologies = keyof UserProjectChoiсes;
 
 interface QuestionConfig {
   type: keyof QuestionTypes;
   message: string;
-  choices: { name: string; value: string }[];  
+  choices: { name: string; value: string }[];
   default: boolean;
 }
 
@@ -26,7 +40,7 @@ type QuestionList = Record<Technologies, QuestionTypes['select'] | QuestionTypes
 interface PackageJson {
   name: string;
   version: string;
-  description: string;  
+  description: string;
   scripts: Record<string, string>;
   author: string;
   license: string;

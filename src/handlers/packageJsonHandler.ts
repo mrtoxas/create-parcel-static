@@ -26,8 +26,8 @@ export async function packageJsonHandler(userChoise: UserChoises, projectPath: s
 
   packageJson['name'] = packageName;
 
-  packageJson.scripts.start = `parcel src/index.${getExtensions(userChoise.markup)}`;
-  packageJson.scripts.build = `rimraf dist && parcel build src/index.${getExtensions(userChoise.markup)} --no-source-maps --public-url ./`;
+  packageJson.scripts.start = `parcel src/index.${markupExtention}`;
+  packageJson.scripts.build = `rimraf dist && parcel build src/index.${markupExtention} --no-source-maps --public-url ./`;
 
   if (userChoise.prettier) {
     const scripts = {

@@ -1,26 +1,17 @@
 import { getProjectInitData, clearDir } from './utils/directory';
-import { choice } from './choises';
 import { markupHandler } from './handlers/markupHandler';
 import { packageJsonHandler } from './handlers/packageJsonHandler';
+import { store } from './store';
+import { choice } from 'choises';
 
-const userChoise: UserChoises & { set: (key: keyof UserChoises) => Promise<void> } = {
-  markup: undefined,
-  style: undefined,
-  script: undefined,
-  set: async function (key) {
-    this[key] = await choice(key);
-  },
-};
+export async function init() {  
+  store.setProjectData(await getProjectInitData());
 
-export async function init() { 
-  const { packageName, projectPath, whetherToClear } = await getProjectInitData();
+  // const keys: (keyof UserProjectChoiсes)[] = ['markup', 'style', 'script', 'prettier', 'stylelint', 'eslint'];
+  // for (const key of keys) setUserChoiсe(key, await choice(key));
 
-  const keys: (keyof UserChoises)[] = ['markup', 'style', 'script', 'prettier', 'stylelint', 'eslint'];
+  // if (projectData.whetherToClear) await clearDir(projectData.projectPath);
 
-  for (const key of keys) await userChoise.set(key);
-
-  if (whetherToClear) await clearDir(projectPath);
-
-  await markupHandler(userChoise, projectPath);
-  await packageJsonHandler(userChoise, projectPath, packageName);
+  // await markupHandler();
+  // await packageJsonHandler(userChoise, projectPath, packageName);
 }
