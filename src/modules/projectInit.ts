@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { input, select, confirm } from '@inquirer/prompts';
 import validate from 'validate-npm-package-name';
 import { basename, resolve } from 'path';
+import { store } from '../store';
 
 export async function getProjectInitData() {
   let projectPath;
@@ -17,9 +18,9 @@ export async function getProjectInitData() {
   if (projectNamePrompt.trim() === '/') {
     projectPath = `${process.cwd()}/parcel-project`;
     projectName = packageName = 'parcel-project';
-    const whetherToClear = await whetherToClearDir(projectPath);
+    const toСlean = await toСleanDir(projectPath);
 
-    return { projectPath, projectName, packageName, whetherToClear };
+    return { projectPath, projectName, packageName, toСlean };
   }
 
   projectPath = resolve(projectNamePrompt);
@@ -38,12 +39,12 @@ export async function getProjectInitData() {
         },
       });
 
-  const whetherToClear = await whetherToClearDir(projectPath);
+  const toСlean = await toСleanDir(projectPath);
 
-  return { projectPath, projectName, packageName, whetherToClear };
+  return { projectPath, projectName, packageName, toСlean };
 }
 
-async function whetherToClearDir(path: string) {
+async function toСleanDir(path: string) {
   const exists = await fs.pathExists(path);
   if (!exists) return false;
 
@@ -72,7 +73,9 @@ async function whetherToClearDir(path: string) {
   return userChoise === 'remove' ? true : false;
 }
 
-export async function clearDir(path:string) {
+export async function cleanUpDir() {
+  const path = store.projectInitData.projectPath;
+
   const answer = await confirm({
     message: `All files in directory "${path}" will be erased. Continue?`,
     default: false,

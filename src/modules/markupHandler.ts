@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { FileExtensions, getExtensions } from 'utils/utils';
+import { FileExtensions } from 'utils/getExtensions';
 import { store } from 'store';
 
 async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, FileExtensions>) {
@@ -16,18 +16,14 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
 }
 
 export async function markupHandler() {
-  const { projectData, userProjectChoiсe } = store;
-  
+  const { projectInitData, userProjectChoiсe } = store;
+
   const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../templates');
-  const srcDir = path.join(projectData.projectPath, 'src');
+  const srcDir = path.join(projectInitData.projectPath, 'src');
 
-  const scriptExtension = getExtensions(userProjectChoiсe.script);
-  const styleExtension = getExtensions(userProjectChoiсe.style);
-  const markupExtension = getExtensions(userProjectChoiсe.markup);
-
-  const scriptFile = `main.${scriptExtension}`;
-  const styleFile = `main.${styleExtension}`;
-  const indexFile = `index.${markupExtension}`;
+  const scriptFile = `main.${userProjectChoiсe.script.extension}`;
+  const styleFile = `main.${userProjectChoiсe.style.extension}`;
+  const indexFile = `index.${userProjectChoiсe.markup.extension}`;
 
   const srcMarkupTemplatePath = path.join(templateDir, 'template-markup');
   const srcSctiptFilePath = path.join(templateDir, 'templates-script', scriptFile);
@@ -38,12 +34,12 @@ export async function markupHandler() {
   const destIndexFilePath = path.join(srcDir, indexFile);
 
   const replacementsIndex = {
-    '{{style-ext}}': getExtensions(userProjectChoiсe.style),
-    '{{script-ext}}': getExtensions(userProjectChoiсe.script),
+    '{{style-ext}}': styleFile,
+    '{{script-ext}}': styleFile,
   };
 
   try {
-    await fs.copy(srcMarkupTemplatePath, projectData.projectPath);
+    await fs.copy(srcMarkupTemplatePath, projectInitData.projectPath);
 
     fs.copy(srcSctiptFilePath, destSctiptFilePath);
     fs.copy(srcStyleFilePath, destStyleFilePath);

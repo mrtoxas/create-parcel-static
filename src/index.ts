@@ -16,14 +16,9 @@ if (Number(major) < 14) {
 }
 
 import chalk from 'chalk';
-import { init } from './init';
+import { app } from './app';
 
-init().catch((error) => {
+app().catch((error) => {
   console.log(error);
   console.error(chalk.red('✖'), 'Operation cancelled');
-  // if (error.code === undefined) {
-  //
-  // } else {
-  //   console.log(error);
-  // }
 });

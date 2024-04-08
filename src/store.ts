@@ -1,21 +1,13 @@
 const store: Store = {
-  projectData: {
-    projectPath: undefined,
-    projectName: undefined,
-    packageName: undefined,
-    whetherToClear: false,
+  projectInitData: undefined,
+  userProjectChoiсe: undefined,
+  finallyMsgs: [] as string[],
+  
+  setUserChoiсe: function (data) {
+    this.userProjectChoiсe = data;
   },
-  userProjectChoiсe: {
-    markup: undefined,
-    style: undefined,
-    script: undefined,
-  },
-  setUserChoiсe: function (key, value) {
-    this.userProjectChoiсe[key] = value;
-  },
-  setProjectData: function(data) {
-    console.log(this); // { setProjectData: [Function: setProjectData] }
-    // this.projectData = data; 
+  setProjectInitData: function(data) {
+    this.projectInitData = data; 
   },
 }; 
 

@@ -1,25 +1,38 @@
 interface Store {
   userProjectChoiсe: UserProjectChoiсes;
-  projectData: ProjectData;
-  setUserChoiсe: (key: keyof UserProjectChoiсes, value: string | boolean) => void;
-  setProjectData: (data: ProjectData) => void;
+  projectInitData: ProjectInitData;
+  finallyMsgs: string[];
+  setUserChoiсe: (data: UserProjectChoiсes) => void;
+  setProjectInitData: (data: ProjectInitData) => void;
 }
 
-interface ProjectData {
-  projectPath: string | undefined;
-  projectName: string | undefined;
-  packageName: string | undefined;
-  whetherToClear: boolean;
-}
-
-interface UserProjectChoiсes {
-  markup: 'html' | 'pug' | 'EJS' | 'Handlebars' | undefined;
-  style: 'css' | 'scss' | 'sass' | 'stylus' | undefined;
-  script: 'js' | 'ts' | undefined;
+type UserProjectChoiсes = {
+  markup: {
+    name: 'html' | 'pug' | 'EJS' | 'Handlebars';
+    title: string;
+    extension: string;
+  }
+  style: {
+    name: 'css' | 'scss' | 'sass' | 'stylus';
+    title: string;
+    extension: string;
+  };
+  script: {
+    name: 'js' | 'ts';
+    title: string;
+    extension: string;
+  };
   prettier?: boolean;
   eslint?: boolean;
   stylelint?: boolean;
-}
+} | undefined;
+
+type ProjectInitData = {
+  projectPath: string;
+  projectName: string;
+  packageName: string;
+  whetherToClear: boolean;
+} | undefined;
 
 type Technologies = keyof UserProjectChoiсes;
 

@@ -10,6 +10,11 @@ export const devDependencies = {
       '@parcel/transformer-stylus': '2.12.0',
     },
   },
+  script:{
+    typescript: {
+      "typescript": "^5.3.3"
+    }
+  },
   stylelint: {
     base: {
       stylelint: '^16.2.1',
@@ -36,6 +41,16 @@ export const devDependencies = {
     },
     esLint: {
       'eslint-config-prettier': '^9.1.0',
+    },
+  },
+  eslint: {
+    base: {
+      eslint: '^8.56.0',
+      'eslint-plugin-import': '^2.29.1',
+    },
+    typescript: {
+      '@typescript-eslint/eslint-plugin': '^7.0.2',
+      '@typescript-eslint/parser': '^7.0.2',
     },
   },
 };
