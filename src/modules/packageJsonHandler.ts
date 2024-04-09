@@ -38,7 +38,7 @@ export async function packageJsonHandler() {
       packageJson.scripts['prettier:markup:check'] = `prettier src/**/*.${userProjectChoiсe.markup.extension} --check`;
       packageJson.scripts['prettier:markup:fix'] = `prettier src/**/*.${userProjectChoiсe.markup.extension} --write`;
     } else if (userProjectChoiсe.markup.name === 'pug') {
-      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.pugs };
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.pug };
       packageJson.scripts['prettier:markup:check'] =
         `prettier src/**/*.${userProjectChoiсe.markup.extension} --check --plugin=@prettier/plugin-pug`;
       packageJson.scripts['prettier:markup:fix'] =
@@ -58,7 +58,7 @@ export async function packageJsonHandler() {
       packageJson.scripts['prettier:scripts:check'] = `prettier src/scripts/**/*.${scriptExtention} --check`;
       packageJson.scripts['prettier:scripts:fix'] = `prettier src/scripts/**/*.${scriptExtention} --write`;
 
-      if (userProjectChoiсe.script.name === 'typescript') {
+      if (userProjectChoiсe.script.name === 'js') {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
@@ -72,20 +72,21 @@ export async function packageJsonHandler() {
     packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention} --check`;
     packageJson.scripts['lint:scripts:fix'] = `eslint src/scripts/**/*.${scriptExtention} --fix`;
 
-    if (userProjectChoiсe.script.name === 'typescript') {
+    if (userProjectChoiсe.script.name === 'ts') {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.typescript };
     }
   }
+
   if (userProjectChoiсe.stylelint) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.base };
 
-    packageJson['lint:styles:check'] = `stylelint src/styles/**/*.${styleExtention}`;
-    packageJson['lint:styles:fix'] = `stylelint src/styles/**/*.${styleExtention} --fix`;
+    packageJson.scripts['lint:styles:check'] = `stylelint src/styles/**/*.${styleExtention}`;
+    packageJson.scripts['lint:styles:fix'] = `stylelint src/styles/**/*.${styleExtention} --fix`;
 
     switch (userProjectChoiсe.style.name) {
       case 'sass':
       case 'scss':
-        packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.sass };
+        packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.scss };
         break;
       case 'less':
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.less };
@@ -106,5 +107,5 @@ export async function packageJsonHandler() {
 }
 
 function unsupported(tech: string, plugin: string) {
-  store.finallyMsgs.push(`The ${tech} does not have an official ${plugin} plugin`);
+  store.warnMsgs.push(`The ${tech} does not have an official ${plugin} plugin`);
 }

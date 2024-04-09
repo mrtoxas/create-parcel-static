@@ -1,5 +1,19 @@
 import { select, confirm } from '@inquirer/prompts';
 
+enum FileExtensions {
+  html = 'html',
+  pug = 'pug',
+  hbs = 'hbs',
+  ejs = 'ejs',
+  css = 'css',
+  scss = 'scss',
+  sass = 'sass',
+  less = 'less',
+  stylus = 'styl',
+  javascript = 'js',
+  typescript = 'ts',
+}
+
 const questionsList: QuestionList = {
   markup: {
     type: 'select',
@@ -10,7 +24,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'html',
           title: 'HTML',
-          extension: 'html',
+          extension: FileExtensions.html,
         },
       },
       {
@@ -18,7 +32,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'pug',
           title: 'Pug',
-          extension: 'pug',
+          extension: FileExtensions.pug,
         },
       },
       {
@@ -26,7 +40,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'ejs',
           title: 'EJS',
-          extension: 'ejs',
+          extension: FileExtensions.ejs,
         },
       },
       {
@@ -34,7 +48,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'hbs',
           title: 'Handlebars',
-          extension: 'hbs',
+          extension: FileExtensions.hbs,
         },
       },
     ],
@@ -48,7 +62,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'css',
           title: 'CSS',
-          extension: 'css',
+          extension: FileExtensions.css,
         },
       },
       {
@@ -56,7 +70,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'sass',
           title: 'SASS',
-          extension: 'sass',
+          extension: FileExtensions.sass,
         },
       },
       {
@@ -64,7 +78,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'scss',
           title: 'SCSS',
-          extension: 'scss',
+          extension: FileExtensions.scss,
         },
       },
       {
@@ -72,7 +86,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'less',
           title: 'Less',
-          extension: 'less',
+          extension: FileExtensions.less,
         },
       },
       {
@@ -80,7 +94,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'stylus',
           title: 'STYLUS',
-          extension: 'styl',
+          extension: FileExtensions.stylus,
         },
       },
     ],
@@ -94,7 +108,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'javascript',
           title: 'JavaScript',
-          extension: 'js',
+          extension: FileExtensions.javascript,
         },
       },
       {
@@ -102,7 +116,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'typescript',
           title: 'TypeScript',
-          extension: 'ts',
+          extension: FileExtensions.typescript,
         },
       },
     ],
@@ -124,22 +138,23 @@ const questionsList: QuestionList = {
   },
 };
 
-async function choice(question: Technologies): Promise<string | boolean> {
-  const obj = questionsList[question];
-  switch (obj.type) {
-    case 'select':
-      return await select(obj as QuestionTypes['select']);
-    case 'confirm':
-      return await confirm(obj as QuestionTypes['confirm']);
-    default:
-      throw new Error(`Unsupported question type`);
+export async function projectChoices(keys: (keyof UserProjectChoiсes)[]) {
+  const choices: UserProjectChoiсes = {} as UserProjectChoiсes;
+
+  for (const key of keys) {
+    const question = questionsList[key];
+
+    switch (question.type) {
+      case 'select':
+        (choices[key] as ChoiceDetails) = await select(question as QuestionTypes['select']);
+        break;
+      case 'confirm':
+        (choices[key] as boolean) = await confirm(question as QuestionTypes['confirm']);
+        break;
+      default:
+        throw new Error(`Unsupported question type`);
+    }
   }
-}
-
-export async function projectChoices(keys: (keyof UserProjectChoiсes)[]): Promise<UserProjectChoiсes> {
-  const choices: UserProjectChoiсes = {};
-
-  for (const key of keys) choices[key] = await choice(key);
 
   return choices;
 }

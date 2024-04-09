@@ -14,7 +14,7 @@ export async function app() {
   await markupHandler();
   await packageJsonHandler();
 
-  if (store.finallyMsgs.length) {
-    store.finallyMsgs.forEach((el) => console.warn(chalk.yellow('Warning:'), `${el}`));
+  if (store.warnMsgs.length) {
+    store.warnMsgs.forEach((el) => console.warn(chalk.yellow('Warning:'), `${el}`));
   }
 }

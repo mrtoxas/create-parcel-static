@@ -10,10 +10,10 @@ export const devDependencies = {
       '@parcel/transformer-stylus': '2.12.0',
     },
   },
-  script:{
+  script: {
     typescript: {
-      "typescript": "^5.3.3"
-    }
+      typescript: '^5.3.3',
+    },
   },
   stylelint: {
     base: {
@@ -54,3 +54,13 @@ export const devDependencies = {
     },
   },
 };
+
+export const prettierConfig = {};
+
+export const parcelConfig = {};
+
+export const eslintConfig = {};
+
+export const stylelintConfig = {};
+
+export const tsconfig = {};

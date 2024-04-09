@@ -1,10 +1,9 @@
 import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { FileExtensions } from 'utils/getExtensions';
 import { store } from 'store';
 
-async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, FileExtensions>) {
+async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, string>) {
   const fileContent = await fs.readFile(srcPath, 'utf-8');
 
   let modifiedContent = fileContent;
