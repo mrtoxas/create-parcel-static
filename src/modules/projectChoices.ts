@@ -97,6 +97,14 @@ const questionsList: QuestionList = {
           extension: FileExtensions.stylus,
         },
       },
+      {
+        name: 'Tailwind',
+        value: {
+          name: 'tailwind',
+          title: 'Tailwind',
+          extension: FileExtensions.css,
+        },
+      },
     ],
   },
   script: {

@@ -9,6 +9,10 @@ export const devDependencies = {
     stylus: {
       '@parcel/transformer-stylus': '2.12.0',
     },
+    tailwind: {
+      postcss: '^8.4.38',
+      tailwindcss: '^3.4.3',
+    },
   },
   script: {
     typescript: {
@@ -64,3 +68,24 @@ export const eslintConfig = {};
 export const stylelintConfig = {};
 
 export const tsconfig = {};
+
+export const postcssConfig = {
+  tailwind: {
+    plugins: {
+      tailwindcss: {},
+    },
+  },
+};
+
+export const tailwindConfig = `
+  /** @type {import('tailwindcss').Config} */
+  module.exports = {
+    content: [
+      "./src/**/*.{html,pug,hbs,ejs,js,ts,jsx,tsx}",
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
+`

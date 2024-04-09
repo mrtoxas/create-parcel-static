@@ -4,6 +4,7 @@ interface Store {
   warnMsgs: string[];
   setUserChoiсe: (data: UserProjectChoiсes) => void;
   setProjectInitData: (data: ProjectInitData) => void;
+  setWarnMsgs: (data: string) => void;
 }
 
 interface ChoiceDetails {
@@ -14,8 +15,8 @@ interface ChoiceDetails {
 
 type UserProjectChoiсes = {
   markup: ChoiceDetails & { name: 'html' | 'pug' | 'EJS' | 'Handlebars' };
-  style: ChoiceDetails & { name: 'css' | 'scss' | 'sass' | 'stylus' | 'less' };
-  script: ChoiceDetails & { name: 'js' | 'ts' };
+  style: ChoiceDetails & { name: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind' };
+  script: ChoiceDetails & { name: 'javascript' | 'typescript' };
   prettier?: boolean;
   eslint?: boolean;
   stylelint?: boolean;
@@ -30,16 +31,14 @@ type ProjectInitData = {
 
 type Technologies = keyof UserProjectChoiсes;
 
+type StyleSystem = 'base' | 'tailwind';
+
 interface QuestionConfig {
   type: keyof QuestionTypes;
   message: string;
   choices: {
     name: string;
-    value: {
-      name: string;
-      title: string;
-      extension: string;
-    };
+    value: ChoiceDetails;
   }[];
   default: boolean;
 }
@@ -60,3 +59,4 @@ interface PackageJson {
   license: string;
   devDependencies: Record<string, string>;
 }
+

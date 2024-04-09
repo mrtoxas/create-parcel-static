@@ -22,6 +22,8 @@ const packageJson: PackageJson = {
 export async function packageJsonHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
+  console.log(userProjectChoiсe);
+
   const markupExtention = userProjectChoiсe.markup.extension;
   const styleExtention = userProjectChoiсe.style.extension;
   const scriptExtention = userProjectChoiсe.script.extension;
@@ -30,6 +32,20 @@ export async function packageJsonHandler() {
 
   packageJson.scripts.start = `parcel src/index.${markupExtention}`;
   packageJson.scripts.build = `rimraf dist && parcel build src/index.${markupExtention} --no-source-maps --public-url ./`;
+
+  /* TypeSctipt */
+
+  if (userProjectChoiсe.script.name === 'typescript') {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
+  }
+
+  /* Tailwind */
+
+  if (userProjectChoiсe.style.name === 'tailwind') {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
+  }
+
+  /* Prettier */
 
   if (userProjectChoiсe.prettier) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.base };
@@ -47,7 +63,7 @@ export async function packageJsonHandler() {
       unsupported(userProjectChoiсe.markup.title, 'Prettier');
     }
 
-    if (['css', 'less', 'scss'].includes(userProjectChoiсe.style.name)) {
+    if (['css', 'less', 'scss', 'tailwind'].includes(userProjectChoiсe.style.name)) {
       packageJson.scripts['prettier:styles:check'] = `prettier src/styles/**/*.${styleExtention} --check`;
       packageJson.scripts['prettier:styles:fix'] = `prettier src/styles/**/*.${styleExtention} --write`;
     } else {
@@ -58,7 +74,7 @@ export async function packageJsonHandler() {
       packageJson.scripts['prettier:scripts:check'] = `prettier src/scripts/**/*.${scriptExtention} --check`;
       packageJson.scripts['prettier:scripts:fix'] = `prettier src/scripts/**/*.${scriptExtention} --write`;
 
-      if (userProjectChoiсe.script.name === 'js') {
+      if (userProjectChoiсe.script.name === 'javascript') {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
@@ -66,16 +82,20 @@ export async function packageJsonHandler() {
     }
   }
 
+  /* Eslint */
+
   if (userProjectChoiсe.eslint) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.base };
 
     packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention} --check`;
     packageJson.scripts['lint:scripts:fix'] = `eslint src/scripts/**/*.${scriptExtention} --fix`;
 
-    if (userProjectChoiсe.script.name === 'ts') {
+    if (userProjectChoiсe.script.name === 'typescript') {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.typescript };
     }
   }
+
+  /* Stylelint */
 
   if (userProjectChoiсe.stylelint) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.base };
@@ -107,5 +127,5 @@ export async function packageJsonHandler() {
 }
 
 function unsupported(tech: string, plugin: string) {
-  store.warnMsgs.push(`The ${tech} does not have an official ${plugin} plugin`);
+  store.setWarnMsgs(`The ${tech} does not have an official ${plugin} plugin`);
 }

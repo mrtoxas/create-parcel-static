@@ -17,6 +17,8 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
 export async function markupHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
+  const styleSystem: StyleSystem = userProjectChoiсe.style.name === 'tailwind' ? 'tailwind' : 'base';
+
   const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../templates');
   const srcDir = path.join(projectInitData.projectPath, 'src');
 
@@ -26,8 +28,8 @@ export async function markupHandler() {
 
   const srcMarkupTemplatePath = path.join(templateDir, 'template-markup');
   const srcSctiptFilePath = path.join(templateDir, 'templates-script', scriptFile);
-  const srcStyleFilePath = path.join(templateDir, 'templates-style', styleFile);
-  const srcIndexFilePath = path.join(templateDir, 'templates-index', indexFile);
+  const srcStyleFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-style', styleFile);
+  const srcIndexFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-index', indexFile);
   const destSctiptFilePath = path.join(srcDir, 'scripts', scriptFile);
   const destStyleFilePath = path.join(srcDir, 'styles', styleFile);
   const destIndexFilePath = path.join(srcDir, indexFile);
