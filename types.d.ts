@@ -14,7 +14,7 @@ interface ChoiceDetails {
 }
 
 type UserProjectChoiсes = {
-  markup: ChoiceDetails & { name: 'html' | 'pug' | 'EJS' | 'Handlebars' };
+  markup: ChoiceDetails & { name: 'html' | 'pug' | 'ejs' | 'handlebars' };
   style: ChoiceDetails & { name: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind' };
   script: ChoiceDetails & { name: 'javascript' | 'typescript' };
   prettier?: boolean;
@@ -60,3 +60,6 @@ interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
+interface Config {
+  [key: string]: string | number | boolean | string[] | Config;
+}

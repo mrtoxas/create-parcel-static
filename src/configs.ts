@@ -1,3 +1,19 @@
+export const packageJson = {
+  name: 'test',
+  version: '1.0.0',
+  description: '',
+  scripts: {
+    'clear:dist': 'rimraf dist',
+  },
+  author: '',
+  license: 'ISC',
+  devDependencies: {
+    parcel: '^2.12.0',
+    rimraf: '^5.0.5',
+    'parcel-reporter-static-files-copy': '^1.5.3',
+  },
+};
+
 export const devDependencies = {
   style: {
     scss: {
@@ -57,17 +73,84 @@ export const devDependencies = {
       '@typescript-eslint/parser': '^7.0.2',
     },
   },
+  parcel: {
+    ejs: {
+      'parcel-transformer-ejs': '^1.0.1',
+    },
+  },
 };
 
-export const prettierConfig = {};
-
-export const parcelConfig = {};
+export const parcelConfig = {
+  base: {
+    extends: ['@parcel/config-default'],
+    reporters: ['...', 'parcel-reporter-static-files-copy'],
+  },
+  ejs: {
+    transformers: {
+      '*.ejs': ['parcel-transformer-ejs'],
+    },
+  },
+};
 
 export const eslintConfig = {};
 
-export const stylelintConfig = {};
+export const stylelintConfig: Config = {
+  css: {
+    extends: ['stylelint-config-standard'],
+    rules: {
+      'declaration-colon-space-after': 'always',
+    },
+  },
+  scss: {
+    plugins: ['stylelint-scss'],
+    rules: {
+      'at-rule-no-unknown': null,
+      'scss/at-rule-no-unknown': true,
+      'scss/selector-no-redundant-nesting-selector': true,
+    },
+    extends: ['stylelint-scss', 'stylelint-config-standard-scss'],
+  },
+  stylus: {
+    plugins: ['stylelint-stylus'],
+    extends: ['stylelint-stylus/standard'],
+    rules: {
+      'stylus/declaration-colon': 'never',
+      'stylus/pythonic': 'always',
+      'stylus/selector-list-comma': 'never',
+      'stylus/semicolon': 'never',
+      'stylus/single-line-comment': 'always',
+      'stylus/at-extend-style': ['@extend', '@extends'],
+    },
+  },
+  less: {
+    plugins: ['stylelint-less'],
+    extends: ['stylelint-config-standard-less'],
+    rules: {
+      'at-rule-no-unknown': null,
+      'color-no-invalid-hex': true,
+      'less/color-no-invalid-hex': true,
+    },
+  },
+};
 
-export const tsconfig = {};
+export const prettierConfig = {
+  semi: true,
+  trailingComma: 'all',
+  singleQuote: true,
+  printWidth: 80,
+  tabWidth: 2,
+};
+
+export const tsСonfig = {
+  compilerOptions: {
+    target: 'es5',
+    module: 'commonjs',
+    strict: true,
+    esModuleInterop: true,
+    skipLibCheck: true,
+    forceConsistentCasingInFileNames: true,
+  },
+};
 
 export const postcssConfig = {
   tailwind: {
@@ -77,15 +160,30 @@ export const postcssConfig = {
   },
 };
 
-export const tailwindConfig = `
-  /** @type {import('tailwindcss').Config} */
-  module.exports = {
-    content: [
-      "./src/**/*.{html,pug,hbs,ejs,js,ts,jsx,tsx}",
-    ],
-    theme: {
-      extend: {},
-    },
-    plugins: [],
-  }
-`
+export const tailwindConfig = (extensions: ChoiceDetails['extension'], typescript: boolean) => {
+  const tsConfig = `import type { Config } from 'tailwindcss'
+  
+export default {
+  content: [
+    "./src/**/*.{${extensions}}"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+} satisfies Config`;
+
+  const jsConfig = `/** @type {import('tailwindcss').Config} */
+
+module.exports = {
+  content: [
+    "./src/**/*.{${extensions}}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+  `;
+  return typescript ? tsConfig : jsConfig;
+};

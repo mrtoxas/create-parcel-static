@@ -1,28 +1,15 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { store } from 'store';
-import { devDependencies } from 'configs';
+import { packageJson as defaultPackageJson, devDependencies } from 'configs';
 import sortPackageJson from 'sort-package-json';
 
 const packageJson: PackageJson = {
-  name: 'test',
-  version: '1.0.0',
-  description: '',
-  scripts: {
-    'clear:dist': 'rimraf dist',
-  },
-  author: '',
-  license: 'ISC',
-  devDependencies: {
-    parcel: '^2.12.0',
-    rimraf: '^5.0.5',
-  },
+  ...defaultPackageJson,
 };
 
 export async function packageJsonHandler() {
   const { projectInitData, userProjectChoiсe } = store;
-
-  console.log(userProjectChoiсe);
 
   const markupExtention = userProjectChoiсe.markup.extension;
   const styleExtention = userProjectChoiсe.style.extension;
