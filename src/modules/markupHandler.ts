@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { FileExtensions, getExtensions } from 'utils/utils';
+import { store } from 'store';
 
-async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, FileExtensions>) {
+async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, string>) {
   const fileContent = await fs.readFile(srcPath, 'utf-8');
 
   let modifiedContent = fileContent;
@@ -14,33 +14,33 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
   await fs.writeFile(destPath, modifiedContent, 'utf-8');
 }
 
-export async function markupHandler(userChoise: UserChoises, projectPath: string) {
+export async function markupHandler() {
+  const { projectInitData, userProjectChoiсe } = store;
+
+  const styleSystem: StyleSystem = userProjectChoiсe.style.name === 'tailwind' ? 'tailwind' : 'base';
+
   const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../templates');
-  const srcDir = path.join(projectPath, 'src');
+  const srcDir = path.join(projectInitData.projectPath, 'src');
 
-  const scriptExtension = getExtensions(userChoise.script);
-  const styleExtension = getExtensions(userChoise.style);
-  const markupExtension = getExtensions(userChoise.markup);
-
-  const scriptFile = `main.${scriptExtension}`;
-  const styleFile = `main.${styleExtension}`;
-  const indexFile = `index.${markupExtension}`;
+  const scriptFile = `main.${userProjectChoiсe.script.extension}`;
+  const styleFile = `main.${userProjectChoiсe.style.extension}`;
+  const indexFile = `index.${userProjectChoiсe.markup.extension}`;
 
   const srcMarkupTemplatePath = path.join(templateDir, 'template-markup');
   const srcSctiptFilePath = path.join(templateDir, 'templates-script', scriptFile);
-  const srcStyleFilePath = path.join(templateDir, 'templates-style', styleFile);
-  const srcIndexFilePath = path.join(templateDir, 'templates-index', indexFile);
+  const srcStyleFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-style', styleFile);
+  const srcIndexFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-index', indexFile);
   const destSctiptFilePath = path.join(srcDir, 'scripts', scriptFile);
   const destStyleFilePath = path.join(srcDir, 'styles', styleFile);
   const destIndexFilePath = path.join(srcDir, indexFile);
 
   const replacementsIndex = {
-    '{{style-ext}}': getExtensions(userChoise.style),
-    '{{script-ext}}': getExtensions(userChoise.script),
+    '{{style-ext}}': styleFile,
+    '{{script-ext}}': styleFile,
   };
 
   try {
-    await fs.copy(srcMarkupTemplatePath, projectPath);
+    await fs.copy(srcMarkupTemplatePath, projectInitData.projectPath);
 
     fs.copy(srcSctiptFilePath, destSctiptFilePath);
     fs.copy(srcStyleFilePath, destStyleFilePath);
