@@ -34,6 +34,9 @@ export const devDependencies = {
     typescript: {
       typescript: '^5.3.3',
     },
+    jquery: {
+      jquery: "^3.7.1",
+    }
   },
   stylelint: {
     base: {
@@ -65,12 +68,16 @@ export const devDependencies = {
   },
   eslint: {
     base: {
-      eslint: '^8.56.0',
+      eslint: '^8.57.0',
       'eslint-plugin-import': '^2.29.1',
     },
     typescript: {
       '@typescript-eslint/eslint-plugin': '^7.0.2',
       '@typescript-eslint/parser': '^7.0.2',
+    },
+    jquery: {
+      'eslint-config-jquery': '^3.0.2',
+      jquery: '^3.7.1',
     },
   },
   parcel: {
@@ -92,22 +99,33 @@ export const parcelConfig = {
   },
 };
 
-export const esLintConfig = {
+export const eslintConfig: Config = {
   base: {
     env: {
       browser: true,
-      es2021: true,
+      es6: true,
     },
+    extends: ['eslint:recommended'],
     parserOptions: {
       ecmaVersion: 2021,
       sourceType: 'module',
     },
-    extends: ['eslint:recommended', 'prettier'],
+    plugins: [],
     rules: {},
   },
   typescript: {
+    parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
     extends: ['plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],
+  },
+  jquery: {
+    env: {
+      jquery: true,
+    },
+    extends: ['jquery'],
+  },
+  prettier: {
+    extends: ['prettier'],
   },
 };
 

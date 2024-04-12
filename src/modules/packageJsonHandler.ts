@@ -22,8 +22,14 @@ export async function packageJsonHandler() {
 
   /* TypeSctipt */
 
-  if (userProjectChoiсe.script.name === 'typescript') {
+  if (userProjectChoiсe.script.extension === 'ts') {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
+  }
+
+  /* jQuery */
+
+  if (userProjectChoiсe.script.name === 'jquery') {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.jquery };
   }
 
   /* Tailwind */
@@ -33,7 +39,7 @@ export async function packageJsonHandler() {
   }
 
   /* Prettier */
-
+  
   if (userProjectChoiсe.prettier) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.base };
 
@@ -57,11 +63,11 @@ export async function packageJsonHandler() {
       unsupported(userProjectChoiсe.style.title, 'Prettier');
     }
 
-    if (['javascript', 'typescript'].includes(userProjectChoiсe.script.name)) {
+    if (['javascript', 'typescript', 'jquery'].includes(userProjectChoiсe.script.name)) {
       packageJson.scripts['prettier:scripts:check'] = `prettier src/scripts/**/*.${scriptExtention} --check`;
       packageJson.scripts['prettier:scripts:fix'] = `prettier src/scripts/**/*.${scriptExtention} --write`;
 
-      if (userProjectChoiсe.script.name === 'javascript') {
+      if (userProjectChoiсe.script.extension === 'ts') {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
@@ -77,8 +83,12 @@ export async function packageJsonHandler() {
     packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention} --check`;
     packageJson.scripts['lint:scripts:fix'] = `eslint src/scripts/**/*.${scriptExtention} --fix`;
 
-    if (userProjectChoiсe.script.name === 'typescript') {
+    if (userProjectChoiсe.script.extension === 'ts') {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.typescript };
+    }
+
+    if (userProjectChoiсe.script.name === 'jquery') {
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.jquery };
     }
   }
 

@@ -127,6 +127,22 @@ const questionsList: QuestionList = {
           extension: FileExtensions.typescript,
         },
       },
+      {
+        name: 'JQuery',
+        value: {
+          name: 'jquery',
+          title: 'JQuery',
+          extension: FileExtensions.javascript,
+        },
+      },
+      {
+        name: 'JQuery (TypeScript)',
+        value: {
+          name: 'jquery',
+          title: 'JQuery',
+          extension: FileExtensions.typescript,
+        },
+      },
     ],
   },
   prettier: {

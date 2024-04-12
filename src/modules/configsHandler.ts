@@ -8,7 +8,7 @@ import {
   tailwindConfig,
   prettierConfig,
   stylelintConfig,
-  esLintConfig as esLintCfg,
+  eslintConfig as eslintCfg,
 } from 'configs';
 
 const postcssConfig: Config = {};
@@ -17,7 +17,7 @@ const parcelConfig: Config = { ...parcelCfg.base };
 
 const configsToSave: { fileName: string; config: Config }[] = [];
 
-const esLintConfig: Config = { ...esLintCfg.base };
+const eslintConfig: Config = { ...eslintCfg.base };
 
 export async function configsHandler() {
   const { projectInitData, userProjectChoiсe } = store;
@@ -77,12 +77,23 @@ export async function configsHandler() {
   }
 
   /* ESLint */
-  if (userProjectChoiсe.stylelint) {
-    if (userProjectChoiсe.script.name === 'javascript'){
-      configsToSave.push({ fileName: '.eslintrc', config: esLintConfig });
-    } else if (userProjectChoiсe.script.name === 'typescript'){
-      //
-    }    
+  if (userProjectChoiсe.eslint) {
+    if (userProjectChoiсe.script.extension === 'ts') {
+      eslintConfig.parser += eslintCfg.typescript.parser;
+      eslintConfig.plugins = [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
+    }
+
+    if (userProjectChoiсe.prettier) {
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.prettier.extends];
+    }
+
+    if (userProjectChoiсe.script.name === 'jquery') {
+      eslintConfig.env = { ...eslintConfig.env, ...eslintCfg.jquery.env };
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.jquery.extends];
+    }
+
+    configsToSave.push({ fileName: '.eslintrc', config: eslintConfig });
   }
 
   configsToSave.forEach((item) => {
