@@ -92,7 +92,24 @@ export const parcelConfig = {
   },
 };
 
-export const eslintConfig = {};
+export const esLintConfig = {
+  base: {
+    env: {
+      browser: true,
+      es2021: true,
+    },
+    parserOptions: {
+      ecmaVersion: 2021,
+      sourceType: 'module',
+    },
+    extends: ['eslint:recommended', 'prettier'],
+    rules: {},
+  },
+  typescript: {
+    plugins: ['@typescript-eslint'],
+    extends: ['plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],
+  },
+};
 
 export const stylelintConfig: Config = {
   css: {

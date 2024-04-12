@@ -8,6 +8,7 @@ import {
   tailwindConfig,
   prettierConfig,
   stylelintConfig,
+  esLintConfig as esLintCfg,
 } from 'configs';
 
 const postcssConfig: Config = {};
@@ -15,6 +16,8 @@ const postcssConfig: Config = {};
 const parcelConfig: Config = { ...parcelCfg.base };
 
 const configsToSave: { fileName: string; config: Config }[] = [];
+
+const esLintConfig: Config = { ...esLintCfg.base };
 
 export async function configsHandler() {
   const { projectInitData, userProjectChoiсe } = store;
@@ -71,6 +74,15 @@ export async function configsHandler() {
         configsToSave.push({ fileName: '.stylelintrc', config: stylelintConfig.css as Config });
         break;
     }
+  }
+
+  /* ESLint */
+  if (userProjectChoiсe.stylelint) {
+    if (userProjectChoiсe.script.name === 'javascript'){
+      configsToSave.push({ fileName: '.eslintrc', config: esLintConfig });
+    } else if (userProjectChoiсe.script.name === 'typescript'){
+      //
+    }    
   }
 
   configsToSave.forEach((item) => {
