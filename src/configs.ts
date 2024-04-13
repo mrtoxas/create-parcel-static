@@ -35,8 +35,8 @@ export const devDependencies = {
       typescript: '^5.3.3',
     },
     jquery: {
-      jquery: "^3.7.1",
-    }
+      jquery: '^3.7.1',
+    },
   },
   stylelint: {
     base: {
@@ -53,6 +53,9 @@ export const devDependencies = {
     },
     stylus: {
       'stylelint-stylus': '^1.0.0',
+    },
+    prettier: {
+      'stylelint-prettier': '^5.0.0',
     },
   },
   prettier: {
@@ -164,6 +167,12 @@ export const stylelintConfig: Config = {
       'at-rule-no-unknown': null,
       'color-no-invalid-hex': true,
       'less/color-no-invalid-hex': true,
+    },
+  },
+  prettier: {
+    plugins: ['stylelint-prettier'],
+    rules: {
+      'prettier/prettier': true,
     },
   },
 };

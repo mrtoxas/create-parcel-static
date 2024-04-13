@@ -39,7 +39,7 @@ export async function packageJsonHandler() {
   }
 
   /* Prettier */
-  
+
   if (userProjectChoiсe.prettier) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.base };
 

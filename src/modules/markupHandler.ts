@@ -25,6 +25,8 @@ export async function markupHandler() {
 
   const styleFile = `main.${userProjectChoiсe.style.extension}`;
   const indexFile = `index.${userProjectChoiсe.markup.extension}`;
+
+  //scriptFile name - must match the real file name in the templates-script folder
   const scriptFile = `${userProjectChoiсe.script.name}.${userProjectChoiсe.script.extension}`;
 
   const srcMarkupTemplatePath = path.join(templateDir, 'template-markup');
