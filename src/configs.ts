@@ -110,11 +110,9 @@ export const eslintConfig: Config = {
     },
     extends: ['eslint:recommended'],
     parserOptions: {
-      ecmaVersion: 2021,
+      ecmaVersion: 'ES2020',
       sourceType: 'module',
     },
-    plugins: [],
-    rules: {},
   },
   typescript: {
     parser: '@typescript-eslint/parser',
@@ -187,13 +185,15 @@ export const prettierConfig = {
 
 export const tsСonfig = {
   compilerOptions: {
-    target: 'es5',
-    module: 'commonjs',
+    target: 'es2020',
+    module: 'esnext',
     strict: true,
     esModuleInterop: true,
     skipLibCheck: true,
     forceConsistentCasingInFileNames: true,
   },
+  include: ['src/**/*.ts'],
+  exclude: ['node_modules', 'dist'],
 };
 
 export const postcssConfig = {

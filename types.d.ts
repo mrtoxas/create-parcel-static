@@ -16,7 +16,7 @@ interface ChoiceDetails {
 type UserProjectChoiсes = {
   markup: ChoiceDetails & { name: 'html' | 'pug' | 'ejs' | 'handlebars' };
   style: ChoiceDetails & { name: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind' };
-  script: ChoiceDetails & { name: 'javascript' | 'typescript' };
+  script: ChoiceDetails & { name: 'javascript' | 'typescript' | 'jquery' };
   prettier?: boolean;
   eslint?: boolean;
   stylelint?: boolean;

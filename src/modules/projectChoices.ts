@@ -55,7 +55,7 @@ const questionsList: QuestionList = {
   },
   style: {
     type: 'select',
-    message: 'Select CSS Preprocessor:',
+    message: 'Select Style processing tool:',
     choices: [
       {
         name: 'CSS',
@@ -162,21 +162,38 @@ const questionsList: QuestionList = {
   },
 };
 
-export async function projectChoices(keys: (keyof UserProjectChoiсes)[]) {
+export async function projectChoices(argv) {
   const choices: UserProjectChoiсes = {} as UserProjectChoiсes;
 
-  for (const key of keys) {
-    const question = questionsList[key];
+  for (const [key, value] of Object.entries(argv)) {
+    if (questionsList.hasOwnProperty(key)) {
+      if (questionsList[key].type === 'select') {
+        const qListItem = questionsList[key].choices.find((item) => item.value.name === value);
+        if (qListItem) choices[key] = qListItem.value;
+      } else if (questionsList[key].type === 'confirm') {
+        choices[key] = true;
+      }
+    }
+  }
 
-    switch (question.type) {
-      case 'select':
-        (choices[key] as ChoiceDetails) = await select(question as QuestionTypes['select']);
-        break;
-      case 'confirm':
-        (choices[key] as boolean) = await confirm(question as QuestionTypes['confirm']);
-        break;
-      default:
-        throw new Error(`Unsupported question type`);
+  const keys: (keyof UserProjectChoiсes)[] = ['markup', 'style', 'script', 'prettier', 'stylelint', 'eslint'].filter(
+    (key) => !Object.keys(choices).includes(key),
+  );
+
+  if (keys.length) {
+    for (const key of keys) {
+      const question = questionsList[key];
+
+      switch (question.type) {
+        case 'select':
+          (choices[key] as ChoiceDetails) = await select(question as QuestionTypes['select']);
+          break;
+        case 'confirm':
+          (choices[key] as boolean) = await confirm(question as QuestionTypes['confirm']);
+          break;
+        default:
+          throw new Error(`Unsupported question type`);
+      }
     }
   }
 

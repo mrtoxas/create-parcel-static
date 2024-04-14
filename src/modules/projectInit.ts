@@ -5,12 +5,12 @@ import validate from 'validate-npm-package-name';
 import { basename, resolve } from 'path';
 import { store } from '../store';
 
-export async function getProjectInitData() {
+export async function getProjectInitData(name?: string) {
   let projectPath;
-  let projectName;
+  let projectName = name;
   let packageName;
 
-  const projectNamePrompt = await input({
+  const projectNamePrompt = projectName ? projectName : await input({
     message: 'Project name:',
     default: 'parcel-project',
   });
