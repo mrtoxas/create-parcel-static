@@ -1,10 +1,10 @@
 export function helpHandler() {
   console.log(`
-Usage: npm create parcel-static [project-name] [options]
-
-Description:      Create a static web project based Parcel.v2 bundler with ease! 
-                  Choose your preferred template engine, style processing tool, 
-                  JavaScript framework and сoding tools effortlessly.
+Usage: 
+  npm create parcel-static [project-name] -- [options]
+  yarn create parcel-static [project-name] [options]
+  pnpm create parcel-static [project-name] [options]
+  bun create parcel-static [project-name] [options]
 
 Arguments:
   project-name    Name of the project/project directory (optional)

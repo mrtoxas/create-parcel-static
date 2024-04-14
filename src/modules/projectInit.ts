@@ -10,10 +10,12 @@ export async function getProjectInitData(name?: string) {
   let projectName = name;
   let packageName;
 
-  const projectNamePrompt = projectName ? projectName : await input({
-    message: 'Project name:',
-    default: 'parcel-project',
-  });
+  const projectNamePrompt = projectName
+    ? projectName
+    : await input({
+        message: 'Project name:',
+        default: 'parcel-project',
+      });
 
   if (projectNamePrompt.trim() === '/') {
     projectPath = `${process.cwd()}/parcel-project`;

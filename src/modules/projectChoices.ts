@@ -166,7 +166,7 @@ export async function projectChoices(argv) {
   const choices: UserProjectChoiсes = {} as UserProjectChoiсes;
 
   for (const [key, value] of Object.entries(argv)) {
-    if (questionsList.hasOwnProperty(key)) {
+    if (questionsList[key]) {
       if (questionsList[key].type === 'select') {
         const qListItem = questionsList[key].choices.find((item) => item.value.name === value);
         if (qListItem) choices[key] = qListItem.value;

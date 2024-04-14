@@ -18,8 +18,8 @@ export async function app() {
     eslint?: boolean;
     help: boolean;
     h: boolean;
-  }>(process.argv.slice(2), { string: ['_'] });
-
+}>(process.argv.slice(2), { string: ['_'] })
+  
   if (argv.help || argv.h) {
     helpHandler();
     return;

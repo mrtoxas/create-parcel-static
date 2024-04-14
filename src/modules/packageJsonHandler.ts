@@ -2,7 +2,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import { store } from 'store';
 import { packageJson as defaultPackageJson, devDependencies } from 'configs';
-import sortPackageJson from 'sort-package-json';
 
 const packageJson: PackageJson = {
   ...defaultPackageJson,
@@ -114,10 +113,8 @@ export async function packageJsonHandler() {
     }
   }
 
-  const preparePackageJson = sortPackageJson(packageJson);
-
   try {
-    await fs.writeJson(path.join(store.projectInitData.projectPath, 'package.json'), preparePackageJson, { spaces: 2 });
+    await fs.writeJson(path.join(store.projectInitData.projectPath, 'package.json'), packageJson, { spaces: 2 });
   } catch (err) {
     throw new Error(err);
   }
