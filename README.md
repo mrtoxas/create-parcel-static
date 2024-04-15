@@ -72,7 +72,7 @@ $ yarn create parcel-static --eslint --prettier
     ├── dist                                  # Compiled files
     └── ...
 ### Startup scripts
-> _Scripts are run depending on the package manager used - npm start [script], yarn start [script], etc._
+> _Scripts are run depending on the package manager used - npm start [script], yarn [script], etc._
 - **`start`** - Starting the development server 
 - **`build`** - Building the project
 - **`clear:dist`** - Cleaning the build directory
