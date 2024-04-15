@@ -1,46 +1,21 @@
-# create-parcel-static
-## Scaffolding your static project based Parcel v2
-
-
-> **Compatibility Note:**
-> create-parcel-static requires [Node.js](https://nodejs.org/en/) version 14+. But it is recommended to use a newer version for best performance and security.
+# 📦 create-parcel-static
+## Scaffolding your static project based Parcel v.2
 
 ### Usage: 
 > _You can use your preferred package manager - npm, yarn, pnpm, bun, ..._
 ```bash
 npm create parcel-static
 ```
-Then answer the constructor's questions:
-```bash
-? Project name: (parcel-project)
+Then answer the constructor's questions and follow instructions in your terminal.
 
-? Select template engine:
-❯ HTML
-  Pug
-  EJS
-  Handlebars
-
-Select Style processing tool:
-❯ CSS
-  SASS (Indented Syntax)
-  SASS (SCSS Syntax)
-  Less
-  Stylus
-  Tailwind
-
-? Select JavaScript tool:
-❯ JavaScript
-  TypeScript
-  JQuery
-  JQuery (TypeScript)
-
-? Add Prettier?
-? Add StyleLint?
-? Add ESLint?
-```
-... and follow the final instructions in your terminal.
-
-
+#### Features
+- **Project Name:** Assign a name to your project.
+- **Template Engine:** Choose your preferred template engine (HTML, Pug, EJS, Handlebars).
+- **Style Processor:** Select a styling tool (CSS, SASS - Indented Syntax, SASS - SCSS Syntax, Less, Stylus, Tailwind).
+- **JavaScript Framework:** Pick a JavaScript framework or library (JavaScript, TypeScript, JQuery, JQuery with TypeScript).
+- **Prettier:** Integrate Prettier for code formatting (optional).
+- **StyleLint:** Incorporate StyleLint for style standardization (optional).
+- **ESLint:** Include ESLint for JavaScript standard compliance (optional).
 
 ### Command line
 You can use the command line to easily create projects. 
@@ -79,13 +54,40 @@ $ yarn create parcel-static --eslint --prettier
 ```
 ### Project Structure
     .
-    ├── src                 # Source files
-    │   ├── assets          # Script files
-    │   ├── scripts         # Script files
-    │   ├── styles          # Style files
-    │   └── templates       # Part of HTML files
-    ├── dist                # Compiled files.
-    ├── assets              # Asset files
-    ├── public              # Public files (It will be building as is, without processing)
+    ├── src                                   # Source files
+    │   ├── assets                            # Project resources (favicons, etc.)
+    │   ├── images                            # Image files
+    │   ├── scripts                           # Script files
+    |   |   └── main.[js,ts]                  # Main script file
+    │   ├── styles                            # Style files
+    |   |   └── main.[css,scss,sass,styl]     # Main style file    
+    │   └── index.[html,pug,ejs,hbs]          # Main markup file
+    ├── public                                # Public files that will be builded as is, without processing
+    │   └── robot.txt                         # Instructions for search engine robots
+    ├── .postcssrc                            # PostCSS config (optional)
+    ├── .prettierrc                           # Prettier config (optional)
+    ├── .stylelintrc                          # StyleLint config (optional)
+    ├── tailwind.config.ts                    # Tailwind config (optional)    
+    ├── tsconfig.json                         # TypeScript config (optional)    
+    ├── dist                                  # Compiled files
     └── ...
+### Startup scripts
+> _Scripts are run depending on the package manager used - npm start [script], yarn start [script], etc._
+- **`start`** - Starting the development server 
+- **`build`** - Building the project
+- **`clear:dist`** - Cleaning the build directory
+#### Optional scripts depending on project configuration:
+- **`lint:scripts:check`** - Check scripts with ESLint
+- **`lint:scripts:fix`** - Fix scripts issues with ESLint
+- **`lint:styles:check`** - Check styles with StyleLint
+- **`lint:styles:fix`** - Fix styles issues with StyleLint
+- **`prettier:markup:check`** - Check markup files formatting with Prettier
+- **`prettier:markup:fix`** - Fix markup files formatting with Prettier
+- **`prettier:scripts:check`** - Check script files formatting with Prettier
+- **`prettier:scripts:fix`** - Fix script-files formatting with Prettier
+- **`prettier:styles:check`** - Check style files formatting with Prettier
+- **`prettier:styles:fix`** - Fix style-files formatting with Prettier
+
+### References
+For more information about the Parcel bundler, visit its [repository](https://github.com/parcel-bundler/parcel).  
 
