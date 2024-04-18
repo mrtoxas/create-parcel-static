@@ -1,3 +1,5 @@
+import { ChoiceDetails, EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, Tech, TsConfig } from 'types';
+
 export const packageJson = {
   name: 'test',
   version: '1.0.0',
@@ -65,9 +67,6 @@ export const devDependencies = {
     pug: {
       '@prettier/plugin-pug': '^3.0.0',
     },
-    esLint: {
-      'eslint-config-prettier': '^9.1.0',
-    },
   },
   eslint: {
     base: {
@@ -82,6 +81,9 @@ export const devDependencies = {
       'eslint-config-jquery': '^3.0.2',
       jquery: '^3.7.1',
     },
+    prettier: {
+      'eslint-config-prettier': '^9.1.0',
+    },
   },
   parcel: {
     ejs: {
@@ -90,8 +92,8 @@ export const devDependencies = {
   },
 };
 
-export const parcelConfig = {
-  base: {
+export const parcelConfig: Partial<Record<Tech | 'default', ParcelConfig>> = {
+  default: {
     extends: ['@parcel/config-default'],
     reporters: ['...', 'parcel-reporter-static-files-copy'],
   },
@@ -102,16 +104,21 @@ export const parcelConfig = {
   },
 };
 
-export const eslintConfig: Config = {
-  base: {
+export const eslintConfig: Partial<Record<Tech | 'default', EslintConfig>> = {
+  default: {
     env: {
       browser: true,
       es6: true,
     },
     extends: ['eslint:recommended'],
     parserOptions: {
-      ecmaVersion: 'ES2020',
+      ecmaVersion: 2020,
       sourceType: 'module',
+    },
+    rules: {
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'no-unused-vars': 'error',
     },
   },
   typescript: {
@@ -130,7 +137,7 @@ export const eslintConfig: Config = {
   },
 };
 
-export const stylelintConfig: Config = {
+export const stylelintConfig: Partial<Record<Tech, StyleLintConfig>> = {
   css: {
     extends: ['stylelint-config-standard'],
     rules: {
@@ -175,7 +182,7 @@ export const stylelintConfig: Config = {
   },
 };
 
-export const prettierConfig = {
+export const prettierConfig: PrettierConfig = {
   semi: true,
   trailingComma: 'all',
   singleQuote: true,
@@ -183,7 +190,7 @@ export const prettierConfig = {
   tabWidth: 2,
 };
 
-export const tsСonfig = {
+export const tsСonfig: TsConfig = {
   compilerOptions: {
     target: 'es2020',
     module: 'esnext',
@@ -196,7 +203,7 @@ export const tsСonfig = {
   exclude: ['node_modules', 'dist'],
 };
 
-export const postcssConfig = {
+export const postcssConfig: Partial<Record<Tech, PostcssConfig>> = {
   tailwind: {
     plugins: {
       tailwindcss: {},

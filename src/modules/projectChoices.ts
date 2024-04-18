@@ -1,18 +1,5 @@
 import { select, confirm } from '@inquirer/prompts';
-
-enum FileExtensions {
-  html = 'html',
-  pug = 'pug',
-  hbs = 'hbs',
-  ejs = 'ejs',
-  css = 'css',
-  scss = 'scss',
-  sass = 'sass',
-  less = 'less',
-  stylus = 'styl',
-  javascript = 'js',
-  typescript = 'ts',
-}
+import { FileExt, QuestionList } from 'types';
 
 const questionsList: QuestionList = {
   markup: {
@@ -24,7 +11,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'html',
           title: 'HTML',
-          extension: FileExtensions.html,
+          extension: FileExt.html,
         },
       },
       {
@@ -32,7 +19,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'pug',
           title: 'Pug',
-          extension: FileExtensions.pug,
+          extension: FileExt.pug,
         },
       },
       {
@@ -40,7 +27,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'ejs',
           title: 'EJS',
-          extension: FileExtensions.ejs,
+          extension: FileExt.ejs,
         },
       },
       {
@@ -48,7 +35,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'hbs',
           title: 'Handlebars',
-          extension: FileExtensions.hbs,
+          extension: FileExt.hbs,
         },
       },
     ],
@@ -62,7 +49,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'css',
           title: 'CSS',
-          extension: FileExtensions.css,
+          extension: FileExt.css,
         },
       },
       {
@@ -70,7 +57,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'sass',
           title: 'SASS',
-          extension: FileExtensions.sass,
+          extension: FileExt.sass,
         },
       },
       {
@@ -78,7 +65,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'scss',
           title: 'SCSS',
-          extension: FileExtensions.scss,
+          extension: FileExt.scss,
         },
       },
       {
@@ -86,7 +73,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'less',
           title: 'Less',
-          extension: FileExtensions.less,
+          extension: FileExt.less,
         },
       },
       {
@@ -94,7 +81,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'stylus',
           title: 'STYLUS',
-          extension: FileExtensions.stylus,
+          extension: FileExt.stylus,
         },
       },
       {
@@ -102,7 +89,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'tailwind',
           title: 'Tailwind',
-          extension: FileExtensions.css,
+          extension: FileExt.css,
         },
       },
     ],
@@ -116,7 +103,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'javascript',
           title: 'JavaScript',
-          extension: FileExtensions.javascript,
+          extension: FileExt.javascript,
         },
       },
       {
@@ -124,7 +111,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'typescript',
           title: 'TypeScript',
-          extension: FileExtensions.typescript,
+          extension: FileExt.typescript,
         },
       },
       {
@@ -132,7 +119,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'jquery',
           title: 'JQuery',
-          extension: FileExtensions.javascript,
+          extension: FileExt.javascript,
         },
       },
       {
@@ -140,7 +127,7 @@ const questionsList: QuestionList = {
         value: {
           name: 'jquery',
           title: 'JQuery',
-          extension: FileExtensions.typescript,
+          extension: FileExt.typescript,
         },
       },
     ],

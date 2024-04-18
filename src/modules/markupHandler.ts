@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { store } from 'store';
+import { StyleSystem, Tech } from 'types';
 
 const TEMPLATE_DIR = '../../templates';
 
@@ -18,7 +19,7 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
 export async function markupHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
-  const styleSystem: StyleSystem = userProjectChoiсe.style.name === 'tailwind' ? 'tailwind' : 'base';
+  const styleSystem: StyleSystem = userProjectChoiсe.style.name === Tech.TAILWIND ? Tech.TAILWIND : 'base';
 
   const templateDir = path.resolve(fileURLToPath(import.meta.url), TEMPLATE_DIR);
   const srcDir = path.join(projectInitData.projectPath, 'src');

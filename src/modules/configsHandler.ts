@@ -10,31 +10,23 @@ import {
   tailwindConfig,
   tsСonfig,
 } from 'configs';
+import { EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, TsConfig } from 'types';
 
-const postcssConfig: Config = {};
-const parcelConfig: Config = { ...parcelCfg.base };
-const eslintConfig: Config = { ...eslintCfg.base };
+const postcssConfig: PostcssConfig = {};
+const parcelConfig: ParcelConfig = { ...parcelCfg.default };
+const eslintConfig: EslintConfig = { ...eslintCfg.default };
 
-const configsToSave: { fileName: string; config: Config }[] = [];
-
-const mergeConfigs = (target: Config, donor: Config) => {
-  if (!target) return donor;
-
-  if (Array.isArray(target) && Array.isArray(donor)) {
-    return [...target, ...donor];
-  } else if (!Array.isArray(target) && !Array.isArray(donor)) {
-    return { ...target, ...donor };
-  } else {
-    throw new Error(`Incompatible config types to merge`);
-  }
-};
+const configsToSave: {
+  fileName: string;
+  config: PostcssConfig | StyleLintConfig | TsConfig | ParcelConfig | EslintConfig | PrettierConfig;
+}[] = [];
 
 export async function configsHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
   /* Tailwind */
   if (userProjectChoiсe.style.name === 'tailwind') {
-    postcssConfig.plugins = mergeConfigs(postcssConfig.plugins as Config, postcssCfg.tailwind);
+    postcssConfig.plugins = { ...postcssConfig.plugins, ...postcssCfg.tailwind };
     configsToSave.push({ fileName: '.postcssrc', config: postcssConfig });
 
     try {
@@ -57,7 +49,7 @@ export async function configsHandler() {
 
   /* EJS */
   if (userProjectChoiсe.markup.name === 'ejs') {
-    parcelConfig.transformers = mergeConfigs(parcelConfig.transformers, parcelCfg.ejs.transformers);
+    parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.ejs.transformers };
     configsToSave.push({ fileName: '.parcelrc', config: parcelConfig });
   }
 
@@ -68,30 +60,33 @@ export async function configsHandler() {
 
   /* Stylelint */
   if (userProjectChoiсe.stylelint) {
-    let stylelintConfig: Config = {};
+    let stylelintConfig: StyleLintConfig = {};
 
     switch (userProjectChoiсe.style.name) {
       case 'sass':
       case 'scss':
-        stylelintConfig = styleLintCfg.scss as Config;
+        stylelintConfig = styleLintCfg.scss;
         break;
       case 'less':
-        stylelintConfig = styleLintCfg.less as Config;
+        stylelintConfig = styleLintCfg.less;
         break;
       case 'stylus':
-        stylelintConfig = styleLintCfg.stylus as Config;
+        stylelintConfig = styleLintCfg.stylus;
         break;
       case 'tailwind':
       case 'css':
-        stylelintConfig = styleLintCfg.css as Config;
+        stylelintConfig = styleLintCfg.css;
         break;
       default:
         throw new Error(`Unknown style name`);
     }
 
     if (userProjectChoiсe.prettier) {
-      stylelintConfig.plugins = mergeConfigs(stylelintConfig.plugins, styleLintCfg.prettier.plugins);
-      stylelintConfig.rules = mergeConfigs(stylelintConfig.rules, styleLintCfg.prettier.rules);
+      stylelintConfig.plugins = stylelintConfig.plugins
+        ? [...stylelintConfig.plugins, ...styleLintCfg.prettier.plugins]
+        : styleLintCfg.prettier.plugins;
+
+      stylelintConfig.rules = { ...stylelintConfig.rules, ...styleLintCfg.prettier.rules };
     }
 
     configsToSave.push({ fileName: '.stylelintrc', config: stylelintConfig });
@@ -101,17 +96,17 @@ export async function configsHandler() {
   if (userProjectChoiсe.eslint) {
     if (userProjectChoiсe.script.extension === 'ts') {
       eslintConfig.parser = eslintCfg.typescript.parser;
-      eslintConfig.plugins = mergeConfigs(eslintConfig.plugins, eslintCfg.typescript.plugins);
-      eslintConfig.extends = mergeConfigs(eslintConfig.extends, eslintCfg.typescript.extends);
+      eslintConfig.plugins = [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
     }
 
     if (userProjectChoiсe.prettier) {
-      eslintConfig.extends = mergeConfigs(eslintConfig.extends, eslintCfg.prettier.extends);
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.prettier.extends];
     }
 
     if (userProjectChoiсe.script.name === 'jquery') {
-      eslintConfig.env = mergeConfigs(eslintConfig.env, eslintCfg.jquery.env);
-      eslintConfig.extends = mergeConfigs(eslintConfig.extends, eslintCfg.jquery.extends);
+      eslintConfig.env = { ...eslintConfig.env, ...eslintCfg.jquery.env };
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.jquery.extends];
     }
 
     configsToSave.push({ fileName: '.eslintrc', config: eslintConfig });

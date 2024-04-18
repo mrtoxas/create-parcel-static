@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { store } from 'store';
 import { packageJson as defaultPackageJson, devDependencies } from 'configs';
+import { FileExt, PackageJson, Tech } from 'types';
 
 const packageJson: PackageJson = {
   ...defaultPackageJson,
@@ -21,19 +22,19 @@ export async function packageJsonHandler() {
 
   /* TypeSctipt */
 
-  if (userProjectChoiсe.script.extension === 'ts') {
+  if (userProjectChoiсe.script.extension === FileExt.typescript) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
   }
 
   /* jQuery */
 
-  if (userProjectChoiсe.script.name === 'jquery') {
+  if (userProjectChoiсe.script.name === Tech.JQUERY) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.jquery };
   }
 
   /* Tailwind */
 
-  if (userProjectChoiсe.style.name === 'tailwind') {
+  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
   }
 
@@ -42,10 +43,10 @@ export async function packageJsonHandler() {
   if (userProjectChoiсe.prettier) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.base };
 
-    if (userProjectChoiсe.markup.name === 'html') {
+    if (userProjectChoiсe.markup.name === Tech.HTML) {
       packageJson.scripts['prettier:markup:check'] = `prettier src/**/*.${userProjectChoiсe.markup.extension} --check`;
       packageJson.scripts['prettier:markup:fix'] = `prettier src/**/*.${userProjectChoiсe.markup.extension} --write`;
-    } else if (userProjectChoiсe.markup.name === 'pug') {
+    } else if (userProjectChoiсe.markup.name === Tech.PUG) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.pug };
       packageJson.scripts['prettier:markup:check'] =
         `prettier src/**/*.${userProjectChoiсe.markup.extension} --check --plugin=@prettier/plugin-pug`;
@@ -55,18 +56,18 @@ export async function packageJsonHandler() {
       unsupported(userProjectChoiсe.markup.title, 'Prettier');
     }
 
-    if (['css', 'less', 'scss', 'tailwind'].includes(userProjectChoiсe.style.name)) {
+    if ([Tech.CSS, Tech.LESS, Tech.SCSS, Tech.TAILWIND].includes(userProjectChoiсe.style.name)) {
       packageJson.scripts['prettier:styles:check'] = `prettier src/styles/**/*.${styleExtention} --check`;
       packageJson.scripts['prettier:styles:fix'] = `prettier src/styles/**/*.${styleExtention} --write`;
     } else {
       unsupported(userProjectChoiсe.style.title, 'Prettier');
     }
 
-    if (['javascript', 'typescript', 'jquery'].includes(userProjectChoiсe.script.name)) {
+    if ([Tech.JAVASCRIPT, Tech.TYPESCRIPT, Tech.JQUERY].includes(userProjectChoiсe.script.name)) {
       packageJson.scripts['prettier:scripts:check'] = `prettier src/scripts/**/*.${scriptExtention} --check`;
       packageJson.scripts['prettier:scripts:fix'] = `prettier src/scripts/**/*.${scriptExtention} --write`;
 
-      if (userProjectChoiсe.script.extension === 'ts') {
+      if (userProjectChoiсe.script.extension === FileExt.typescript) {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
@@ -79,15 +80,19 @@ export async function packageJsonHandler() {
   if (userProjectChoiсe.eslint) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.base };
 
-    packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention} --check`;
+    packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention}`;
     packageJson.scripts['lint:scripts:fix'] = `eslint src/scripts/**/*.${scriptExtention} --fix`;
 
-    if (userProjectChoiсe.script.extension === 'ts') {
+    if (userProjectChoiсe.script.extension === FileExt.typescript) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.typescript };
     }
 
-    if (userProjectChoiсe.script.name === 'jquery') {
+    if (userProjectChoiсe.script.name === Tech.JQUERY) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.jquery };
+    }
+
+    if (userProjectChoiсe.prettier) {
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.prettier };
     }
   }
 
@@ -100,14 +105,14 @@ export async function packageJsonHandler() {
     packageJson.scripts['lint:styles:fix'] = `stylelint src/styles/**/*.${styleExtention} --fix`;
 
     switch (userProjectChoiсe.style.name) {
-      case 'sass':
-      case 'scss':
+      case Tech.SASS:
+      case Tech.SCSS:
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.scss };
         break;
-      case 'less':
+      case Tech.LESS:
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.less };
         break;
-      case 'stylus':
+      case Tech.STYLUS:
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.stylus };
         break;
     }
