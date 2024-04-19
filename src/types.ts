@@ -31,7 +31,7 @@ export enum Tech {
   ESLINT = 'eslint',
 }
 
-interface ChoiceValue {
+export interface ChoiceValue {
   name: Tech;
   extension: FileExt;
 }
@@ -140,4 +140,3 @@ export interface EslintConfig {
 export interface PrettierConfig {
   [key: string]: boolean | string | number;
 }
-

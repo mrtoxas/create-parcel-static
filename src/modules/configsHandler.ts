@@ -101,7 +101,7 @@ export async function configsHandler() {
       } else {
         eslintConfig.plugins = [...eslintCfg.typescript.plugins];
       }
-      
+
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
     }
 

@@ -1,4 +1,4 @@
-import { ChoiceDetails, EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, Tech, TsConfig } from 'types';
+import { EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, Tech, TsConfig } from 'types';
 
 export const packageJson = {
   name: 'test',
@@ -211,7 +211,7 @@ export const postcssConfig: Partial<Record<Tech, PostcssConfig>> = {
   },
 };
 
-export const tailwindConfig = (extensions: ChoiceDetails['extension'], typescript: boolean) => {
+export const tailwindConfig = (extensions: string, typescript: boolean) => {
   const tsConfig = `import type { Config } from 'tailwindcss'
   
 export default {

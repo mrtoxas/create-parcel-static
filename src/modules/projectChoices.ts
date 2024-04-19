@@ -151,10 +151,13 @@ export async function projectChoices(argv: AppArguments) {
       if (question.type === 'select') {
         const choice = question.choices.find((item) => item.value.name === value);
         if (choice) {
-          userChoices[key] = choice.value
+          userChoices[key] = choice.value;
         } else {
-          console.warn(chalk.yellow('Warning:'), `The value for --${key} is invalid. See the help (--help, -h) for a list of valid options.`)
-        };
+          console.warn(
+            chalk.yellow('Warning:'),
+            `The value for --${key} is invalid. See the help (--help, -h) for a list of valid options.`,
+          );
+        }
       } else if (question.type === 'confirm') {
         userChoices[key] = value;
       }

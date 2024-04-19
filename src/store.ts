@@ -1,4 +1,4 @@
-import { ProjectInitData, Store, UserProject } from "types";
+import { ProjectInitData, Store, UserProject } from 'types';
 
 const store: Store = {
   projectInitData: {} as ProjectInitData,
