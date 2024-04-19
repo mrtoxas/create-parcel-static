@@ -97,7 +97,7 @@ export async function configsHandler() {
     if (userProjectChoiсe.script.extension === 'ts') {
       eslintConfig.parser = eslintCfg.typescript.parser;
       if (eslintConfig.plugins) {
-        [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
+        eslintConfig.plugins = [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
       } else {
         eslintConfig.plugins = [...eslintCfg.typescript.plugins];
       }
