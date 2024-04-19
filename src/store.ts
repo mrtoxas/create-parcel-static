@@ -1,6 +1,8 @@
+import { ProjectInitData, Store, UserProject } from "types";
+
 const store: Store = {
   projectInitData: {} as ProjectInitData,
-  userProjectChoiсe: {} as UserProjectChoiсes,
+  userProjectChoiсe: {} as UserProject,
   warnMsgs: [] as string[],
 
   setUserChoiсe: function (data) {

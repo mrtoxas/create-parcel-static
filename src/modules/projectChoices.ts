@@ -1,188 +1,182 @@
 import { select, confirm } from '@inquirer/prompts';
-import { FileExt, QuestionList } from 'types';
+import chalk from 'chalk';
+import { FileExt, QuestionList, Tech, UserProject, AppArguments } from 'types';
 
-const questionsList: QuestionList = {
-  markup: {
+const questionsList: QuestionList = [
+  {
+    name: 'markup',
     type: 'select',
-    message: 'Select template engine:',
+    message: 'Select markup engine:',
     choices: [
       {
         name: 'HTML',
         value: {
-          name: 'html',
-          title: 'HTML',
+          name: Tech.HTML,
           extension: FileExt.html,
         },
       },
       {
         name: 'Pug',
         value: {
-          name: 'pug',
-          title: 'Pug',
+          name: Tech.PUG,
           extension: FileExt.pug,
         },
       },
       {
         name: 'EJS',
         value: {
-          name: 'ejs',
-          title: 'EJS',
+          name: Tech.EJS,
           extension: FileExt.ejs,
         },
       },
       {
         name: 'Handlebars',
         value: {
-          name: 'hbs',
-          title: 'Handlebars',
+          name: Tech.HANDLEBARS,
           extension: FileExt.hbs,
         },
       },
     ],
   },
-  style: {
+  {
+    name: 'style',
     type: 'select',
     message: 'Select Style processing tool:',
     choices: [
       {
         name: 'CSS',
         value: {
-          name: 'css',
-          title: 'CSS',
+          name: Tech.CSS,
           extension: FileExt.css,
         },
       },
       {
         name: 'SASS (Indented Syntax)',
         value: {
-          name: 'sass',
-          title: 'SASS',
+          name: Tech.SASS,
           extension: FileExt.sass,
         },
       },
       {
         name: 'SASS (SCSS Syntax)',
         value: {
-          name: 'scss',
-          title: 'SCSS',
+          name: Tech.SCSS,
           extension: FileExt.scss,
         },
       },
       {
         name: 'Less',
         value: {
-          name: 'less',
-          title: 'Less',
+          name: Tech.LESS,
           extension: FileExt.less,
         },
       },
       {
         name: 'Stylus',
         value: {
-          name: 'stylus',
-          title: 'STYLUS',
+          name: Tech.STYLUS,
           extension: FileExt.stylus,
         },
       },
       {
         name: 'Tailwind',
         value: {
-          name: 'tailwind',
-          title: 'Tailwind',
+          name: Tech.TAILWIND,
           extension: FileExt.css,
         },
       },
     ],
   },
-  script: {
+  {
+    name: 'script',
     type: 'select',
-    message: 'Select JavaScript tool:',
+    message: 'Select Style processing tool:',
     choices: [
       {
         name: 'JavaScript',
         value: {
-          name: 'javascript',
-          title: 'JavaScript',
+          name: Tech.JAVASCRIPT,
           extension: FileExt.javascript,
         },
       },
       {
         name: 'TypeScript',
         value: {
-          name: 'typescript',
-          title: 'TypeScript',
+          name: Tech.TYPESCRIPT,
           extension: FileExt.typescript,
         },
       },
       {
         name: 'JQuery',
         value: {
-          name: 'jquery',
-          title: 'JQuery',
+          name: Tech.JQUERY,
           extension: FileExt.javascript,
         },
       },
       {
         name: 'JQuery (TypeScript)',
         value: {
-          name: 'jquery',
-          title: 'JQuery',
+          name: Tech.JQUERY,
           extension: FileExt.typescript,
         },
       },
     ],
   },
-  prettier: {
+  {
+    name: 'prettier',
     type: 'confirm',
     message: 'Add Prettier?',
     default: true,
   },
-  stylelint: {
+  {
+    name: 'stylelint',
     type: 'confirm',
     message: 'Add StyleLint?',
     default: true,
   },
-  eslint: {
+  {
+    name: 'eslint',
     type: 'confirm',
     message: 'Add ESLint?',
     default: true,
   },
-};
+];
 
-export async function projectChoices(argv) {
-  const choices: UserProjectChoiсes = {} as UserProjectChoiсes;
+export async function projectChoices(argv: AppArguments) {
+  const userChoices: UserProject = {} as UserProject;
 
-  for (const [key, value] of Object.entries(argv)) {
-    if (questionsList[key]) {
-      if (questionsList[key].type === 'select') {
-        const qListItem = questionsList[key].choices.find((item) => item.value.name === value);
-        if (qListItem) choices[key] = qListItem.value;
-      } else if (questionsList[key].type === 'confirm') {
-        choices[key] = true;
+  Object.entries(argv).forEach(([key, value]) => {
+    const question = questionsList.find((item) => item.name === key);
+    if (question) {
+      if (question.type === 'select') {
+        const choice = question.choices.find((item) => item.value.name === value);
+        if (choice) {
+          userChoices[key] = choice.value
+        } else {
+          console.warn(chalk.yellow('Warning:'), `The value for --${key} is invalid. See the help (--help, -h) for a list of valid options.`)
+        };
+      } else if (question.type === 'confirm') {
+        userChoices[key] = value;
       }
+    }
+  });
+
+  const prepareQuestionList = questionsList.filter((item) => item.name in userChoices === false);
+
+  for (const question of prepareQuestionList) {
+    const choice = questionsList.find((item) => item.name === question.name);
+
+    switch (choice.type) {
+      case 'select':
+        userChoices[choice.name] = await select(choice);
+        break;
+      case 'confirm':
+        userChoices[choice.name] = await confirm(choice);
+        break;
+      default:
+        throw new Error(`Unsupported question type`);
     }
   }
 
-  const keys: (keyof UserProjectChoiсes)[] = ['markup', 'style', 'script', 'prettier', 'stylelint', 'eslint'].filter(
-    (key) => !Object.keys(choices).includes(key),
-  );
-
-  if (keys.length) {
-    for (const key of keys) {
-      const question = questionsList[key];
-
-      switch (question.type) {
-        case 'select':
-          (choices[key] as ChoiceDetails) = await select(question as QuestionTypes['select']);
-          break;
-        case 'confirm':
-          (choices[key] as boolean) = await confirm(question as QuestionTypes['confirm']);
-          break;
-        default:
-          throw new Error(`Unsupported question type`);
-      }
-    }
-  }
-
-  return choices;
+  return userChoices;
 }

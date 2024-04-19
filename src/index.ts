@@ -21,4 +21,5 @@ import { app } from './app';
 app().catch((error) => {
   console.log(error);
   console.error(chalk.red('✖'), 'Operation cancelled');
+  process.exit(1);
 });

@@ -7,19 +7,11 @@ import { store } from './store';
 import { configsHandler } from 'modules/configsHandler';
 import chalk from 'chalk';
 import minimist from 'minimist';
+import { AppArguments } from 'types';
 
 export async function app() {
-  const argv = minimist<{
-    markup?: string;
-    style?: string;
-    script?: string;
-    prettier?: boolean;
-    stylelint?: boolean;
-    eslint?: boolean;
-    help: boolean;
-    h: boolean;
-}>(process.argv.slice(2), { string: ['_'] })
-  
+  const argv = minimist<AppArguments>(process.argv.slice(2), { string: ['_'] });
+
   if (argv.help || argv.h) {
     helpHandler();
     return;
@@ -35,6 +27,6 @@ export async function app() {
   await configsHandler();
 
   if (store.warnMsgs.length) {
-    store.warnMsgs.forEach((el) => console.warn(chalk.yellow('Warning:'), `${el}`));
+    store.warnMsgs.forEach((el: string) => console.warn(chalk.yellow('Warning:'), `${el}`));
   }
 }

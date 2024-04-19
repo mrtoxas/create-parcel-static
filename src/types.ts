@@ -31,31 +31,63 @@ export enum Tech {
   ESLINT = 'eslint',
 }
 
-export type TechKey = keyof typeof Tech;
-
-export interface Store {
-  userProjectChoiсe: UserProjectChoiсes;
-  projectInitData: ProjectInitData;
-  warnMsgs: string[];
-  setUserChoiсe: (data: UserProjectChoiсes) => void;
-  setProjectInitData: (data: ProjectInitData) => void;
-  setWarnMsgs: (data: string) => void;
+interface ChoiceValue {
+  name: Tech;
+  extension: FileExt;
 }
 
-export interface ChoiceDetails {
+interface QuestionBase {
   name: string;
-  title: string;
-  extension: string;
+  type: 'select' | 'confirm';
+  message: string;
 }
 
-export type UserProjectChoiсes = {
-  markup: ChoiceDetails & { name: Tech.HTML | Tech.PUG | Tech.EJS | Tech.HANDLEBARS };
-  style: ChoiceDetails & { name: Tech.CSS | Tech.SCSS | Tech.SASS | Tech.STYLUS | Tech.LESS | Tech.TAILWIND };
-  script: ChoiceDetails & { name: Tech.JAVASCRIPT | Tech.TYPESCRIPT | Tech.JQUERY };
+interface QuestionSelect extends QuestionBase {
+  type: 'select';
+  choices: {
+    name: string;
+    value: ChoiceValue;
+  }[];
+}
+
+interface QuestionConfirm extends QuestionBase {
+  type: 'confirm';
+  default: true;
+}
+
+export type QuestionList = (QuestionSelect | QuestionConfirm)[];
+
+export interface UserProject {
+  markup: ChoiceValue;
+  style: ChoiceValue;
+  script: ChoiceValue;
   prettier?: boolean;
   eslint?: boolean;
   stylelint?: boolean;
-};
+  [key: string]: ChoiceValue | boolean;
+}
+
+export type StyleSystem = 'base' | Tech.TAILWIND;
+
+export interface AppArguments {
+  markup: string;
+  style: string;
+  script: string;
+  prettier?: boolean;
+  eslint?: boolean;
+  stylelint?: boolean;
+  help?: string;
+  h?: string;
+}
+
+export interface Store {
+  userProjectChoiсe: UserProject;
+  projectInitData: ProjectInitData;
+  warnMsgs: string[];
+  setUserChoiсe: (data: UserProject) => void;
+  setProjectInitData: (data: ProjectInitData) => void;
+  setWarnMsgs: (data: string) => void;
+}
 
 export type ProjectInitData = {
   projectPath: string;
@@ -63,27 +95,6 @@ export type ProjectInitData = {
   packageName: string;
   toСlean: boolean;
 };
-
-export type Settings = keyof UserProjectChoiсes;
-
-export type StyleSystem = 'base' | Tech.TAILWIND;
-
-export interface QuestionConfig {
-  type: keyof QuestionTypes;
-  message: string;
-  choices: {
-    name: string;
-    value: ChoiceDetails;
-  }[];
-  default: boolean;
-}
-
-export interface QuestionTypes {
-  select: Pick<QuestionConfig, 'type' | 'message' | 'choices'>;
-  confirm: Pick<QuestionConfig, 'type' | 'message' | 'default'>;
-}
-
-export type QuestionList = Record<Settings, QuestionTypes['select'] | QuestionTypes['confirm']>;
 
 export interface PackageJson {
   name: string;
@@ -129,3 +140,4 @@ export interface EslintConfig {
 export interface PrettierConfig {
   [key: string]: boolean | string | number;
 }
+

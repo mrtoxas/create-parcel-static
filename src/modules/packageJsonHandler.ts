@@ -53,14 +53,14 @@ export async function packageJsonHandler() {
       packageJson.scripts['prettier:markup:fix'] =
         `prettier src/**/*.${userProjectChoiсe.markup.extension} --write --plugin=@prettier/plugin-pug`;
     } else {
-      unsupported(userProjectChoiсe.markup.title, 'Prettier');
+      unsupported(userProjectChoiсe.markup.name, 'Prettier');
     }
 
     if ([Tech.CSS, Tech.LESS, Tech.SCSS, Tech.TAILWIND].includes(userProjectChoiсe.style.name)) {
       packageJson.scripts['prettier:styles:check'] = `prettier src/styles/**/*.${styleExtention} --check`;
       packageJson.scripts['prettier:styles:fix'] = `prettier src/styles/**/*.${styleExtention} --write`;
     } else {
-      unsupported(userProjectChoiсe.style.title, 'Prettier');
+      unsupported(userProjectChoiсe.style.name, 'Prettier');
     }
 
     if ([Tech.JAVASCRIPT, Tech.TYPESCRIPT, Tech.JQUERY].includes(userProjectChoiсe.script.name)) {
@@ -71,7 +71,7 @@ export async function packageJsonHandler() {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
-      unsupported(userProjectChoiсe.script.title, 'Prettier');
+      unsupported(userProjectChoiсe.script.name, 'Prettier');
     }
   }
 
