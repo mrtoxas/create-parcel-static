@@ -26,7 +26,7 @@ export async function configsHandler() {
 
   /* Tailwind */
   if (userProjectChoiсe.style.name === 'tailwind') {
-    postcssConfig.plugins = { ...postcssConfig.plugins, ...postcssCfg.tailwind };
+    postcssConfig.plugins = { ...postcssConfig.plugins, ...postcssCfg.tailwind.plugins };
     configsToSave.push({ fileName: '.postcssrc', config: postcssConfig });
 
     try {
@@ -50,7 +50,11 @@ export async function configsHandler() {
   /* EJS */
   if (userProjectChoiсe.markup.name === 'ejs') {
     parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.ejs.transformers };
-    configsToSave.push({ fileName: '.parcelrc', config: parcelConfig });
+  }
+
+  /* Handlebars */
+  if (userProjectChoiсe.markup.name === 'handlebars') {
+    parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.handlebars.transformers };
   }
 
   /* Prettier */
@@ -105,17 +109,21 @@ export async function configsHandler() {
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
     }
 
-    if (userProjectChoiсe.prettier) {
-      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.prettier.extends];
-    }
-
     if (userProjectChoiсe.script.name === 'jquery') {
       eslintConfig.env = { ...eslintConfig.env, ...eslintCfg.jquery.env };
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.jquery.extends];
     }
 
+    if (userProjectChoiсe.prettier) {
+      // Should be at the end of the extensions list
+      eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.prettier.extends];
+    }
+
     configsToSave.push({ fileName: '.eslintrc', config: eslintConfig });
   }
+
+  /* Parcel Core */
+  configsToSave.push({ fileName: '.parcelrc', config: parcelConfig });
 
   configsToSave.forEach((item) => {
     try {

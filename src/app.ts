@@ -20,7 +20,9 @@ export async function app() {
   store.setProjectInitData(await getProjectInitData(argv._[0]));
   store.setUserChoiсe(await projectChoices(argv));
 
-  if (store.projectInitData.toСlean) await cleanUpDir();
+  if (store.projectInitData.toСlean) {
+    await cleanUpDir();
+  }
 
   await markupHandler();
   await packageJsonHandler();
@@ -29,4 +31,6 @@ export async function app() {
   if (store.warnMsgs.length) {
     store.warnMsgs.forEach((el: string) => console.warn(chalk.yellow('Warning:'), `${el}`));
   }
+
+  console.log(chalk.green('Done!'), 'Next, go to the project directory and run "npm intall"');
 }

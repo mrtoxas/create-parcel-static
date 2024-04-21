@@ -29,13 +29,13 @@ const questionsList: QuestionList = [
           extension: FileExt.ejs,
         },
       },
-      {
-        name: 'Handlebars',
-        value: {
-          name: Tech.HANDLEBARS,
-          extension: FileExt.hbs,
-        },
-      },
+      // {
+      //   name: 'Handlebars',
+      //   value: {
+      //     name: Tech.HANDLEBARS,
+      //     extension: FileExt.hbs,
+      //   },
+      // },
     ],
   },
   {

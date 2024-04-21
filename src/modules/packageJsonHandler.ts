@@ -38,6 +38,16 @@ export async function packageJsonHandler() {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
   }
 
+  /* Ejs */
+  if (userProjectChoiсe.markup.name === Tech.EJS) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.ejs };
+  }
+
+  /* Handlebars */
+  if (userProjectChoiсe.markup.name === Tech.HANDLEBARS) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.handlebars };
+  }
+
   /* Prettier */
 
   if (userProjectChoiсe.prettier) {
