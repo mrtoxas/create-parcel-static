@@ -4,6 +4,7 @@ import { input, select, confirm } from '@inquirer/prompts';
 import validate from 'validate-npm-package-name';
 import { basename, resolve } from 'path';
 import { store } from '../store';
+import path from 'path';
 
 export async function getProjectInitData(name?: string) {
   let projectPath;
@@ -41,9 +42,14 @@ export async function getProjectInitData(name?: string) {
         },
       });
 
+  const userAgent = process.env.npm_config_user_agent?.split(' ')[0].split('/')[0];
+  const pkgManager = userAgent || 'npm';
+
   const toСlean = await toСleanDir(projectPath);
 
-  return { projectPath, projectName, packageName, toСlean };
+  const relativePath = path.relative(process.cwd(), projectPath);
+
+  return { projectPath, relativePath, projectName, packageName, pkgManager, toСlean };
 }
 
 async function toСleanDir(path: string) {
@@ -54,15 +60,19 @@ async function toСleanDir(path: string) {
   if (files.length === 0) return false;
 
   const userChoise = await select({
-    message: 'The directory is not empty. What are we gonna do about it?',
+    message: 'The target directory contains existing files. How would you like to proceed?',
     choices: [
       {
-        name: 'Cancel and delete files manually',
+        name: 'Cancel and manually delete files',
         value: 'cancel',
       },
       {
-        name: 'Remove existing files and continue',
+        name: 'Remove existing files and continue (Recommended)',
         value: 'remove',
+      },
+      {
+        name: 'Ignore it and continue (Existing files will be replaced upon matching)',
+        value: 'continue',
       },
     ],
   });

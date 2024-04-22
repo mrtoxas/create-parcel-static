@@ -93,6 +93,8 @@ export type ProjectInitData = {
   projectPath: string;
   projectName: string;
   packageName: string;
+  relativePath: string;
+  pkgManager: string;
   toСlean: boolean;
 };
 

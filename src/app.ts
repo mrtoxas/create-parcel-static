@@ -18,6 +18,7 @@ export async function app() {
   }
 
   store.setProjectInitData(await getProjectInitData(argv._[0]));
+
   store.setUserChoiсe(await projectChoices(argv));
 
   if (store.projectInitData.toСlean) {
@@ -32,5 +33,10 @@ export async function app() {
     store.warnMsgs.forEach((el: string) => console.warn(chalk.yellow('Warning:'), `${el}`));
   }
 
-  console.log(chalk.green('Done!'), 'Next, go to the project directory and run "npm intall"');
+  console.log(chalk.green('Done!'), 'Now run:');
+  if (store.projectInitData.relativePath) {
+    console.log(` cd ${store.projectInitData.relativePath}`);
+  }
+  console.log(` ${store.projectInitData.pkgManager} install`);
+  console.log(` ${store.projectInitData.pkgManager} start`);
 }
