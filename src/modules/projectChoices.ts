@@ -177,7 +177,8 @@ export async function projectChoices(argv: AppArguments) {
         userChoices[choice.name] = await confirm(choice);
         break;
       default:
-        throw new Error(`Unsupported question type`);
+        console.error(chalk.red('Error:'), `Unsupported question type "${choice.type}"`);
+        throw new Error();
     }
   }
 

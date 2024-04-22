@@ -8,6 +8,10 @@ const packageJson: PackageJson = {
   ...defaultPackageJson,
 };
 
+function unsupported(tech: string, plugin: string) {
+  store.setWarnMsgs(`The ${tech} does not have an official ${plugin} plugin`);
+}
+
 export async function packageJsonHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
@@ -131,10 +135,7 @@ export async function packageJsonHandler() {
   try {
     await fs.writeJson(path.join(store.projectInitData.projectPath, 'package.json'), packageJson, { spaces: 2 });
   } catch (err) {
-    throw new Error(err);
+    console.error(chalk.red('Error: '), 'Error when saving package.json');
+    throw err;
   }
-}
-
-function unsupported(tech: string, plugin: string) {
-  store.setWarnMsgs(`The ${tech} does not have an official ${plugin} plugin`);
 }

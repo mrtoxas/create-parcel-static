@@ -14,7 +14,7 @@ export async function app() {
 
   if (argv.help || argv.h) {
     helpHandler();
-    return;
+    process.exit(0);
   }
 
   store.setProjectInitData(await getProjectInitData(argv._[0]));

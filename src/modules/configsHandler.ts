@@ -1,6 +1,7 @@
 import { store } from 'store';
 import fs from 'fs-extra';
 import path from 'path';
+import chalk from 'chalk';
 import {
   eslintConfig as eslintCfg,
   parcelConfig as parcelCfg,
@@ -38,7 +39,8 @@ export async function configsHandler() {
         ),
       );
     } catch (err) {
-      throw new Error(err);
+        console.error(chalk.red('Error: '), 'Error when saving tailwind config');
+        throw err;
     }
   }
 
@@ -82,7 +84,8 @@ export async function configsHandler() {
         stylelintConfig = styleLintCfg.css;
         break;
       default:
-        throw new Error(`Unknown style name`);
+        console.error(chalk.red('Error: '), `Unknown slyle name: ${userProjectChoiсe.style.name}`);
+        throw new Error();
     }
 
     if (userProjectChoiсe.prettier) {
@@ -131,7 +134,8 @@ export async function configsHandler() {
         spaces: 2,
       });
     } catch (err) {
-      throw new Error(err);
+      console.error(chalk.red('Error: '), `Error when saving ${item.fileName}`);
+      throw err;
     }
   });
 }

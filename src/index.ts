@@ -19,7 +19,11 @@ import chalk from 'chalk';
 import { app } from './app';
 
 app().catch((error) => {
-  console.log(error);
-  console.error(chalk.red('✖'), 'Operation cancelled');
+  if (error.message === 'User force closed the prompt with 0 null') {
+    console.error(chalk.red('✖'), 'Operation cancelled');
+    process.exit(0);
+  } 
+  
+  console.error(error);
   process.exit(1);
 });

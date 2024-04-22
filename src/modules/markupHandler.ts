@@ -13,7 +13,12 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
   for (const [placeholder, replacement] of Object.entries(replacements)) {
     modifiedContent = modifiedContent.replace(new RegExp(placeholder, 'g'), replacement);
   }
-  await fs.writeFile(destPath, modifiedContent, 'utf-8');
+  try {
+    await fs.writeFile(destPath, modifiedContent, 'utf-8');
+  } catch (err) {
+    console.error(chalk.red('Error: '), 'Error when processing extention paths in index file');
+    throw err;
+  }
 }
 
 export async function markupHandler() {
@@ -51,6 +56,7 @@ export async function markupHandler() {
 
     replaceAndSaveFile(srcIndexFilePath, destIndexFilePath, replacementsIndex);
   } catch (err) {
-    throw new Error(err);
+    console.error(chalk.red('Error: '), 'Error when copying markup template');
+    throw err;
   }
 }

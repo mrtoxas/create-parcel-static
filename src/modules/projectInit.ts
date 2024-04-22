@@ -79,7 +79,7 @@ async function toСleanDir(path: string) {
 
   if (userChoise === 'cancel') {
     console.error(chalk.red('✖'), 'Operation cancelled');
-    process.exit(1);
+    process.exit(0);
   }
 
   return userChoise === 'remove' ? true : false;
@@ -94,14 +94,14 @@ export async function cleanUpDir() {
   });
   if (!answer) {
     console.error(chalk.red('✖'), 'Operation cancelled');
-    process.exit(1);
+    process.exit(0);
   }
   try {
     await fs.emptyDir(path);
     return path;
   } catch (err) {
-    console.error(chalk.red(`Failed to clear the directory: ${path}`));
-    console.error(chalk.red(err.message));
-    console.error(chalk.red('Clear the directory manually and come back'));
+    console.error(chalk.red('Error: '), `Failed to clear the directory: ${path}`);
+    console.error('Clear the directory manually and come back');
+    throw err;
   }
 }
