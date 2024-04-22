@@ -1,5 +1,9 @@
 # 📦 create-parcel-static
-## Scaffolding your static project based Parcel v.2
+Project builder for creating static sites based Parcel v.2 creates a development environment and offers choices between HTML, Pug, EJS, CSS, SCSS, Sass, Less, Tailwind, JavaScript, TypeScript, jQuery, and integration with Prettier, ESLint, and Stylelint.
+
+## Motivation
+**For those who appreciate simplicity.** In the world of modern web development, it has become commonplace to use powerful frameworks, but sometimes you need something more classic and simple.
+This builder provides an easy and efficient way to deploy a development environment to build lightweight, fast and simple static sites without relying on heavyweight tools.
 
 ### Usage: 
 > _You can use your preferred package manager - npm, yarn, pnpm, bun, ..._
