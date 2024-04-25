@@ -14,7 +14,7 @@ Then answer the constructor's questions and follow instructions in your terminal
 
 #### Features
 - **Project Name:** Assign a name to your project.
-- **Template Engine:** Choose your preferred template engine (HTML, Pug, EJS, Handlebars).
+- **Template Engine:** Choose your preferred template engine (HTML, Pug, EJS).
 - **Style Processor:** Select a styling tool (CSS, SASS - Indented Syntax, SASS - SCSS Syntax, Less, Stylus, Tailwind).
 - **JavaScript Framework:** Pick a JavaScript framework or library (JavaScript, TypeScript, JQuery, JQuery with TypeScript).
 - **Prettier:** Integrate Prettier for code formatting (optional).
@@ -36,7 +36,7 @@ Arguments:
 ```
 Options:
 ```bash
---markup       Choose template engine: 'html' | 'pug' | 'ejs' | 'handlebars'
+--markup       Choose template engine: 'html' | 'pug' | 'ejs'
 --style        Choose style processing tool: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind'
 --script       Choose JavaScript tool: 'javascript' | 'typescript' | 'jquery'
 --eslint       Add ESLint
@@ -65,7 +65,7 @@ $ yarn create parcel-static --eslint --prettier
     |   |   └── main.[js,ts]                  # Main script file
     │   ├── styles                            # Style files
     |   |   └── main.[css,scss,sass,styl]     # Main style file    
-    │   └── index.[html,pug,ejs,hbs]          # Main markup file
+    │   └── index.[html,pug,ejs]              # Main markup file
     ├── public                                # Public files that will be builded as is, without processing
     │   └── robot.txt                         # Instructions for search engine robots
     ├── .postcssrc                            # PostCSS config (optional)

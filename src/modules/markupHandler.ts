@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { store } from 'store';
 import { StyleSystem, Tech } from 'types';
+import chalk from 'chalk';
 
 const TEMPLATE_DIR = '../../templates';
 

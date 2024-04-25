@@ -26,10 +26,6 @@ export const devDependencies = {
       ejs: '^3.1.10',
       'parcel-transformer-ejs': '^1.0.1',
     },
-    handlebars: {
-      '@inventory/parcel-plugin-handlebars': '^1.0.0',
-      'parcel-transformer-handlebars': '^1.0.0',
-    },
   },
   style: {
     scss: {
@@ -116,11 +112,6 @@ export const parcelConfig: Partial<Record<Tech | 'default', ParcelConfig>> = {
       '*.ejs': ['parcel-transformer-ejs'],
     },
   },
-  handlebars: {
-    transformers: {
-      '*.hbs': ['parcel-transformer-handlebars'],
-    },
-  },
 };
 
 export const eslintConfig: Partial<Record<Tech | 'default', EslintConfig>> = {
@@ -194,10 +185,7 @@ export const stylelintConfig: Partial<Record<Tech, StyleLintConfig>> = {
     },
   },
   prettier: {
-    plugins: ['stylelint-prettier'],
-    rules: {
-      'prettier/prettier': true,
-    },
+    plugins: ['stylelint-prettier'],   
   },
 };
 
@@ -229,22 +217,6 @@ export const postcssConfig: Partial<Record<Tech, PostcssConfig>> = {
     },
   },
 };
-
-export const handlebarsConfig = `
-/*
-Uncomment and change this config to suit your needs. 
-For more information, visit the plugin page: npmjs.com/package/parcel-plugin-handlebars
-*/
-
-/*
-module.exports = {
-  data: 'views/json',
-  helprers: 'views/tool',
-  layouts: 'views/templates/',
-  partials: 'views/partial'
-}
-*/
-`;
 
 export const tailwindConfig = (extensions: string, typescript: boolean) => {
   const tsConfig = `import type { Config } from 'tailwindcss'

@@ -3,6 +3,7 @@ import path from 'path';
 import { store } from 'store';
 import { packageJson as defaultPackageJson, devDependencies } from 'configs';
 import { FileExt, PackageJson, Tech } from 'types';
+import chalk from 'chalk';
 
 const packageJson: PackageJson = {
   ...defaultPackageJson,
@@ -45,11 +46,6 @@ export async function packageJsonHandler() {
   /* Ejs */
   if (userProjectChoiсe.markup.name === Tech.EJS) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.ejs };
-  }
-
-  /* Handlebars */
-  if (userProjectChoiсe.markup.name === Tech.HANDLEBARS) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.handlebars };
   }
 
   /* Prettier */
@@ -130,6 +126,10 @@ export async function packageJsonHandler() {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.stylus };
         break;
     }
+
+    if (userProjectChoiсe.prettier) {
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.prettier };
+    }   
   }
 
   try {

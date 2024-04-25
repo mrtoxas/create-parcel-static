@@ -11,6 +11,9 @@ export async function getProjectInitData(name?: string) {
   let projectName = name;
   let packageName;
 
+  const userAgent = process.env.npm_config_user_agent?.split(' ')[0].split('/')[0];
+  const pkgManager = userAgent || 'npm';
+
   const projectNamePrompt = projectName
     ? projectName
     : await input({
@@ -22,12 +25,17 @@ export async function getProjectInitData(name?: string) {
     projectPath = `${process.cwd()}/parcel-project`;
     projectName = packageName = 'parcel-project';
     const toСlean = await toСleanDir(projectPath);
+    const relativePath = path.relative(process.cwd(), projectPath);
 
-    return { projectPath, projectName, packageName, toСlean };
+    return { projectPath, projectName, packageName, relativePath, pkgManager, toСlean };
   }
 
   projectPath = resolve(projectNamePrompt);
   projectName = basename(projectPath);
+
+  const relativePath = path.relative(process.cwd(), projectPath);
+
+  const toСlean = await toСleanDir(projectPath);
 
   const { errors } = validate(projectName);
 
@@ -41,13 +49,6 @@ export async function getProjectInitData(name?: string) {
           return errors ? 'Please enter a valid package name.' : true;
         },
       });
-
-  const userAgent = process.env.npm_config_user_agent?.split(' ')[0].split('/')[0];
-  const pkgManager = userAgent || 'npm';
-
-  const toСlean = await toСleanDir(projectPath);
-
-  const relativePath = path.relative(process.cwd(), projectPath);
 
   return { projectPath, relativePath, projectName, packageName, pkgManager, toСlean };
 }

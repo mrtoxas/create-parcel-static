@@ -15,9 +15,10 @@ export async function app() {
   if (argv.help || argv.h) {
     helpHandler();
     process.exit(0);
-  }
+  }  
 
   store.setProjectInitData(await getProjectInitData(argv._[0]));
+  
 
   store.setUserChoiсe(await projectChoices(argv));
 

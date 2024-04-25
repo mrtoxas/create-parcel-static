@@ -53,12 +53,7 @@ export async function configsHandler() {
   if (userProjectChoiсe.markup.name === 'ejs') {
     parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.ejs.transformers };
   }
-
-  /* Handlebars */
-  if (userProjectChoiсe.markup.name === 'handlebars') {
-    parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.handlebars.transformers };
-  }
-
+  
   /* Prettier */
   if (userProjectChoiсe.prettier) {
     configsToSave.push({ fileName: '.prettierrc', config: prettierConfig });
