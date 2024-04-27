@@ -29,6 +29,7 @@ export async function packageJsonHandler() {
 
   if (userProjectChoiсe.script.extension === FileExt.typescript) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
+    packageJson.scripts['type:check'] = "tsc src/**/*.ts --noEmit";
   }
 
   /* jQuery */
@@ -44,8 +45,31 @@ export async function packageJsonHandler() {
   }
 
   /* Ejs */
+
   if (userProjectChoiсe.markup.name === Tech.EJS) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.ejs };
+  }
+
+  /* Stylus */
+
+  if (userProjectChoiсe.style.name === Tech.STYLUS) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.stylus };
+  }
+
+  /* SCSS or SASS */
+
+  if (userProjectChoiсe.style.name === Tech.SCSS || userProjectChoiсe.style.name === Tech.SASS) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.scss };
+  }
+
+  /* LESS */
+
+  if (userProjectChoiсe.style.name === Tech.LESS) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.less };
+  }
+
+  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
+    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
   }
 
   /* Prettier */
@@ -59,9 +83,9 @@ export async function packageJsonHandler() {
     } else if (userProjectChoiсe.markup.name === Tech.PUG) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.prettier.pug };
       packageJson.scripts['prettier:markup:check'] =
-        `prettier src/**/*.${userProjectChoiсe.markup.extension} --check --plugin=@prettier/plugin-pug`;
+        `prettier src/**/*.pug --check --plugin=@prettier/plugin-pug`;
       packageJson.scripts['prettier:markup:fix'] =
-        `prettier src/**/*.${userProjectChoiсe.markup.extension} --write --plugin=@prettier/plugin-pug`;
+        `prettier src/**/*.pug --write --plugin=@prettier/plugin-pug`;
     } else {
       unsupported(userProjectChoiсe.markup.name, 'Prettier');
     }

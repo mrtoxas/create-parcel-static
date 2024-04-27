@@ -1,0 +1,78 @@
+:root {
+  color-scheme: light dark;
+  --head-color-start: #2563eb;
+  --head-color-end: #ec4899;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100vh;
+  font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: .7rem;
+}
+
+h1 {
+  line-height: 1.4;
+  background: linear-gradient(120deg, var(--head-color-start) 10%, var(--head-color-end));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  span {
+    white-space: nowrap;
+  }
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  border-radius: 100px;
+  padding: 0.7em 1em;
+  color: #3c3c43;
+  font-weight: bolder;
+  background-color: #ebebef;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: #e4e4e9;
+  }
+
+  &:active {
+    background-color: #dddde3;
+  }
+}
+
+.footer {
+  padding: 2rem 0;
+  font-size: smaller;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    background-color: #32363f;
+    color: #fffff5;
+    &:hover {
+      background-color: #414853;
+    }
+    &:active {
+      background-color: #515c67;
+    }
+  }
+}
