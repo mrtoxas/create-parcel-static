@@ -12,21 +12,21 @@ const questionsList: QuestionList = [
         name: 'HTML',
         value: {
           name: Tech.HTML,
-          extension: FileExt.html,
+          extension: FileExt.HTML,
         },
       },
       {
         name: 'Pug',
         value: {
           name: Tech.PUG,
-          extension: FileExt.pug,
+          extension: FileExt.PUG,
         },
       },
       {
         name: 'EJS',
         value: {
           name: Tech.EJS,
-          extension: FileExt.ejs,
+          extension: FileExt.EJS,
         },
       },      
     ],
@@ -40,42 +40,42 @@ const questionsList: QuestionList = [
         name: 'CSS',
         value: {
           name: Tech.CSS,
-          extension: FileExt.css,
+          extension: FileExt.CSS,
         },
       },
       {
         name: 'SASS (Indented Syntax)',
         value: {
           name: Tech.SASS,
-          extension: FileExt.sass,
+          extension: FileExt.SASS,
         },
       },
       {
         name: 'SASS (SCSS Syntax)',
         value: {
           name: Tech.SCSS,
-          extension: FileExt.scss,
+          extension: FileExt.SCSS,
         },
       },
       {
         name: 'Less',
         value: {
           name: Tech.LESS,
-          extension: FileExt.less,
+          extension: FileExt.LESS,
         },
       },
       {
         name: 'Stylus',
         value: {
           name: Tech.STYLUS,
-          extension: FileExt.stylus,
+          extension: FileExt.STYLUS,
         },
       },
       {
         name: 'Tailwind',
         value: {
           name: Tech.TAILWIND,
-          extension: FileExt.css,
+          extension: FileExt.CSS,
         },
       },
     ],
@@ -89,28 +89,28 @@ const questionsList: QuestionList = [
         name: 'JavaScript',
         value: {
           name: Tech.JAVASCRIPT,
-          extension: FileExt.javascript,
+          extension: FileExt.JAVASCRIPT,
         },
       },
       {
         name: 'TypeScript',
         value: {
           name: Tech.TYPESCRIPT,
-          extension: FileExt.typescript,
+          extension: FileExt.TYPESCRIPT,
         },
       },
       {
         name: 'JQuery',
         value: {
           name: Tech.JQUERY,
-          extension: FileExt.javascript,
+          extension: FileExt.JAVASCRIPT,
         },
       },
       {
         name: 'JQuery (TypeScript)',
         value: {
           name: Tech.JQUERY,
-          extension: FileExt.typescript,
+          extension: FileExt.TYPESCRIPT,
         },
       },
     ],

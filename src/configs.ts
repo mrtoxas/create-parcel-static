@@ -22,6 +22,9 @@ export const packageJson = {
 
 export const devDependencies = {
   markup: {
+    pug: {
+      '@parcel/transformer-pug': '2.12.0',
+    },
     ejs: {
       ejs: '^3.1.10',
       'parcel-transformer-ejs': '^1.0.1',
@@ -58,6 +61,9 @@ export const devDependencies = {
     scss: {
       'stylelint-config-standard-scss': '^13.0.0',
       'stylelint-scss': '^6.2.0',
+    },
+    sass: {
+      'sass-lint': '^1.13.1',
     },
     less: {
       'stylelint-config-standard-less': '^3.0.1',
@@ -120,6 +126,7 @@ export const eslintConfig: Partial<Record<Tech | 'default', EslintConfig>> = {
       browser: true,
       es6: true,
     },
+    root: true,
     extends: ['eslint:recommended'],
     parserOptions: {
       ecmaVersion: 2020,
@@ -217,6 +224,11 @@ export const postcssConfig: Partial<Record<Tech, PostcssConfig>> = {
     },
   },
 };
+
+export const sassLintConfig = `rules:
+  property-sort-order: 0
+  no-color-literals: 0
+  no-vendor-prefixes: 0`;
 
 export const tailwindConfig = (extensions: string, typescript: boolean) => {
   const tsConfig = `import type { Config } from 'tailwindcss'

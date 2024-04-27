@@ -10,8 +10,9 @@ import {
   stylelintConfig as styleLintCfg,
   tailwindConfig,
   tsСonfig,
+  sassLintConfig
 } from 'configs';
-import { EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, TsConfig } from 'types';
+import { Tech, FileExt, EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, TsConfig } from 'types';
 
 const postcssConfig: PostcssConfig = {};
 const parcelConfig: ParcelConfig = { ...parcelCfg.default };
@@ -26,7 +27,7 @@ export async function configsHandler() {
   const { projectInitData, userProjectChoiсe } = store;
 
   /* Tailwind */
-  if (userProjectChoiсe.style.name === 'tailwind') {
+  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
     postcssConfig.plugins = { ...postcssConfig.plugins, ...postcssCfg.tailwind.plugins };
     configsToSave.push({ fileName: '.postcssrc', config: postcssConfig });
 
@@ -39,21 +40,21 @@ export async function configsHandler() {
         ),
       );
     } catch (err) {
-        console.error(chalk.red('Error: '), 'Error when saving tailwind config');
-        throw err;
+      console.error(chalk.red('Error: '), 'Error when saving tailwind config');
+      throw err;
     }
   }
 
   /* TypeScript */
-  if (userProjectChoiсe.script.name === 'typescript') {
+  if (userProjectChoiсe.script.name === Tech.TYPESCRIPT) {
     configsToSave.push({ fileName: 'tsconfig.json', config: tsСonfig });
   }
 
   /* EJS */
-  if (userProjectChoiсe.markup.name === 'ejs') {
+  if (userProjectChoiсe.markup.name === Tech.EJS) {
     parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.ejs.transformers };
   }
-  
+
   /* Prettier */
   if (userProjectChoiсe.prettier) {
     configsToSave.push({ fileName: '.prettierrc', config: prettierConfig });
@@ -64,18 +65,25 @@ export async function configsHandler() {
     let stylelintConfig: StyleLintConfig = {};
 
     switch (userProjectChoiсe.style.name) {
-      case 'sass':
-      case 'scss':
+      case Tech.SASS:
+        try {
+          await fs.writeFile(path.join(projectInitData.projectPath, '.sasslintrc'), sassLintConfig);
+        } catch (err) {
+          console.error(chalk.red('Error: '), 'Error when saving sasslint config');
+          throw err;
+        }
+        break;
+      case Tech.SCSS:
         stylelintConfig = styleLintCfg.scss;
         break;
-      case 'less':
+      case Tech.LESS:
         stylelintConfig = styleLintCfg.less;
         break;
-      case 'stylus':
+      case Tech.STYLUS:
         stylelintConfig = styleLintCfg.stylus;
         break;
-      case 'tailwind':
-      case 'css':
+      case Tech.TAILWIND:
+      case Tech.CSS:
         stylelintConfig = styleLintCfg.css;
         break;
       default:
@@ -96,7 +104,7 @@ export async function configsHandler() {
 
   /* ESLint */
   if (userProjectChoiсe.eslint) {
-    if (userProjectChoiсe.script.extension === 'ts') {
+    if (userProjectChoiсe.script.extension === FileExt.TYPESCRIPT) {
       eslintConfig.parser = eslintCfg.typescript.parser;
       if (eslintConfig.plugins) {
         eslintConfig.plugins = [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
@@ -107,7 +115,7 @@ export async function configsHandler() {
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
     }
 
-    if (userProjectChoiсe.script.name === 'jquery') {
+    if (userProjectChoiсe.script.name === Tech.JQUERY) {
       eslintConfig.env = { ...eslintConfig.env, ...eslintCfg.jquery.env };
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.jquery.extends];
     }

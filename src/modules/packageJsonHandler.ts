@@ -27,7 +27,7 @@ export async function packageJsonHandler() {
 
   /* TypeSctipt */
 
-  if (userProjectChoiсe.script.extension === FileExt.typescript) {
+  if (userProjectChoiсe.script.extension === FileExt.TYPESCRIPT) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
     packageJson.scripts['type:check'] = "tsc src/**/*.ts --noEmit";
   }
@@ -38,38 +38,33 @@ export async function packageJsonHandler() {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.jquery };
   }
 
-  /* Tailwind */
+  /* Markup */
 
-  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
-  }
+  switch (userProjectChoiсe.markup.name) {
+    case Tech.EJS:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.ejs };
+      break;
+    case Tech.PUG:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.pug };
+      break;
+    }
 
-  /* Ejs */
+  /* Style */
 
-  if (userProjectChoiсe.markup.name === Tech.EJS) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.markup.ejs };
-  }
-
-  /* Stylus */
-
-  if (userProjectChoiсe.style.name === Tech.STYLUS) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.stylus };
-  }
-
-  /* SCSS or SASS */
-
-  if (userProjectChoiсe.style.name === Tech.SCSS || userProjectChoiсe.style.name === Tech.SASS) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.scss };
-  }
-
-  /* LESS */
-
-  if (userProjectChoiсe.style.name === Tech.LESS) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.less };
-  }
-
-  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
+  switch (userProjectChoiсe.style.name) {
+    case Tech.STYLUS:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.stylus };
+      break;
+    case Tech.SCSS:  
+    case Tech.SASS:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.scss };
+      break;
+    case Tech.LESS:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.less };
+      break;
+    case Tech.TAILWIND:
+      packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.style.tailwind };
+      break;
   }
 
   /* Prettier */
@@ -101,7 +96,7 @@ export async function packageJsonHandler() {
       packageJson.scripts['prettier:scripts:check'] = `prettier src/scripts/**/*.${scriptExtention} --check`;
       packageJson.scripts['prettier:scripts:fix'] = `prettier src/scripts/**/*.${scriptExtention} --write`;
 
-      if (userProjectChoiсe.script.extension === FileExt.typescript) {
+      if (userProjectChoiсe.script.extension === FileExt.TYPESCRIPT) {
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.script.typescript };
       }
     } else {
@@ -117,7 +112,7 @@ export async function packageJsonHandler() {
     packageJson.scripts['lint:scripts:check'] = `eslint src/scripts/**/*.${scriptExtention}`;
     packageJson.scripts['lint:scripts:fix'] = `eslint src/scripts/**/*.${scriptExtention} --fix`;
 
-    if (userProjectChoiсe.script.extension === FileExt.typescript) {
+    if (userProjectChoiсe.script.extension === FileExt.TYPESCRIPT) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.eslint.typescript };
     }
 
@@ -135,11 +130,21 @@ export async function packageJsonHandler() {
   if (userProjectChoiсe.stylelint) {
     packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.base };
 
-    packageJson.scripts['lint:styles:check'] = `stylelint src/styles/**/*.${styleExtention}`;
-    packageJson.scripts['lint:styles:fix'] = `stylelint src/styles/**/*.${styleExtention} --fix`;
+    // Scripts
+    switch(userProjectChoiсe.style.name){
+      case Tech.SASS:
+        packageJson.scripts['lint:styles:check'] = `sass-lint 'src/styles/*.${styleExtention}' -v -q`;
+        break;
+      default:
+        packageJson.scripts['lint:styles:check'] = `stylelint src/styles/**/*.${styleExtention}`;
+        packageJson.scripts['lint:styles:fix'] = `stylelint src/styles/**/*.${styleExtention} --fix`;
+    } 
 
+    // Dependencies
     switch (userProjectChoiсe.style.name) {
       case Tech.SASS:
+        packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.sass };
+        break;
       case Tech.SCSS:
         packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.scss };
         break;
@@ -151,6 +156,7 @@ export async function packageJsonHandler() {
         break;
     }
 
+    // Prettier
     if (userProjectChoiсe.prettier) {
       packageJson.devDependencies = { ...packageJson.devDependencies, ...devDependencies.stylelint.prettier };
     }   
