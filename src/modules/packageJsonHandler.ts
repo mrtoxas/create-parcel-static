@@ -10,6 +10,18 @@ const packageJson: PackageJson = {
   ...defaultPackageJson,
 };
 
+function unsupportedMsg(tech: string, plugin: string) {
+  store.setWarnMsgs(`The ${tech.toUpperCase()} does not have an official ${plugin} plugin`);
+}
+
+function addToolScript(item, plugin) {
+  if (item.scripts?.[plugin.name]) {
+    packageJson.scripts = { ...packageJson.scripts, ...item.scripts?.[plugin.name] };
+  } else {
+    unsupportedMsg(item.name, plugin.title);
+  }
+}
+
 export async function packageJsonHandler() {
   const { projectInitData, userProjectChoice } = store;
 
@@ -38,29 +50,9 @@ export async function packageJsonHandler() {
       ...(item.scripts?.default && item.scripts.default),
     };
 
-    if (userProjectChoice.prettier) {
-      if (item.scripts?.prettier) {
-        packageJson.scripts = { ...packageJson.scripts, ...item.scripts.prettier };
-      } else {
-        unsupportedMsg(item.name, 'Prettier');
-      }
-    }
-
-    if (userProjectChoice.eslint && item.type === 'script') {
-      if (item.scripts?.eslint) {
-        packageJson.scripts = { ...packageJson.scripts, ...item.scripts.eslint };
-      } else {
-        unsupportedMsg(item.name, 'EsLint');
-      }
-    }
-
-    if (userProjectChoice.stylelint && item.type === 'style') {
-      if (item.scripts?.stylelint) {
-        packageJson.scripts = { ...packageJson.scripts, ...item.scripts.stylelint };
-      } else {
-        unsupportedMsg(item.name, 'StyleLint');
-      }
-    }
+    if (userProjectChoice.prettier) addToolScript(item, plugins.prettier);
+    if (userProjectChoice.eslint && item.type === 'script') addToolScript(item, plugins.eslint);
+    if (userProjectChoice.stylelint && item.type === 'style') addToolScript(item, plugins.stylelint);
   });
 
   packageJson.devDependencies = {
@@ -80,6 +72,4 @@ export async function packageJsonHandler() {
   }
 }
 
-function unsupportedMsg(tech: string, plugin: string) {
-  store.setWarnMsgs(`The ${tech.toUpperCase()} does not have an official ${plugin} plugin`);
-}
+
