@@ -1,6 +1,7 @@
 import { select, confirm } from '@inquirer/prompts';
 import chalk from 'chalk';
-import { FileExt, QuestionList, Tech, UserProject, AppArguments } from 'types';
+import { plugins } from 'modules/pluginFactory';
+import { QuestionList, UserProject, AppArguments } from 'types';
 
 const questionsList: QuestionList = [
   {
@@ -9,26 +10,26 @@ const questionsList: QuestionList = [
     message: 'Select markup engine:',
     choices: [
       {
-        name: 'HTML',
+        name: plugins.html.title,
         value: {
-          name: Tech.HTML,
-          extension: FileExt.HTML,
+          name: plugins.html.name,
+          extension: plugins.html.fileExt,
         },
       },
       {
-        name: 'Pug',
+        name: plugins.pug.title,
         value: {
-          name: Tech.PUG,
-          extension: FileExt.PUG,
+          name: plugins.pug.name,
+          extension: plugins.pug.fileExt,
         },
       },
       {
-        name: 'EJS',
+        name: plugins.ejs.title,
         value: {
-          name: Tech.EJS,
-          extension: FileExt.EJS,
+          name: plugins.ejs.name,
+          extension: plugins.ejs.fileExt,
         },
-      },      
+      },
     ],
   },
   {
@@ -37,45 +38,45 @@ const questionsList: QuestionList = [
     message: 'Select Style processing tool:',
     choices: [
       {
-        name: 'CSS',
+        name: plugins.css.title,
         value: {
-          name: Tech.CSS,
-          extension: FileExt.CSS,
+          name: plugins.css.name,
+          extension: plugins.css.fileExt,
         },
       },
       {
-        name: 'SASS (Indented Syntax)',
+        name: plugins.sass.title,
         value: {
-          name: Tech.SASS,
-          extension: FileExt.SASS,
+          name: plugins.sass.name,
+          extension: plugins.sass.fileExt,
         },
       },
       {
-        name: 'SASS (SCSS Syntax)',
+        name: plugins.scss.title,
         value: {
-          name: Tech.SCSS,
-          extension: FileExt.SCSS,
+          name: plugins.scss.name,
+          extension: plugins.scss.fileExt,
         },
       },
       {
-        name: 'Less',
+        name: plugins.less.title,
         value: {
-          name: Tech.LESS,
-          extension: FileExt.LESS,
+          name: plugins.less.name,
+          extension: plugins.less.fileExt,
         },
       },
       {
-        name: 'Stylus',
+        name: plugins.stylus.title,
         value: {
-          name: Tech.STYLUS,
-          extension: FileExt.STYLUS,
+          name: plugins.stylus.name,
+          extension: plugins.stylus.fileExt,
         },
       },
       {
-        name: 'Tailwind',
+        name: plugins.tailwind.title,
         value: {
-          name: Tech.TAILWIND,
-          extension: FileExt.CSS,
+          name: plugins.tailwind.name,
+          extension: plugins.tailwind.fileExt,
         },
       },
     ],
@@ -86,49 +87,49 @@ const questionsList: QuestionList = [
     message: 'Select Style processing tool:',
     choices: [
       {
-        name: 'JavaScript',
+        name: plugins.javascript.title,
         value: {
-          name: Tech.JAVASCRIPT,
-          extension: FileExt.JAVASCRIPT,
+          name: plugins.javascript.name,
+          extension: plugins.javascript.fileExt,
         },
       },
       {
-        name: 'TypeScript',
+        name: plugins.typescript.title,
         value: {
-          name: Tech.TYPESCRIPT,
-          extension: FileExt.TYPESCRIPT,
+          name: plugins.typescript.name,
+          extension: plugins.typescript.fileExt,
         },
       },
       {
-        name: 'JQuery',
+        name: plugins.jquery.title,
         value: {
-          name: Tech.JQUERY,
-          extension: FileExt.JAVASCRIPT,
+          name: plugins.jquery.name,
+          extension: plugins.jquery.fileExt,
         },
       },
       {
-        name: 'JQuery (TypeScript)',
+        name: plugins.jqueryts.title,
         value: {
-          name: Tech.JQUERY,
-          extension: FileExt.TYPESCRIPT,
+          name: plugins.jqueryts.name,
+          extension: plugins.jqueryts.fileExt,
         },
       },
     ],
   },
   {
-    name: 'prettier',
+    name: plugins.prettier.name,
     type: 'confirm',
     message: 'Add Prettier?',
     default: true,
   },
   {
-    name: 'stylelint',
+    name: plugins.stylelint.name,
     type: 'confirm',
     message: 'Add StyleLint?',
     default: true,
   },
   {
-    name: 'eslint',
+    name: plugins.eslint.name,
     type: 'confirm',
     message: 'Add ESLint?',
     default: true,

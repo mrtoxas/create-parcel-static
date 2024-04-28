@@ -2,17 +2,8 @@ import { store } from 'store';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
-import {
-  eslintConfig as eslintCfg,
-  parcelConfig as parcelCfg,
-  postcssConfig as postcssCfg,
-  prettierConfig,
-  stylelintConfig as styleLintCfg,
-  tailwindConfig,
-  tsСonfig,
-  sassLintConfig
-} from 'configs';
-import { Tech, FileExt, EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, TsConfig } from 'types';
+import { parcelConfig as parcelCfg } from 'configs';
+import { EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, TsConfig } from 'types';
 
 const postcssConfig: PostcssConfig = {};
 const parcelConfig: ParcelConfig = { ...parcelCfg.default };
@@ -24,19 +15,19 @@ const configsToSave: {
 }[] = [];
 
 export async function configsHandler() {
-  const { projectInitData, userProjectChoiсe } = store;
+  const { projectInitData, userProjectChoice } = store;
 
   /* Tailwind */
-  if (userProjectChoiсe.style.name === Tech.TAILWIND) {
+  if (userProjectChoice.style.name === Tech.TAILWIND) {
     postcssConfig.plugins = { ...postcssConfig.plugins, ...postcssCfg.tailwind.plugins };
     configsToSave.push({ fileName: '.postcssrc', config: postcssConfig });
 
     try {
       await fs.writeFile(
-        path.join(projectInitData.projectPath, `tailwind.config.${userProjectChoiсe.script.extension}`),
+        path.join(projectInitData.projectPath, `tailwind.config.${userProjectChoice.script.extension}`),
         tailwindConfig(
-          `${userProjectChoiсe.markup.extension}, ${userProjectChoiсe.script.extension}`,
-          userProjectChoiсe.script.name === 'typescript',
+          `${userProjectChoice.markup.extension}, ${userProjectChoice.script.extension}`,
+          userProjectChoice.script.name === 'typescript',
         ),
       );
     } catch (err) {
@@ -46,25 +37,25 @@ export async function configsHandler() {
   }
 
   /* TypeScript */
-  if (userProjectChoiсe.script.name === Tech.TYPESCRIPT) {
+  if (userProjectChoice.script.name === Tech.TYPESCRIPT) {
     configsToSave.push({ fileName: 'tsconfig.json', config: tsСonfig });
   }
 
   /* EJS */
-  if (userProjectChoiсe.markup.name === Tech.EJS) {
+  if (userProjectChoice.markup.name === Tech.EJS) {
     parcelConfig.transformers = { ...parcelConfig.transformers, ...parcelCfg.ejs.transformers };
   }
 
   /* Prettier */
-  if (userProjectChoiсe.prettier) {
+  if (userProjectChoice.prettier) {
     configsToSave.push({ fileName: '.prettierrc', config: prettierConfig });
   }
 
   /* Stylelint */
-  if (userProjectChoiсe.stylelint) {
+  if (userProjectChoice.stylelint) {
     let stylelintConfig: StyleLintConfig = {};
 
-    switch (userProjectChoiсe.style.name) {
+    switch (userProjectChoice.style.name) {
       case Tech.SASS:
         try {
           await fs.writeFile(path.join(projectInitData.projectPath, '.sasslintrc'), sassLintConfig);
@@ -87,11 +78,11 @@ export async function configsHandler() {
         stylelintConfig = styleLintCfg.css;
         break;
       default:
-        console.error(chalk.red('Error: '), `Unknown slyle name: ${userProjectChoiсe.style.name}`);
+        console.error(chalk.red('Error: '), `Unknown slyle name: ${userProjectChoice.style.name}`);
         throw new Error();
     }
 
-    if (userProjectChoiсe.prettier) {
+    if (userProjectChoice.prettier) {
       stylelintConfig.plugins = stylelintConfig.plugins
         ? [...stylelintConfig.plugins, ...styleLintCfg.prettier.plugins]
         : styleLintCfg.prettier.plugins;
@@ -103,8 +94,8 @@ export async function configsHandler() {
   }
 
   /* ESLint */
-  if (userProjectChoiсe.eslint) {
-    if (userProjectChoiсe.script.extension === FileExt.TYPESCRIPT) {
+  if (userProjectChoice.eslint) {
+    if (userProjectChoice.script.extension === FileExt.TYPESCRIPT) {
       eslintConfig.parser = eslintCfg.typescript.parser;
       if (eslintConfig.plugins) {
         eslintConfig.plugins = [...eslintConfig.plugins, ...eslintCfg.typescript.plugins];
@@ -115,12 +106,12 @@ export async function configsHandler() {
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.typescript.extends];
     }
 
-    if (userProjectChoiсe.script.name === Tech.JQUERY) {
+    if (userProjectChoice.script.name === Tech.JQUERY) {
       eslintConfig.env = { ...eslintConfig.env, ...eslintCfg.jquery.env };
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.jquery.extends];
     }
 
-    if (userProjectChoiсe.prettier) {
+    if (userProjectChoice.prettier) {
       // Should be at the end of the extensions list
       eslintConfig.extends = [...eslintConfig.extends, ...eslintCfg.prettier.extends];
     }

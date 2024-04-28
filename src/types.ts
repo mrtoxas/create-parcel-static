@@ -1,3 +1,13 @@
+type PluginType = 'markup' | 'style' | 'script' | 'tool';
+
+interface Plugin {
+  type: PluginType;
+  title: string;
+  name: string;
+  fileExt?: string;
+}
+
+/*
 export enum FileExt {
   HTML = 'html',
   PUG = 'pug',
@@ -79,7 +89,7 @@ export interface AppArguments {
 }
 
 export interface Store {
-  userProjectChoiсe: UserProject;
+  userProjectChoice: UserProject;
   projectInitData: ProjectInitData;
   warnMsgs: string[];
   setUserChoiсe: (data: UserProject) => void;
@@ -140,3 +150,4 @@ export interface EslintConfig {
 export interface PrettierConfig {
   [key: string]: boolean | string | number;
 }
+*/
