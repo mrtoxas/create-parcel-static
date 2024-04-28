@@ -1,137 +1,58 @@
 import { select, confirm } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { plugins } from 'modules/pluginFactory';
-import { QuestionList, UserProject, AppArguments } from 'types';
+import { QuestionList, UserProject, AppArguments, Plugin } from 'types';
+
+const preparedChoices = (plugins: Plugin[]) => {
+  return plugins.reduce((acc, curr) => {
+    return [
+      ...acc,
+      {
+        name: curr.title,
+        value: {
+          name: curr.name,
+          extension: curr.fileExt,
+        },
+      },
+    ];
+  }, []);
+};
 
 const questionsList: QuestionList = [
   {
     name: 'markup',
     type: 'select',
     message: 'Select markup engine:',
-    choices: [
-      {
-        name: plugins.html.title,
-        value: {
-          name: plugins.html.name,
-          extension: plugins.html.fileExt,
-        },
-      },
-      {
-        name: plugins.pug.title,
-        value: {
-          name: plugins.pug.name,
-          extension: plugins.pug.fileExt,
-        },
-      },
-      {
-        name: plugins.ejs.title,
-        value: {
-          name: plugins.ejs.name,
-          extension: plugins.ejs.fileExt,
-        },
-      },
-    ],
+    choices: preparedChoices([plugins.html, plugins.pug, plugins.ejs]),
   },
   {
     name: 'style',
     type: 'select',
     message: 'Select Style processing tool:',
-    choices: [
-      {
-        name: plugins.css.title,
-        value: {
-          name: plugins.css.name,
-          extension: plugins.css.fileExt,
-        },
-      },
-      {
-        name: plugins.sass.title,
-        value: {
-          name: plugins.sass.name,
-          extension: plugins.sass.fileExt,
-        },
-      },
-      {
-        name: plugins.scss.title,
-        value: {
-          name: plugins.scss.name,
-          extension: plugins.scss.fileExt,
-        },
-      },
-      {
-        name: plugins.less.title,
-        value: {
-          name: plugins.less.name,
-          extension: plugins.less.fileExt,
-        },
-      },
-      {
-        name: plugins.stylus.title,
-        value: {
-          name: plugins.stylus.name,
-          extension: plugins.stylus.fileExt,
-        },
-      },
-      {
-        name: plugins.tailwind.title,
-        value: {
-          name: plugins.tailwind.name,
-          extension: plugins.tailwind.fileExt,
-        },
-      },
-    ],
+    choices: preparedChoices([plugins.css, plugins.sass, plugins.scss, plugins.less, plugins.stylus, plugins.tailwind]),
   },
   {
     name: 'script',
     type: 'select',
-    message: 'Select Style processing tool:',
-    choices: [
-      {
-        name: plugins.javascript.title,
-        value: {
-          name: plugins.javascript.name,
-          extension: plugins.javascript.fileExt,
-        },
-      },
-      {
-        name: plugins.typescript.title,
-        value: {
-          name: plugins.typescript.name,
-          extension: plugins.typescript.fileExt,
-        },
-      },
-      {
-        name: plugins.jquery.title,
-        value: {
-          name: plugins.jquery.name,
-          extension: plugins.jquery.fileExt,
-        },
-      },
-      {
-        name: plugins.jqueryts.title,
-        value: {
-          name: plugins.jqueryts.name,
-          extension: plugins.jqueryts.fileExt,
-        },
-      },
-    ],
+    message: 'Select JavaScript tool:',
+    choices: preparedChoices([plugins.javascript, plugins.typescript, plugins.jquery, plugins.jqueryts]),
   },
   {
     name: plugins.prettier.name,
     type: 'confirm',
-    message: 'Add Prettier?',
+    message: `Add ${plugins.prettier.title}?`,
     default: true,
   },
   {
     name: plugins.stylelint.name,
     type: 'confirm',
-    message: 'Add StyleLint?',
+    message: `Add ${plugins.stylelint.title}?`,
     default: true,
   },
   {
     name: plugins.eslint.name,
     type: 'confirm',
-    message: 'Add ESLint?',
+    message: `Add ${plugins.eslint.title}?`,
     default: true,
   },
 ];
