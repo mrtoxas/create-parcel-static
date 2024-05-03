@@ -1,4 +1,4 @@
-import { ParcelConfig } from 'types';
+import { ParcelCfg } from 'types';
 
 export const packageJson = {
   name: 'test',
@@ -20,7 +20,7 @@ export const packageJson = {
   },
 };
 
-export const parcelConfig: Partial<Record<string | 'default', ParcelConfig>> = {
+export const parcelConfig: Partial<Record<string | 'default', ParcelCfg>> = {
   default: {
     extends: ['@parcel/config-default'],
     reporters: ['...', 'parcel-reporter-static-files-copy'],
