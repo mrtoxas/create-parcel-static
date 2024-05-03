@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const pugPlugin = (): Plugin => ({
+export const pugPlugin = (): PluginBase => ({
   type: 'markup',
   title: 'Pug',
   name: 'pug',

@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const scssPlugin = (): Plugin => ({
+export const scssPlugin = (): PluginBase => ({
   type: 'style',
   title: 'SASS (SCSS Syntax)',
   name: 'scss',
@@ -15,7 +15,7 @@ export const scssPlugin = (): Plugin => ({
     },
   },
   configs: {
-    stylelintConfig: {
+    stylelint: {
       plugins: ['stylelint-scss'],
       rules: {
         'at-rule-no-unknown': null,

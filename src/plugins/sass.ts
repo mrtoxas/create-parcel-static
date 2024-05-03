@@ -1,11 +1,11 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
 export const sassLintConfig = `rules:
   property-sort-order: 0
   no-color-literals: 0
   no-vendor-prefixes: 0`;
 
-export const sassPlugin = (): Plugin => ({
+export const sassPlugin = (): PluginBase => ({
   type: 'style',
   title: 'SASS (Indented Syntax)',
   name: 'sass',
@@ -16,7 +16,7 @@ export const sassPlugin = (): Plugin => ({
     },
   },
   configs: {
-    sasslintConfig: sassLintConfig,
+    sasslint: sassLintConfig,
   },
   scripts: {
     stylelint: {

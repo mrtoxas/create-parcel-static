@@ -27,19 +27,16 @@ export async function app() {
 
   await markupHandler();
   await packageJsonHandler();
-  //await configsHandler();
+  await configsHandler();
 
   if (store.warnMsgs.length) {
     store.warnMsgs.forEach((el: string) => console.warn(chalk.yellow('Warning:'), `${el}`));
   }
 
-  
   console.log(chalk.green('Done!'), 'Now run:');
   if (store.projectInitData.relativePath) {
     console.log(` cd ${store.projectInitData.relativePath}`);
   }
   console.log(` ${store.projectInitData.pkgManager} install`);
   console.log(` ${store.projectInitData.pkgManager} start`);
-
-   
 }

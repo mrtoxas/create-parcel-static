@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const stylelintPlugin = (): Plugin => ({
+export const stylelintPlugin = (): PluginBase => ({
   type: 'tool',
   title: 'StyleLint',
   name: 'stylelint',

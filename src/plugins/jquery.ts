@@ -1,6 +1,8 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-const baseConfig: Plugin = {
+const baseConfig: PluginBase = {
+  name: 'jquery',
+  title: '',
   type: 'script',
   devDeps: {
     default: {
@@ -11,7 +13,7 @@ const baseConfig: Plugin = {
     },
   },
   configs: {
-    eslintConfig: {
+    eslint: {
       env: {
         jquery: true,
       },
@@ -20,7 +22,7 @@ const baseConfig: Plugin = {
   },
 };
 
-export const jqueryPlugin = (): Plugin => ({
+export const jqueryPlugin = (): PluginBase => ({
   ...baseConfig,
   title: 'JQuery',
   name: 'jquery',
@@ -37,7 +39,7 @@ export const jqueryPlugin = (): Plugin => ({
   },
 });
 
-export const jqueryTsPlugin = (): Plugin => ({
+export const jqueryTsPlugin = (): PluginBase => ({
   ...baseConfig,
   title: 'JQuery (TypeScript)',
   name: 'jqueryts',

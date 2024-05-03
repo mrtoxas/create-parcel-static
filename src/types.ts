@@ -1,100 +1,92 @@
-type PluginType = 'markup' | 'style' | 'script' | 'tool';
+export type PlgToolName = 'prettier' | 'eslint' | 'stylelint';
+export type PlgMarkupName = 'html' | 'pug' | 'ejs';
+export type PlgStyleName = 'css' | 'less' | 'sass' | 'scss' | 'stylus' | 'tailwind';
+export type PlgScriptName = 'javascript' | 'typescript' | 'jquery' | 'jqueryts';
+export type PlgType = 'markup' | 'style' | 'script' | 'tool';
+export type PlgName = PlgToolName | PlgMarkupName | PlgStyleName | PlgScriptName;
+export type StyleSystem = 'base' | 'tailwind';
 
-interface Plugin {
-  type: PluginType;
+export type PluginConfig =
+  | StyleLintCfg
+  | ParcelCfg
+  | PostcssCfg
+  | TypescriptCfg
+  | EslintCfg
+  | PrettierCfg
+  | SassLintCfg;
+
+interface PluginConfigs {
+  stylelint?: StyleLintCfg;
+  parcel?: ParcelCfg;
+  postcss?: PostcssCfg;
+  typescript?: TypescriptCfg;
+  eslint?: EslintCfg;
+  prettier?: PrettierCfg;
+  sasslint?: SassLintCfg;
+}
+
+export interface PluginBase {
+  name: PlgName;
   title: string;
-  name: string;
+  type: PlgType;
   fileExt?: string;
+  scripts?: { [key in PlgToolName | 'default']?: Record<string, string> };
+  devDeps?: { [key in PlgToolName | 'default']?: Record<string, string> };
+  configs?: PluginConfigs;
 }
 
-/*
-export enum FileExt {
-  HTML = 'html',
-  PUG = 'pug',
-  EJS = 'ejs',
-  CSS = 'css',
-  SCSS = 'scss',
-  SASS = 'sass',
-  LESS = 'less',
-  STYLUS = 'styl',
-  JAVASCRIPT = 'js',
-  TYPESCRIPT = 'ts',
-}
+export type PluginMap = {
+  [key in PlgName]: PluginBase;
+};
 
-export enum Tech {
-  HTML = 'html',
-  PUG = 'pug',
-  EJS = 'ejs',
-  CSS = 'css',
-  SCSS = 'scss',
-  SASS = 'sass',
-  STYLUS = 'stylus',
-  LESS = 'less',
-  TAILWIND = 'tailwind',
-  JAVASCRIPT = 'javascript',
-  TYPESCRIPT = 'typescript',
-  JQUERY = 'jquery',
-  PRETTIER = 'prettier',
-  STYLELINT = 'stylelint',
-  ESLINT = 'eslint',
-}
+export type Plugins = PluginMap & {
+  getPluginData: (pName: PlgName) => Pick<PluginBase, 'name' | 'title' | 'type' | 'fileExt'>;
+  getDevDeps: (pName: PlgName, type: keyof PluginBase['devDeps']) => PackageJson['devDependencies'];
+  getScritps: (pName: PlgName, cfgName: PlgToolName | 'default') => PackageJson['scripts'];
+  getConfig: (pName: PlgName, cfgName: keyof PluginConfigs) => PluginConfig;
+};
 
-export interface ChoiceValue {
-  name: Tech;
-  extension: FileExt;
-}
-
-interface QuestionBase {
-  name: string;
-  type: 'select' | 'confirm';
-  message: string;
-}
-
-interface QuestionSelect extends QuestionBase {
-  type: 'select';
-  choices: {
-    name: string;
-    value: ChoiceValue;
-  }[];
-}
-
-interface QuestionConfirm extends QuestionBase {
-  type: 'confirm';
-  default: true;
-}
-
-export type QuestionList = (QuestionSelect | QuestionConfirm)[];
-
-export interface UserProject {
-  markup: ChoiceValue;
-  style: ChoiceValue;
-  script: ChoiceValue;
-  prettier?: boolean;
-  eslint?: boolean;
-  stylelint?: boolean;
-  [key: string]: ChoiceValue | boolean;
-}
-
-export type StyleSystem = 'base' | Tech.TAILWIND;
-
-export interface AppArguments {
+export interface AppProjectArgs {
   markup: string;
   style: string;
   script: string;
   prettier?: boolean;
   eslint?: boolean;
   stylelint?: boolean;
+}
+
+export interface AppArguments extends AppProjectArgs {
   help?: string;
   h?: string;
 }
 
-export interface Store {
-  userProjectChoice: UserProject;
-  projectInitData: ProjectInitData;
-  warnMsgs: string[];
-  setUserChoiсe: (data: UserProject) => void;
-  setProjectInitData: (data: ProjectInitData) => void;
-  setWarnMsgs: (data: string) => void;
+interface QuestionSelect {
+  name: PlgType;
+  message: string;
+  type: 'select';
+  choices: {
+    name: PlgType;
+    value: PlgName;
+  }[];
+}
+
+interface QuestionConfirm {
+  name: PlgName;
+  type: 'confirm';
+  default: true;
+  message: string;
+}
+
+export type QuestionList = (QuestionSelect | QuestionConfirm)[];
+
+export interface UserProject {
+  markup: PlgMarkupName;
+  style: PlgStyleName;
+  script: PlgScriptName;
+  prettier?: boolean;
+  eslint?: boolean;
+  stylelint?: boolean;
+  [key: string]: PlgName | boolean;
 }
 
 export type ProjectInitData = {
@@ -106,6 +98,24 @@ export type ProjectInitData = {
   toСlean: boolean;
 };
 
+export interface Store {
+  userChoice: UserProject;
+  projectInitData: ProjectInitData;
+  warnMsgs: string[];
+  setUserChoiсe: (data: UserProject) => void;
+  setProjectInitData: (data: ProjectInitData) => void;
+  setWarnMsgs: (data: string) => void;
+  getUserChoice: () => UserProject;
+}
+
+/* Configs */
+
+export interface ParcelCfg {
+  extends?: string[];
+  reporters?: string[];
+  transformers?: Record<string, string[]>;
+}
+
 export interface PackageJson {
   name: string;
   version: string;
@@ -116,29 +126,23 @@ export interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
-export interface StyleLintConfig {
+export interface StyleLintCfg {
   extends?: string[];
   rules?: Record<string, string | boolean | string[]>;
   plugins?: string[];
 }
 
-export interface PostcssConfig {
+export interface PostcssCfg {
   plugins?: Record<string, object>;
 }
 
-export interface TsConfig {
+export interface TypescriptCfg {
   compilerOptions?: Record<string, string | boolean>;
   include?: string[];
   exclude?: string[];
 }
 
-export interface ParcelConfig {
-  extends?: string[];
-  reporters?: string[];
-  transformers?: Record<string, string[]>;
-}
-
-export interface EslintConfig {
+export interface EslintCfg {
   env?: Record<string, boolean>;
   extends?: string[];
   parserOptions?: Record<string, number | string>;
@@ -147,7 +151,8 @@ export interface EslintConfig {
   plugins?: string[];
 }
 
-export interface PrettierConfig {
+export interface PrettierCfg {
   [key: string]: boolean | string | number;
 }
-*/
+
+export type SassLintCfg = string;

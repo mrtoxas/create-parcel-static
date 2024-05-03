@@ -3,7 +3,7 @@ import path from 'path';
 import { store } from 'store';
 import { packageJson as defaultPackageJson } from 'configs';
 import { plugins } from 'modules/pluginFactory';
-import { PackageJson, Plugin } from 'types';
+import { PackageJson, PlgName, PlgToolName, PluginBase } from 'types';
 import chalk from 'chalk';
 
 const packageJson: PackageJson = {
@@ -14,20 +14,21 @@ function unsupportedMsg(tech: string, plugin: string) {
   store.setWarnMsgs(`The ${tech.toUpperCase()} does not have an official ${plugin} plugin`);
 }
 
-function addToolScript(item, plugin) {
-  if (item.scripts?.[plugin.name]) {
-    packageJson.scripts = { ...packageJson.scripts, ...item.scripts?.[plugin.name] };
+function addToolScript(pluginName: PlgName, toolName: PlgToolName) {
+  const scripts = plugins.getScritps(pluginName, toolName);
+  if (scripts) {
+    packageJson.scripts = { ...packageJson.scripts, ...scripts };
   } else {
-    unsupportedMsg(item.name, plugin.title);
+    unsupportedMsg(pluginName, plugins.getPluginData(pluginName).title);
   }
 }
 
 export async function packageJsonHandler() {
-  const { projectInitData, userProjectChoice } = store;
+  const { projectInitData, userChoice } = store;
 
-  const markupPlugin = plugins[userProjectChoice.markup.name];
-  const stylePlugin = plugins[userProjectChoice.style.name];
-  const scriptPlugin = plugins[userProjectChoice.script.name];
+  const markupPlugin = plugins.getPluginData(userChoice.markup);
+  const stylePlugin = plugins.getPluginData(userChoice.style);
+  const scriptPlugin = plugins.getPluginData(userChoice.script);
 
   if (!(markupPlugin && stylePlugin && scriptPlugin)) {
     console.error(chalk.red('Error:'), `Failed loading plugin`);
@@ -38,30 +39,35 @@ export async function packageJsonHandler() {
   packageJson.scripts.start = `parcel src/index.${markupPlugin.fileExt}`;
   packageJson.scripts.build = `rimraf dist && parcel build src/index.${markupPlugin.fileExt} --no-source-maps --public-url ./`;
 
-  [markupPlugin, stylePlugin, scriptPlugin].forEach((item: Plugin) => {
+  [markupPlugin, stylePlugin, scriptPlugin].forEach((item: PluginBase) => {
+    const plugin = plugins.getPluginData(item.name);
+    const devDepsDefault = plugins.getDevDeps(plugin.name, 'default');
+    const devDepsStylelint = plugins.getDevDeps(plugin.name, 'stylelint');
+    const scriptsDefault = plugins.getScritps(plugin.name, 'default');
+
     packageJson.devDependencies = {
       ...packageJson.devDependencies,
-      ...(item.devDeps?.default && item.devDeps.default),
-      ...(userProjectChoice.stylelint && item.devDeps?.stylelint && item.devDeps.stylelint),
+      ...(devDepsDefault && devDepsDefault),
+      ...(userChoice.stylelint && devDepsStylelint && devDepsStylelint),
     };
 
     packageJson.scripts = {
       ...packageJson.scripts,
-      ...(item.scripts?.default && item.scripts.default),
+      ...(scriptsDefault && scriptsDefault),
     };
 
-    if (userProjectChoice.prettier) addToolScript(item, plugins.prettier);
-    if (userProjectChoice.eslint && item.type === 'script') addToolScript(item, plugins.eslint);
-    if (userProjectChoice.stylelint && item.type === 'style') addToolScript(item, plugins.stylelint);
+    if (userChoice.prettier) addToolScript(plugin.name, 'prettier');
+    if (userChoice.eslint && plugin.type === 'script') addToolScript(plugin.name, 'eslint');
+    if (userChoice.stylelint && plugin.type === 'style') addToolScript(plugin.name, 'stylelint');
   });
 
   packageJson.devDependencies = {
     ...packageJson.devDependencies,
-    ...(userProjectChoice.prettier && plugins.prettier.devDeps.default),
-    ...(userProjectChoice.eslint && plugins.eslint.devDeps.default),
-    ...(userProjectChoice.eslint && userProjectChoice.prettier && plugins.eslint.devDeps.prettier),
-    ...(userProjectChoice.stylelint && plugins.stylelint.devDeps.default),
-    ...(userProjectChoice.stylelint && userProjectChoice.prettier && plugins.stylelint.devDeps.prettier),
+    ...(userChoice.prettier && plugins.getDevDeps('prettier', 'default')),
+    ...(userChoice.eslint && plugins.getDevDeps('eslint', 'default')),
+    ...(userChoice.eslint && userChoice.prettier && plugins.getDevDeps('eslint', 'prettier')),
+    ...(userChoice.stylelint && plugins.getDevDeps('stylelint', 'default')),
+    ...(userChoice.stylelint && userChoice.prettier && plugins.getDevDeps('stylelint', 'prettier')),
   };
 
   try {
@@ -71,5 +77,3 @@ export async function packageJsonHandler() {
     throw err;
   }
 }
-
-

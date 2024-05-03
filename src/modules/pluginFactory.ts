@@ -13,8 +13,9 @@ import { stylelintPlugin } from 'plugins/stylelint';
 import { stylusPlugin } from 'plugins/stylus';
 import { tailwindPlugin } from 'plugins/tailwind';
 import { typescriptPlugin } from 'plugins/typescript';
+import { Plugins } from 'types';
 
-export const plugins = {
+export const plugins: Plugins = {
   html: htmlPlugin(),
   pug: pugPlugin(),
   ejs: ejsPlugin(),
@@ -31,4 +32,27 @@ export const plugins = {
   eslint: eslintPlugin(),
   prettier: prettierPlugin(),
   stylelint: stylelintPlugin(),
+
+  getPluginData(pName) {
+    return {
+      name: this[pName].name,
+      title: this[pName].title,
+      type: this[pName].type,
+      fileExt: this[pName].fileExt,
+    };
+  },
+
+  getDevDeps(pName, type) {
+    return this[pName].devDeps?.[type];
+  },
+
+  getScritps(pName, cfgName) {
+    return this[pName].scripts?.[cfgName];
+  },
+
+  getConfig(pName, cfgName) {
+    const plugin = this[pName];
+    const config = plugin?.configs[cfgName];
+    return config || null;
+  },
 };

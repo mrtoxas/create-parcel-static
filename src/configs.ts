@@ -1,4 +1,4 @@
-import { EslintConfig, ParcelConfig, PostcssConfig, PrettierConfig, StyleLintConfig, Tech, TsConfig } from 'types';
+import { ParcelConfig } from 'types';
 
 export const packageJson = {
   name: 'test',
@@ -20,7 +20,7 @@ export const packageJson = {
   },
 };
 
-export const parcelConfig: Partial<Record<Tech | 'default', ParcelConfig>> = {
+export const parcelConfig: Partial<Record<string | 'default', ParcelConfig>> = {
   default: {
     extends: ['@parcel/config-default'],
     reporters: ['...', 'parcel-reporter-static-files-copy'],

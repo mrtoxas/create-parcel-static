@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const ejsPlugin = (): Plugin => ({
+export const ejsPlugin = (): PluginBase => ({
   type: 'markup',
   title: 'Ejs',
   name: 'ejs',
@@ -11,9 +11,11 @@ export const ejsPlugin = (): Plugin => ({
       'parcel-transformer-ejs': '^1.0.1',
     },
   },
-  parcelConfig: {
-    transformers: {
-      '*.ejs': ['parcel-transformer-ejs'],
+  configs: {
+    parcel: {
+      transformers: {
+        '*.ejs': ['parcel-transformer-ejs'],
+      },
     },
   },
 });

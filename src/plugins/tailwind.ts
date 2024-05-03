@@ -1,6 +1,7 @@
-import { Plugin } from 'types';
+import { plugins } from 'modules/pluginFactory';
+import { PluginBase } from 'types';
 
-export const tailwindConfig = (extensions: string, typescript: boolean) => {
+export const tailwindConfig = (extensions: string, scriptName: string) => {
   const tsConfig = `import type { Config } from 'tailwindcss'
   
 export default {
@@ -25,15 +26,14 @@ module.exports = {
   plugins: [],
 }
   `;
-  return typescript ? tsConfig : jsConfig;
+  return scriptName === plugins.typescript.name ? tsConfig : jsConfig;
 };
 
-export const tailwindPlugin = (): Plugin => ({
+export const tailwindPlugin = (): PluginBase => ({
   type: 'style',
   title: 'Tailwind',
   name: 'tailwind',
   fileExt: 'css',
-  prettier: true,
   devDeps: {
     default: {
       postcss: '^8.4.38',
@@ -41,7 +41,7 @@ export const tailwindPlugin = (): Plugin => ({
     },
   },
   configs: {
-    postcssConfig: {
+    postcss: {
       plugins: {
         tailwindcss: {},
       },

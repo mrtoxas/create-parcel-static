@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const htmlPlugin = (): Plugin => ({
+export const htmlPlugin = (): PluginBase => ({
   type: 'markup',
   title: 'HTML',
   name: 'html',

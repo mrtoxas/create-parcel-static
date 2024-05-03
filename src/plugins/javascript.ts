@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const javascriptPlugin = (): Plugin => ({
+export const javascriptPlugin = (): PluginBase => ({
   type: 'script',
   title: 'JavaScript',
   name: 'javascript',

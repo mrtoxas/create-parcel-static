@@ -1,12 +1,12 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const cssPlugin = (): Plugin => ({
+export const cssPlugin = (): PluginBase => ({
   type: 'style',
   title: 'CSS',
   name: 'css',
   fileExt: 'css',
   configs: {
-    stylelintConfig: {
+    stylelint: {
       extends: ['stylelint-config-standard'],
       rules: {
         'declaration-colon-space-after': 'always',

@@ -1,4 +1,4 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
 const config = {
   env: {
@@ -18,7 +18,7 @@ const config = {
   },
 };
 
-export const eslintPlugin = (): Plugin => ({
+export const eslintPlugin = (): PluginBase => ({
   type: 'tool',
   title: 'EsLint',
   name: 'eslint',
@@ -32,6 +32,6 @@ export const eslintPlugin = (): Plugin => ({
     },
   },
   configs: {
-    config: config,
+    eslint: config,
   },
 });

@@ -25,35 +25,39 @@ async function replaceAndSaveFile(srcPath: string, destPath: string, replacement
 }
 
 export async function markupHandler() {
-  const { projectInitData, userProjectChoice } = store;
+  const { projectInitData, userChoice } = store;
 
-  const styleFileExt = plugins[userProjectChoice.style.name]?.fileExt;
-  const markupFileExt = plugins[userProjectChoice.markup.name]?.fileExt;
-  const scriptFileExt = plugins[userProjectChoice.script.name]?.fileExt;
+  const stylePlugin = plugins.getPluginData(userChoice.style);
+  const markupPlugin = plugins.getPluginData(userChoice.markup);
+  const scriptPlugin = plugins.getPluginData(userChoice.script);
 
-  const isTailwindChoice = userProjectChoice.style.name === plugins.tailwind.name;
-  const styleSystem: StyleSystem = isTailwindChoice ? plugins.tailwind.name : 'base';
+  if (!(markupPlugin && stylePlugin && scriptPlugin)) {
+    console.error(chalk.red('Error:'), `markup-handler: Failed loading plugin`);
+    throw new Error();
+  }
+
+  const styleSystem: StyleSystem = stylePlugin.name === 'tailwind' ? 'tailwind' : 'base';
 
   const templateDir = path.resolve(fileURLToPath(import.meta.url), TEMPLATE_DIR);
   const srcDir = path.join(projectInitData.projectPath, SRC_DIR);
 
-  const styleFile = `main.${styleFileExt}`;
-  const indexFile = `index.${markupFileExt}`;
+  const styleFile = `main.${stylePlugin.fileExt}`;
+  const indexFile = `index.${markupPlugin.fileExt}`;
 
   //scriptFile name - must match the real file name in the templates-script folder
-  const scriptFile = `${userProjectChoice.script.name}.${scriptFileExt}`;
+  const scriptFile = `${scriptPlugin.name}.${scriptPlugin.fileExt}`;
 
   const srcMarkupTemplatePath = path.join(templateDir, 'template-markup');
   const srcSctiptFilePath = path.join(templateDir, 'templates-script', scriptFile);
   const srcStyleFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-style', styleFile);
   const srcIndexFilePath = path.join(templateDir, `style-system-${styleSystem}`, 'templates-index', indexFile);
-  const destSctiptFilePath = path.join(srcDir, 'scripts', `main.${scriptFileExt}`);
+  const destSctiptFilePath = path.join(srcDir, 'scripts', `main.${scriptPlugin.fileExt}`);
   const destStyleFilePath = path.join(srcDir, 'styles', styleFile);
   const destIndexFilePath = path.join(srcDir, indexFile);
 
   const replacementsIndex = {
     '{{style-file}}': styleFile,
-    '{{script-file}}': `main.${userProjectChoice.script.extension}`,
+    '{{script-file}}': `main.${scriptPlugin.fileExt}`,
   };
 
   try {

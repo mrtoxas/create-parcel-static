@@ -1,4 +1,4 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
 const config = {
   compilerOptions: {
@@ -13,7 +13,7 @@ const config = {
   exclude: ['node_modules', 'dist'],
 };
 
-export const typescriptPlugin = (): Plugin => ({
+export const typescriptPlugin = (): PluginBase => ({
   type: 'script',
   title: 'TypeScript',
   name: 'typescript',
@@ -28,8 +28,8 @@ export const typescriptPlugin = (): Plugin => ({
     },
   },
   configs: {
-    internal: config,
-    eslintConfig: {
+    typescript: config,
+    eslint: {
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],

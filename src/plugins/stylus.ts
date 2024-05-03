@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const stylusPlugin = (): Plugin => ({
+export const stylusPlugin = (): PluginBase => ({
   type: 'style',
   title: 'Stylus',
   name: 'stylus',
@@ -14,7 +14,7 @@ export const stylusPlugin = (): Plugin => ({
     },
   },
   configs: {
-    stylelintConfig: {
+    stylelint: {
       plugins: ['stylelint-stylus'],
       extends: ['stylelint-stylus/standard'],
       rules: {

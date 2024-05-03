@@ -1,4 +1,4 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
 const config = {
   semi: true,
@@ -8,7 +8,7 @@ const config = {
   tabWidth: 2,
 };
 
-export const prettierPlugin = (): Plugin => ({
+export const prettierPlugin = (): PluginBase => ({
   type: 'tool',
   title: 'Prettier',
   name: 'prettier',
@@ -18,11 +18,11 @@ export const prettierPlugin = (): Plugin => ({
     },
   },
   configs: {
-    internal: config,
-    stylelintConfig: {
+    prettier: config,
+    stylelint: {
       plugins: ['stylelint-prettier'],
     },
-    eslintConfig: {
+    eslint: {
       extends: ['eslint-config-prettier'],
     },
   },

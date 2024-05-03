@@ -1,6 +1,6 @@
-import { Plugin } from 'types';
+import { PluginBase } from 'types';
 
-export const lessPlugin = (): Plugin => ({
+export const lessPlugin = (): PluginBase => ({
   type: 'style',
   title: 'Less',
   name: 'less',
@@ -15,7 +15,7 @@ export const lessPlugin = (): Plugin => ({
     },
   },
   configs: {
-    stylelintConfig: {
+    stylelint: {
       plugins: ['stylelint-less'],
       extends: ['stylelint-config-standard-less'],
       rules: {
