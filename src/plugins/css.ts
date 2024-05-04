@@ -10,6 +10,7 @@ export const cssPlugin = (): PluginBase => ({
       extends: ['stylelint-config-standard'],
       rules: {
         'declaration-colon-space-after': 'always',
+        'property-no-vendor-prefix': null,
       },
     },
   },

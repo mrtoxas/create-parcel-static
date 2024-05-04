@@ -9,7 +9,21 @@ export default {
     "./src/**/*.{${extensions}}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'dark-gray': '#3c3c43',
+        'light-gray': '#ebebef',
+        'navy-blue': '#243c5a',
+        'light-blue': '#dddde3',
+        'charcoal': '#32363f',
+        'slate': '#414853',
+        'silver': '#515c67',
+        'sky-blue': '#2563eb',
+        'pink': '#ec4899',    
+        'soft-silver': '#e4e4e9',
+        'creamy-white': '#fffff5',
+      },
+    },
   },
   plugins: [],
 } satisfies Config`;
@@ -21,7 +35,21 @@ module.exports = {
     "./src/**/*.{${extensions}}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'dark-gray': '#3c3c43',
+        'light-gray': '#ebebef',
+        'navy-blue': '#243c5a',
+        'light-blue': '#dddde3',
+        'charcoal': '#32363f',
+        'slate': '#414853',
+        'silver': '#515c67',
+        'sky-blue': '#2563eb',
+        'pink': '#ec4899',    
+        'soft-silver': '#e4e4e9',
+        'creamy-white': '#fffff5',
+      },
+    },
   },
   plugins: [],
 }
@@ -38,6 +66,9 @@ export const tailwindPlugin = (): PluginBase => ({
     default: {
       postcss: '^8.4.38',
       tailwindcss: '^3.4.3',
+    },
+    stylelint: {
+      'stylelint-config-tailwindcss': '^0.0.7',
     },
   },
   configs: {

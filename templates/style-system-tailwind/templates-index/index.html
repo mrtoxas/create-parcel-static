@@ -1,16 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="styles/{{style-file}}">
-  <script src="scripts/{{script-file}}"></script>
-</head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-</body>
+<!doctype html>
+<html lang="en" class="m-0 p-0 font-sans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcel Static</title>
+    <link rel="stylesheet" href="styles/{{style-file}}">
+    <script src="scripts/{{script-file}}"></script>
+  </head>
+  <body class="m-0 p-0 grid grid-rows-1 min-h-screen text-center">
+    <div class="flex flex-col justify-center items-center gap-y-[2.2rem]">
+      <h1
+        id="head"
+        class="text-3xl font-bold text-regal-blue leading-snug bg-clip-text"
+      >
+        Welcome to <span class="whitespace-nowrap">Parcel Static!</span>
+      </h1>
+      <button
+        id="btn"
+        class="appearance-none border-0 rounded-full py-[0.5em] px-[1em] text-dark-gray text-sm font-bold bg-light-gray cursor-pointer select-none hover:bg-soft-silver active:bg-light-blue dark:bg-charcoal dark:text-creamy-white dark:hover:bg-slate dark:hover:active:bg-silver"
+      >
+        COLORRIZE!
+      </button>
+    </div>
+    <div class="py-6 text-sm">
+      <p class="py-[1em]">
+        This is the start page of your project. Here you can start creating
+        something amazing!
+      </p>
+      <a 
+        class="underline"
+        href="https://github.com/mrtoxas/create-parcel-static"
+        >Parcel Static</a>
+      |
+      <a class="underline" href="https://parceljs.org/">Parcel build tool</a>
+    </div>
+  </body>
 </html>
+
+
