@@ -37,7 +37,7 @@ export const typescriptPlugin = (): PluginBase => ({
   },
   scripts: {
     default: {
-      types: `tsc src/**/*.ts --noEmit`,
+      types: `tsc --noEmit`,
     },
     prettier: {
       'prettier:scripts': 'prettier src/scripts/**/*.ts --check',

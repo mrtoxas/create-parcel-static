@@ -19,7 +19,7 @@ function addToolScript(pluginName: PlgName, toolName: PlgToolName) {
   if (scripts) {
     packageJson.scripts = { ...packageJson.scripts, ...scripts };
   } else {
-    unsupportedMsg(pluginName, plugins.getPluginData(pluginName).title);
+    unsupportedMsg(pluginName, plugins.getPluginData(toolName).title);
   }
 }
 
@@ -43,11 +43,15 @@ export async function packageJsonHandler() {
     const plugin = plugins.getPluginData(item.name);
     const devDepsDefault = plugins.getDevDeps(plugin.name, 'default');
     const devDepsStylelint = plugins.getDevDeps(plugin.name, 'stylelint');
+    const devDepsEslint = plugins.getDevDeps(plugin.name, 'eslint');
+    const devDepsPrettier = plugins.getDevDeps(plugin.name, 'prettier');
     const scriptsDefault = plugins.getScritps(plugin.name, 'default');
 
     packageJson.devDependencies = {
       ...packageJson.devDependencies,
       ...(devDepsDefault && devDepsDefault),
+      ...(userChoice.eslint && devDepsEslint && devDepsEslint),
+      ...(userChoice.prettier && devDepsPrettier && devDepsPrettier),
       ...(userChoice.stylelint && devDepsStylelint && devDepsStylelint),
     };
 

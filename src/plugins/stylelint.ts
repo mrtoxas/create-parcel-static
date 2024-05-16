@@ -13,4 +13,11 @@ export const stylelintPlugin = (): PluginBase => ({
       'stylelint-prettier': '^5.0.0',
     },
   },
+  configs: {
+    stylelint: {
+      rules: {
+        'property-no-vendor-prefix': null,
+      },
+    },
+  },
 });

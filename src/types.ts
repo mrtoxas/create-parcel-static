@@ -152,7 +152,8 @@ export interface EslintCfg {
 }
 
 export interface PrettierCfg {
-  [key: string]: boolean | string | number;
+  plugins?: string[];
+  [key: string]: boolean | string | number | string[];
 }
 
 export type SassLintCfg = string;

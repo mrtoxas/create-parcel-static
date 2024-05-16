@@ -7,11 +7,7 @@ export const cssPlugin = (): PluginBase => ({
   fileExt: 'css',
   configs: {
     stylelint: {
-      extends: ['stylelint-config-standard'],
-      rules: {
-        'declaration-colon-space-after': 'always',
-        'property-no-vendor-prefix': null,
-      },
+      extends: ['stylelint-config-standard'],      
     },
   },
   scripts: {

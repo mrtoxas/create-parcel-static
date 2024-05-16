@@ -30,5 +30,9 @@ export const scssPlugin = (): PluginBase => ({
       'lint:styles': 'stylelint src/styles/**/*.scss',
       'lint:styles:fix': 'stylelint src/styles/**/*.scss --fix',
     },
+    prettier: {
+      'prettier:style': 'prettier src/**/*.scss --check',
+      'prettier:style:fix': 'prettier src/**/*.scss --write',
+    },
   },
 });

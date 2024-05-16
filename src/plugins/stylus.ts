@@ -12,6 +12,9 @@ export const stylusPlugin = (): PluginBase => ({
     stylelint: {
       'stylelint-stylus': '^1.0.0',
     },
+    prettier: {
+      'prettier-plugin-stylus': '^0.1.0',
+    },
   },
   configs: {
     stylelint: {
@@ -26,11 +29,18 @@ export const stylusPlugin = (): PluginBase => ({
         'stylus/at-extend-style': ['@extend', '@extends'],
       },
     },
+    prettier: {
+      plugins: ['prettier-plugin-stylus'],
+    },
   },
   scripts: {
     stylelint: {
       'lint:styles': 'stylelint src/styles/**/*.styl',
       'lint:styles:fix': 'stylelint src/styles/**/*.styl --fix',
+    },
+    prettier: {
+      'prettier:style': 'prettier src/**/*.styl --check',
+      'prettier:style:fix': 'prettier src/**/*.styl --write',
     },
   },
 });

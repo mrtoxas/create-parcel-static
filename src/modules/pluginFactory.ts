@@ -43,16 +43,23 @@ export const plugins: Plugins = {
   },
 
   getDevDeps(pName, type) {
-    return this[pName].devDeps?.[type];
+    const plugin = this[pName];
+    if (plugin && plugin.devDeps && plugin.devDeps[type]) {
+      return plugin.devDeps[type];
+    }
   },
 
   getScritps(pName, cfgName) {
-    return this[pName].scripts?.[cfgName];
+    const script = this[pName];
+    if (script && script.scripts && script.scripts[cfgName]) {
+      return script.scripts[cfgName];
+    }
   },
 
   getConfig(pName, cfgName) {
     const plugin = this[pName];
-    const config = plugin?.configs[cfgName];
-    return config || null;
+    if (plugin && plugin.configs && plugin.configs[cfgName]) {
+      return plugin?.configs[cfgName];
+    }
   },
 };

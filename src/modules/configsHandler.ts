@@ -5,9 +5,11 @@ import chalk from 'chalk';
 import { parcelConfig as parcelCfg } from 'configs';
 import { plugins } from './pluginFactory';
 import { tailwindConfig } from 'plugins/tailwind';
+import merge from 'deepmerge';
 import {
   EslintCfg,
   ParcelCfg,
+  PluginBase,
   PluginConfig,
   PostcssCfg,
   PrettierCfg,
@@ -16,9 +18,10 @@ import {
   TypescriptCfg,
 } from 'types';
 
+let stylelintConfig: StyleLintCfg = {};
+let eslintConfig: EslintCfg = {};
 const postcssConfig: PostcssCfg = {};
-const parcelConfig: ParcelCfg = { ...parcelCfg.default };
-const eslintConfig: EslintCfg = { ...(plugins.getConfig('eslint', 'eslint') as EslintCfg) };
+let parcelConfig: ParcelCfg = { ...parcelCfg.default };
 
 const configsToSave: {
   fileName: string;
@@ -39,9 +42,8 @@ export async function configsHandler() {
 
   /* Tailwind */
   if (stylePlugin.name === 'tailwind') {
-    const configs = plugins.getConfig('tailwind', 'postcss') as PostcssCfg;
-    postcssConfig.plugins = { ...postcssConfig.plugins, ...configs.plugins };
-    configsToSave.push({ fileName: '.postcssrc', config: postcssConfig });
+    const config = plugins.getConfig('tailwind', 'postcss') as PostcssCfg;
+    configsToSave.push({ fileName: '.postcssrc', config: merge(postcssConfig, config) });
 
     try {
       await fs.writeFile(
@@ -55,7 +57,7 @@ export async function configsHandler() {
   }
 
   /* TypeScript */
-  if (scriptPlugin.name === 'typescript') {
+  if (scriptPlugin.fileExt === 'ts') {    
     const config = plugins.getConfig('typescript', 'typescript') as TypescriptCfg;
     configsToSave.push({ fileName: 'tsconfig.json', config: config });
   }
@@ -63,88 +65,64 @@ export async function configsHandler() {
   /* EJS */
   if (markupPlugin.name === 'ejs') {
     const config = plugins.getConfig('ejs', 'parcel') as ParcelCfg;
-    parcelConfig.transformers = { ...parcelConfig.transformers, ...config.transformers };
+    parcelConfig = merge(parcelConfig, config);
   }
 
   /* Prettier */
   if (userChoice.prettier) {
-    const config = plugins.getConfig('prettier', 'prettier') as PrettierCfg;
+    let config = plugins.getConfig('prettier', 'prettier') as PrettierCfg;
+
+    [markupPlugin, stylePlugin, scriptPlugin].forEach((item: PluginBase) => {
+      const pluginPrettierConfig = plugins.getConfig(item.name, 'prettier') as PrettierCfg;
+      if (pluginPrettierConfig) {
+        config = merge(config, pluginPrettierConfig);
+      }
+    });
+
     configsToSave.push({ fileName: '.prettierrc', config: config });
   }
 
   /* Stylelint */
   if (userChoice.stylelint) {
-    let stylelintConfig: StyleLintCfg = {};
+    stylelintConfig = merge(stylelintConfig, plugins.getConfig('stylelint', 'stylelint') as StyleLintCfg);
 
-    switch (stylePlugin.name) {
-      case 'sass':
-        try {
-          await fs.writeFile(
-            path.join(projectInitData.projectPath, '.sasslintrc'),
-            plugins.getConfig('sass', 'sasslint') as SassLintCfg,
-          );
-        } catch (err) {
-          console.error(chalk.red('Error: '), 'Error when saving sasslint config');
-          throw err;
-        }
-        break;
-      case 'scss':
-        stylelintConfig = plugins.getConfig('scss', 'stylelint') as StyleLintCfg;
-        break;
-      case 'less':
-        stylelintConfig = plugins.getConfig('less', 'stylelint') as StyleLintCfg;
-        break;
-      case 'stylus':
-        stylelintConfig = plugins.getConfig('stylus', 'stylelint') as StyleLintCfg;
-        break;
-      case 'tailwind':
-      case 'css':
-        stylelintConfig = plugins.getConfig('css', 'stylelint') as StyleLintCfg;
-        break;
-      default:
-        console.error(chalk.red('Error: '), `Unknown slyle name: ${stylePlugin.name}`);
-        throw new Error();
+    if (stylePlugin.name === 'sass') {
+      try {
+        await fs.writeFile(
+          path.join(projectInitData.projectPath, '.sasslintrc'),
+          plugins.getConfig('sass', 'sasslint') as SassLintCfg,
+        );
+      } catch (err) {
+        console.error(chalk.red('Error: '), 'Error when saving sasslint config');
+        throw err;
+      }
+    } else {
+      const pluginStylelintConfig = plugins.getConfig(stylePlugin.name, 'stylelint') as StyleLintCfg;
+      if (pluginStylelintConfig) {
+        stylelintConfig = merge(stylelintConfig, pluginStylelintConfig);
+      }
+
+      if (userChoice.prettier) {
+        stylelintConfig = merge(stylelintConfig, plugins.getConfig('prettier', 'stylelint') as StyleLintCfg);
+      }
+
+      configsToSave.push({ fileName: '.stylelintrc', config: stylelintConfig });
     }
-
-    if (userChoice.prettier) {
-      const config = plugins.getConfig('prettier', 'stylelint') as StyleLintCfg;
-      stylelintConfig.plugins = stylelintConfig.plugins
-        ? [...stylelintConfig.plugins, ...config.plugins]
-        : config.plugins;
-
-      stylelintConfig.rules = {
-        ...stylelintConfig.rules,
-        ...config.rules,
-      };
-    }
-
-    configsToSave.push({ fileName: '.stylelintrc', config: stylelintConfig });
   }
 
   /* ESLint */
   if (userChoice.eslint) {
-    if (scriptPlugin.fileExt === 'ts') {
-      const config = plugins.getConfig('typescript', 'eslint') as EslintCfg;
-      eslintConfig.parser = (plugins.getConfig('typescript', 'eslint') as EslintCfg).parser;
-      if (eslintConfig.plugins) {
-        eslintConfig.plugins = [...eslintConfig.plugins, ...config.plugins];
-      } else {
-        eslintConfig.plugins = [...config.plugins];
-      }
+    eslintConfig = merge(eslintConfig, plugins.getConfig('eslint', 'eslint') as EslintCfg);    
 
-      eslintConfig.extends = [...eslintConfig.extends, ...config.extends];
-    }
+    const pluginEslintConfig = plugins.getConfig(scriptPlugin.name, 'eslint');
 
-    if (scriptPlugin.name === 'jquery') {
-      const config = plugins.getConfig('jquery', 'eslint') as EslintCfg;
-      eslintConfig.env = { ...eslintConfig.env, ...config.env };
-      eslintConfig.extends = [...eslintConfig.extends, ...config.extends];
+    if (pluginEslintConfig) {
+      eslintConfig = merge(eslintConfig, pluginEslintConfig as EslintCfg);
     }
 
     if (userChoice.prettier) {
-      // Should be at the end of the extensions list
-      const config = plugins.getConfig('prettier', 'eslint') as EslintCfg;
-      eslintConfig.extends = [...eslintConfig.extends, ...config.extends];
+      // Should be at the end of the extends list
+      eslintConfig = merge(eslintConfig, plugins.getConfig('prettier', 'eslint') as EslintCfg);
     }
 
     configsToSave.push({ fileName: '.eslintrc', config: eslintConfig });

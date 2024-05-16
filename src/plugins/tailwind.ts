@@ -77,11 +77,24 @@ export const tailwindPlugin = (): PluginBase => ({
         tailwindcss: {},
       },
     },
+    stylelint: {
+      extends: [
+        'stylelint-config-standard', 
+        'stylelint-config-tailwindcss'
+      ],
+      rules: {        
+        'property-no-vendor-prefix': null,
+      },
+    },
   },
   scripts: {
     stylelint: {
       'lint:styles': 'stylelint src/styles/**/*.css',
       'lint:styles:fix': 'stylelint src/styles/**/*.css --fix',
+    },
+    prettier: {
+      'prettier:style': 'prettier src/**/*.css --check',
+      'prettier:style:fix': 'prettier src/**/*.css --write',
     },
   },
 });

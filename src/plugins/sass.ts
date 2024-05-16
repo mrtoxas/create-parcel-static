@@ -11,6 +11,9 @@ export const sassPlugin = (): PluginBase => ({
   name: 'sass',
   fileExt: 'sass',
   devDeps: {
+    default: {
+      "@parcel/transformer-sass": "2.12.0",
+    },
     stylelint: {
       'sass-lint': '^1.13.1',
     },

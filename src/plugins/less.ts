@@ -30,5 +30,9 @@ export const lessPlugin = (): PluginBase => ({
       'lint:styles': 'stylelint src/styles/**/*.less',
       'lint:styles:fix': 'stylelint src/styles/**/*.less --fix',
     },
+    prettier: {
+      'prettier:style': 'prettier src/**/*.less --check',
+      'prettier:style:fix': 'prettier src/**/*.less --write',
+    },
   },
 });
