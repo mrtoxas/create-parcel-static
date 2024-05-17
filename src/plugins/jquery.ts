@@ -53,7 +53,7 @@ const jqueryTsConfig = {
       '@typescript-eslint/parser': '^7.0.2',
     },
   },
-  configs: {    
+  configs: {
     eslint: {
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
@@ -72,7 +72,7 @@ const jqueryTsConfig = {
       'lint:scripts': 'eslint src/scripts/**/*.ts',
       'lint:scripts:fix': 'eslint src/scripts/**/*.ts --fix',
     },
-  },  
+  },
 };
 
 export const jqueryPlugin = (): PluginBase => merge(baseConfig, jqueryJsConfig);

@@ -7,7 +7,7 @@ export const cssPlugin = (): PluginBase => ({
   fileExt: 'css',
   configs: {
     stylelint: {
-      extends: ['stylelint-config-standard'],      
+      extends: ['stylelint-config-standard'],
     },
   },
   scripts: {

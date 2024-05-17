@@ -48,7 +48,7 @@ export async function configsHandler() {
     try {
       await fs.writeFile(
         path.join(projectInitData.projectPath, `tailwind.config.${scriptPlugin.fileExt}`),
-        tailwindConfig(`${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`, scriptPlugin.name),
+        tailwindConfig(`${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`, scriptPlugin.name, markupPlugin.name),
       );
     } catch (err) {
       console.error(chalk.red('Error: '), 'Error when saving tailwind config');
@@ -57,7 +57,7 @@ export async function configsHandler() {
   }
 
   /* TypeScript */
-  if (scriptPlugin.fileExt === 'ts') {    
+  if (scriptPlugin.fileExt === 'ts') {
     const config = plugins.getConfig('typescript', 'typescript') as TypescriptCfg;
     configsToSave.push({ fileName: 'tsconfig.json', config: config });
   }
@@ -112,7 +112,7 @@ export async function configsHandler() {
 
   /* ESLint */
   if (userChoice.eslint) {
-    eslintConfig = merge(eslintConfig, plugins.getConfig('eslint', 'eslint') as EslintCfg);    
+    eslintConfig = merge(eslintConfig, plugins.getConfig('eslint', 'eslint') as EslintCfg);
 
     const pluginEslintConfig = plugins.getConfig(scriptPlugin.name, 'eslint');
 

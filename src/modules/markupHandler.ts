@@ -9,7 +9,7 @@ import chalk from 'chalk';
 const TEMPLATE_DIR = '../../templates';
 const SRC_DIR = 'src';
 
-async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, string>) {  
+async function replaceAndSaveFile(srcPath: string, destPath: string, replacements: Record<string, string>) {
   const fileContent = await fs.readFile(srcPath, 'utf-8');
 
   let modifiedContent = fileContent;

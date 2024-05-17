@@ -11,8 +11,8 @@ export const ejsPlugin = (): PluginBase => ({
       'parcel-transformer-ejs': '^1.0.1',
     },
     prettier: {
-      "prettier-plugin-ejs": "^1.0.3",
-    }
+      'prettier-plugin-ejs': '^1.0.3',
+    },
   },
   configs: {
     parcel: {
@@ -24,7 +24,7 @@ export const ejsPlugin = (): PluginBase => ({
       plugins: ['prettier-plugin-ejs'],
     },
   },
-  scripts: {   
+  scripts: {
     prettier: {
       'prettier:markup': 'prettier src/**/*.ejs --check',
       'prettier:markup:fix': 'prettier src/**/*.ejs --write',

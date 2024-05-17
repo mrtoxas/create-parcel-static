@@ -1,13 +1,14 @@
 import { plugins } from 'modules/pluginFactory';
-import { PluginBase } from 'types';
+import { PluginBase, PlgMarkupName } from 'types';
 
-export const tailwindConfig = (extensions: string, scriptName: string) => {
+export const tailwindConfig = (extensions: string, scriptName: string, markup: PlgMarkupName) => {
   const tsConfig = `import type { Config } from 'tailwindcss'
   
 export default {
   content: [
     "./src/**/*.{${extensions}}"
   ],
+  separator: ${markup === 'pug' ? "'_'" : "':'"},
   theme: {
     extend: {
       colors: {
@@ -34,6 +35,7 @@ module.exports = {
   content: [
     "./src/**/*.{${extensions}}",
   ],
+  separator: ${markup === 'pug' ? "'_'" : "':'"},
   theme: {
     extend: {
       colors: {
@@ -78,11 +80,8 @@ export const tailwindPlugin = (): PluginBase => ({
       },
     },
     stylelint: {
-      extends: [
-        'stylelint-config-standard', 
-        'stylelint-config-tailwindcss'
-      ],
-      rules: {        
+      extends: ['stylelint-config-standard', 'stylelint-config-tailwindcss'],
+      rules: {
         'property-no-vendor-prefix': null,
       },
     },
