@@ -24,18 +24,22 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: .7rem;
+  row-gap: 0.7rem;
 }
 
 h1 {
   line-height: 1.4;
-  background: linear-gradient(120deg, var(--head-color-start) 10%, var(--head-color-end));
+  background: linear-gradient(
+    120deg,
+    var(--head-color-start) 10%,
+    var(--head-color-end)
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 h1 span {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 button {
@@ -74,7 +78,7 @@ button:active {
   button:hover {
     background-color: #414853;
   }
-  
+
   button:active {
     background-color: #515c67;
   }

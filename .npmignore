@@ -5,3 +5,7 @@ esbuild.watch.config.js
 tsconfig.json
 tslint.json
 .prettierrc
+.eslintrc
+.gitignore
+tsconfig.json
+pnpm-lock.yaml
