@@ -2,7 +2,7 @@ export type PlgToolName = 'prettier' | 'eslint' | 'stylelint';
 export type PlgMarkupName = 'html' | 'pug' | 'ejs';
 export type PlgStyleName = 'css' | 'less' | 'sass' | 'scss' | 'stylus' | 'tailwind';
 export type PlgScriptName = 'javascript' | 'typescript' | 'jquery' | 'jqueryts';
-export type PlgType = 'markup' | 'style' | 'script' | 'tool';
+export type PlgType = 'markup' | 'style' | 'script' | 'tool' | 'tools';
 export type PlgName = PlgToolName | PlgMarkupName | PlgStyleName | PlgScriptName;
 export type StyleSystem = 'base' | 'tailwind';
 
@@ -70,14 +70,18 @@ interface QuestionSelect {
   }[];
 }
 
-interface QuestionConfirm {
-  name: PlgName;
-  type: 'confirm';
-  default: true;
+interface QuestionCheckbox {
+  name: PlgType;
+  type: 'checkbox';
   message: string;
+  choices: { 
+    name: string; 
+    value: string; 
+    checked?: boolean 
+  }[];
 }
 
-export type QuestionList = (QuestionSelect | QuestionConfirm)[];
+export type QuestionList = (QuestionCheckbox | QuestionSelect)[];
 
 export interface UserProject {
   markup: PlgMarkupName;

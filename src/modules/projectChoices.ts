@@ -1,5 +1,6 @@
 import { QuestionList, UserProject, AppProjectArgs, PluginBase } from 'types';
-import { select, confirm } from '@inquirer/prompts';
+import checkbox from '@inquirer/checkbox';
+import { select } from '@inquirer/prompts';
 import { plugins } from 'modules/pluginFactory';
 import chalk from 'chalk';
 
@@ -36,23 +37,15 @@ const questionsList: QuestionList = [
     choices: preparedChoices(['javascript', 'typescript', 'jquery', 'jqueryts']),
   },
   {
-    name: 'prettier',
-    type: 'confirm',
-    message: `Add ${plugins.getPluginData('prettier').title}?`,
-    default: true,
-  },
-  {
-    name: 'stylelint',
-    type: 'confirm',
-    message: `Add ${plugins.getPluginData('stylelint').title}?`,
-    default: true,
-  },
-  {
-    name: 'eslint',
-    type: 'confirm',
-    message: `Add ${plugins.getPluginData('eslint').title}?`,
-    default: true,
-  },
+    name: 'tools',
+    type: 'checkbox',
+    message: 'Add tools?',
+    choices: [
+      { name: 'prettier', value: 'prettier', checked: true },
+      { name: 'stylelint', value: 'stylelint', checked: true },
+      { name: 'eslint', value: 'eslint', checked: true },
+    ]
+  }
 ];
 
 export async function projectChoices(argv: AppProjectArgs) {
@@ -71,7 +64,7 @@ export async function projectChoices(argv: AppProjectArgs) {
             `The value for --${key} is invalid. See the help (--help, -h) for a list of valid options.`,
           );
         }
-      } else if (question.type === 'confirm') {
+      } else if (question.type === 'checkbox') {
         userChoices[key] = value;
       }
     }
@@ -86,8 +79,10 @@ export async function projectChoices(argv: AppProjectArgs) {
       case 'select':
         userChoices[choice.name as keyof UserProject] = await select(choice);
         break;
-      case 'confirm':
-        userChoices[choice.name] = await confirm(choice);
+      case 'checkbox':     
+        (await checkbox(choice)).map((item) => {
+          userChoices[item] = true;
+        })        
         break;
       default:
         console.error(chalk.red('Error:'), `Unsupported question type`);
@@ -95,5 +90,7 @@ export async function projectChoices(argv: AppProjectArgs) {
     }
   }
 
+
+  console.log(userChoices);
   return userChoices;
 }
