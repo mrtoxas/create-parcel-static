@@ -42,6 +42,7 @@ Options:
 --eslint       Add ESLint
 --stylelint    Add Stylelint
 --prettier     Add Prettier
+--no-eslint    Exclude ESLint (works similarly with Stylelint and Prettier)
 --help, --h    Display help message
 ```
 Examples:
@@ -49,7 +50,7 @@ Examples:
 $ npm create parcel-static
 $ npm create parcel-static my-static-project
 $ npm create parcel-static my-static-project -- --markup pug --style tailwind
-$ npm create parcel-static -- --markup pug --style tailwind
+$ npm create parcel-static -- --markup pug --style tailwind --no-prettier
 $ yarn create parcel-static --script typescript --eslint --prettier
 $ yarn create parcel-static my-static-project --markup html --style scss
 $ yarn create parcel-static --markup html --style scss

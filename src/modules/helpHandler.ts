@@ -19,6 +19,8 @@ Options:
   --eslint        Add ESLint
   --stylelint     Add Stylelint
   --prettier      Add Prettier
+  --no-eslint     Exclude ESLint (works similarly with Stylelint and Prettier)
+    
   --help, --h     Display this help message
 
 Examples:
