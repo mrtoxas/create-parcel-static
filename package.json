@@ -1,6 +1,6 @@
 {
   "name": "create-parcel-static",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "author": "mrtoxas",
   "description": "Project builder for creating static sites based Parcel",
