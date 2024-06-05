@@ -1,5 +1,6 @@
 :root {
   color-scheme: light dark;
+
   --head-color-start: #2563eb;
   --head-color-end: #ec4899;
 }
@@ -23,12 +24,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: .7rem;
+  row-gap: 0.7rem;
 }
 
 h1 {
   line-height: 1.4;
-  background: linear-gradient(120deg, var(--head-color-start) 10%, var(--head-color-end));
+  background: linear-gradient(
+    120deg,
+    var(--head-color-start) 10%,
+    var(--head-color-end)
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -68,9 +73,11 @@ button {
   button {
     background-color: #32363f;
     color: #fffff5;
+
     &:hover {
       background-color: #414853;
     }
+
     &:active {
       background-color: #515c67;
     }

@@ -1,148 +1,68 @@
+import { QuestionList, UserProject, AppProjectArgs, PluginBase } from 'types';
 import { select, confirm } from '@inquirer/prompts';
+import { plugins } from 'modules/pluginFactory';
 import chalk from 'chalk';
-import { FileExt, QuestionList, Tech, UserProject, AppArguments } from 'types';
+
+const preparedChoices = (data: PluginBase['name'][]) => {
+  return data.reduce((acc, curr) => {
+    const plg = plugins.getPluginData(curr);
+    return [
+      ...acc,
+      {
+        name: plg.title,
+        value: plg.name,
+      },
+    ];
+  }, []);
+};
 
 const questionsList: QuestionList = [
   {
     name: 'markup',
     type: 'select',
     message: 'Select markup engine:',
-    choices: [
-      {
-        name: 'HTML',
-        value: {
-          name: Tech.HTML,
-          extension: FileExt.HTML,
-        },
-      },
-      {
-        name: 'Pug',
-        value: {
-          name: Tech.PUG,
-          extension: FileExt.PUG,
-        },
-      },
-      {
-        name: 'EJS',
-        value: {
-          name: Tech.EJS,
-          extension: FileExt.EJS,
-        },
-      },      
-    ],
+    choices: preparedChoices(['html', 'pug', 'ejs']),
   },
   {
     name: 'style',
     type: 'select',
     message: 'Select Style processing tool:',
-    choices: [
-      {
-        name: 'CSS',
-        value: {
-          name: Tech.CSS,
-          extension: FileExt.CSS,
-        },
-      },
-      {
-        name: 'SASS (Indented Syntax)',
-        value: {
-          name: Tech.SASS,
-          extension: FileExt.SASS,
-        },
-      },
-      {
-        name: 'SASS (SCSS Syntax)',
-        value: {
-          name: Tech.SCSS,
-          extension: FileExt.SCSS,
-        },
-      },
-      {
-        name: 'Less',
-        value: {
-          name: Tech.LESS,
-          extension: FileExt.LESS,
-        },
-      },
-      {
-        name: 'Stylus',
-        value: {
-          name: Tech.STYLUS,
-          extension: FileExt.STYLUS,
-        },
-      },
-      {
-        name: 'Tailwind',
-        value: {
-          name: Tech.TAILWIND,
-          extension: FileExt.CSS,
-        },
-      },
-    ],
+    choices: preparedChoices(['css', 'sass', 'scss', 'less', 'stylus', 'tailwind']),
   },
   {
     name: 'script',
     type: 'select',
-    message: 'Select Style processing tool:',
-    choices: [
-      {
-        name: 'JavaScript',
-        value: {
-          name: Tech.JAVASCRIPT,
-          extension: FileExt.JAVASCRIPT,
-        },
-      },
-      {
-        name: 'TypeScript',
-        value: {
-          name: Tech.TYPESCRIPT,
-          extension: FileExt.TYPESCRIPT,
-        },
-      },
-      {
-        name: 'JQuery',
-        value: {
-          name: Tech.JQUERY,
-          extension: FileExt.JAVASCRIPT,
-        },
-      },
-      {
-        name: 'JQuery (TypeScript)',
-        value: {
-          name: Tech.JQUERY,
-          extension: FileExt.TYPESCRIPT,
-        },
-      },
-    ],
+    message: 'Select JavaScript tool:',
+    choices: preparedChoices(['javascript', 'typescript', 'jquery', 'jqueryts']),
   },
   {
     name: 'prettier',
     type: 'confirm',
-    message: 'Add Prettier?',
+    message: `Add ${plugins.getPluginData('prettier').title}?`,
     default: true,
   },
   {
     name: 'stylelint',
     type: 'confirm',
-    message: 'Add StyleLint?',
+    message: `Add ${plugins.getPluginData('stylelint').title}?`,
     default: true,
   },
   {
     name: 'eslint',
     type: 'confirm',
-    message: 'Add ESLint?',
+    message: `Add ${plugins.getPluginData('eslint').title}?`,
     default: true,
   },
 ];
 
-export async function projectChoices(argv: AppArguments) {
+export async function projectChoices(argv: AppProjectArgs) {
   const userChoices: UserProject = {} as UserProject;
 
   Object.entries(argv).forEach(([key, value]) => {
     const question = questionsList.find((item) => item.name === key);
     if (question) {
       if (question.type === 'select') {
-        const choice = question.choices.find((item) => item.value.name === value);
+        const choice = question.choices.find((item) => item.value === value);
         if (choice) {
           userChoices[key] = choice.value;
         } else {
@@ -157,14 +77,14 @@ export async function projectChoices(argv: AppArguments) {
     }
   });
 
-  const prepareQuestionList = questionsList.filter((item) => item.name in userChoices === false);
+  const prepareQuestionList = questionsList.filter((item) => !(item.name in userChoices));
 
   for (const question of prepareQuestionList) {
     const choice = questionsList.find((item) => item.name === question.name);
 
     switch (choice.type) {
       case 'select':
-        userChoices[choice.name] = await select(choice);
+        userChoices[choice.name as keyof UserProject] = await select(choice);
         break;
       case 'confirm':
         userChoices[choice.name] = await confirm(choice);

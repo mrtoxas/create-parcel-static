@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {    
+    color-scheme: light dark;
+  
+  --head-color-start: #2563eb;
+  --head-color-end: #ec4899;
+  }
+}
+
+h1 {
+  background: linear-gradient(120deg, var(--head-color-start) 10%, var(--head-color-end));
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
