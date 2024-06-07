@@ -1,6 +1,6 @@
 {
   "name": "create-parcel-static",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "author": "mrtoxas",
   "description": "Project builder for creating static sites based Parcel",
@@ -19,7 +19,7 @@
     "scss",
     "stylus",
     "tailwind",
-    "javascriot",
+    "javascript",
     "typescript",
     "jquery",    
     "html",
@@ -27,7 +27,7 @@
     "ejs",  
     "prettier",
     "eslint",
-    "stylelint"  
+    "stylelint"
   ],
   "files": [
     "index.js",
