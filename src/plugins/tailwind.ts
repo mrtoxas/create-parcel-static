@@ -2,61 +2,35 @@ import { plugins } from 'modules/pluginFactory';
 import { PluginBase, PlgMarkupName } from 'types';
 
 export const tailwindConfig = (extensions: string, scriptName: string, markup: PlgMarkupName) => {
-  const tsConfig = `import type { Config } from 'tailwindcss'
-  
-export default {
-  content: [
-    "./src/**/*.{${extensions}}"
-  ],
-  separator: ${markup === 'pug' ? "'_'" : "':'"},
-  theme: {
-    extend: {
-      colors: {
-        'dark-gray': '#3c3c43',
-        'light-gray': '#ebebef',
-        'navy-blue': '#243c5a',
-        'light-blue': '#dddde3',
-        'charcoal': '#32363f',
-        'slate': '#414853',
-        'silver': '#515c67',
-        'sky-blue': '#2563eb',
-        'pink': '#ec4899',    
-        'soft-silver': '#e4e4e9',
-        'creamy-white': '#fffff5',
+  const baseConfig = {
+    content: [`./src/**/*.{${extensions}}`],
+    separator: markup === 'pug' ? "'_'" : "':'",
+    theme: {
+      extend: {
+        colors: {
+          'dark-gray': '#3c3c43',
+          'light-gray': '#ebebef',
+          'navy-blue': '#243c5a',
+          'light-blue': '#dddde3',
+          charcoal: '#32363f',
+          slate: '#414853',
+          silver: '#515c67',
+          'sky-blue': '#2563eb',
+          pink: '#ec4899',
+          'soft-silver': '#e4e4e9',
+          'creamy-white': '#fffff5',
+        },
       },
     },
-  },
-  plugins: [],
-} satisfies Config`;
+    plugins: [],
+  };
 
-  const jsConfig = `/** @type {import('tailwindcss').Config} */
+  const stringifyBaseConfig = JSON.stringify(baseConfig, null, 2);
 
-module.exports = {
-  content: [
-    "./src/**/*.{${extensions}}",
-  ],
-  separator: ${markup === 'pug' ? "'_'" : "':'"},
-  theme: {
-    extend: {
-      colors: {
-        'dark-gray': '#3c3c43',
-        'light-gray': '#ebebef',
-        'navy-blue': '#243c5a',
-        'light-blue': '#dddde3',
-        'charcoal': '#32363f',
-        'slate': '#414853',
-        'silver': '#515c67',
-        'sky-blue': '#2563eb',
-        'pink': '#ec4899',    
-        'soft-silver': '#e4e4e9',
-        'creamy-white': '#fffff5',
-      },
-    },
-  },
-  plugins: [],
-}
-  `;
-  return scriptName === plugins.typescript.name ? tsConfig : jsConfig;
+  const tsConfig = `import type { Config } from 'tailwindcss';\n\nexport default ${stringifyBaseConfig} satisfies Config`;
+  const jsConfig = `/** @type {import('tailwindcss').Config} */\nexport default ${stringifyBaseConfig}`;
+
+  return scriptName === plugins.typescript.fileExt ? tsConfig : jsConfig;
 };
 
 export const tailwindPlugin = (): PluginBase => ({

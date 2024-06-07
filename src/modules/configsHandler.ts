@@ -48,7 +48,7 @@ export async function configsHandler() {
     try {
       await fs.writeFile(
         path.join(projectInitData.projectPath, `tailwind.config.${scriptPlugin.fileExt}`),
-        tailwindConfig(`${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`, scriptPlugin.name, markupPlugin.name),
+        tailwindConfig(`${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`, scriptPlugin.fileExt, markupPlugin.name),
       );
     } catch (err) {
       console.error(chalk.red('Error: '), 'Error when saving tailwind config');

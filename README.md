@@ -1,5 +1,5 @@
 # 📦 create-parcel-static
-Project builder for creating static sites based Parcel v.2 creates a development environment and offers choices between HTML, Pug, EJS, CSS, SCSS, Sass, Less, Tailwind, JavaScript, TypeScript, jQuery, and integration with Prettier, ESLint, and Stylelint.
+Project builder for creating static sites based Parcel v.2 creates a development environment and offers choices between HTML, Pug, EJS, CSS, SCSS, Sass, Less, Tailwind, JavaScript, TypeScript, jQuery(Ts), and integration with Prettier, ESLint, Stylelint.
 
 ## Motivation
 **For those who appreciate simplicity.** In the world of modern web development, it has become commonplace to use powerful frameworks, but sometimes you need something more classic and simple.
@@ -32,13 +32,13 @@ $ bun create parcel-static [project-name] [options]
 ```
 Arguments:
 ```bash
-[project-name]    Name of the project/project directory (optional)
+[project-name]  Name of the project/project directory (optional)
 ```
 Options:
 ```bash
 --markup       Choose template engine: 'html' | 'pug' | 'ejs'
 --style        Choose style processing tool: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind'
---script       Choose JavaScript tool: 'javascript' | 'typescript' | 'jquery'
+--script       Choose JavaScript tool: 'javascript' | 'typescript' | 'jquery' | 'jqueryts'
 --eslint       Add ESLint
 --stylelint    Add Stylelint
 --prettier     Add Prettier
