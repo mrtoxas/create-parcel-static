@@ -1,10 +1,10 @@
+import chalk from 'chalk';
 import fs from 'fs-extra';
-import { fileURLToPath } from 'url';
+import { plugins } from 'modules/pluginFactory';
 import path from 'path';
 import { store } from 'store';
-import { plugins } from 'modules/pluginFactory';
 import { StyleSystem } from 'types';
-import chalk from 'chalk';
+import { fileURLToPath } from 'url';
 
 const TEMPLATE_DIR = '../../templates';
 const SRC_DIR = 'src';

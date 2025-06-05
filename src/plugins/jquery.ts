@@ -1,5 +1,5 @@
-import { PluginBase } from 'types';
 import merge from 'deepmerge';
+import { PluginBase } from 'types';
 
 const baseConfig: PluginBase = {
   name: 'jquery',

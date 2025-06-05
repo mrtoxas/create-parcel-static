@@ -1,13 +1,14 @@
-import { getProjectInitData, cleanUpDir } from './modules/projectInit';
-import { markupHandler } from './modules/markupHandler';
-import { packageJsonHandler } from './modules/packageJsonHandler';
-import { helpHandler } from './modules/helpHandler';
-import { projectChoices } from 'modules/projectChoices';
-import { store } from './store';
-import { configsHandler } from 'modules/configsHandler';
 import chalk from 'chalk';
 import minimist from 'minimist';
+import { configsHandler } from 'modules/configsHandler';
+import { projectChoices } from 'modules/projectChoices';
 import { AppArguments } from 'types';
+
+import { helpHandler } from './modules/helpHandler';
+import { markupHandler } from './modules/markupHandler';
+import { packageJsonHandler } from './modules/packageJsonHandler';
+import { cleanUpDir, getProjectInitData } from './modules/projectInit';
+import { store } from './store';
 
 export async function app() {
   const argv = minimist<AppArguments>(process.argv.slice(2), { string: ['_'] });

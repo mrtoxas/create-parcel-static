@@ -16,6 +16,7 @@ if (Number(major) < 14) {
 }
 
 import chalk from 'chalk';
+
 import { app } from './app';
 
 app().catch((error) => {

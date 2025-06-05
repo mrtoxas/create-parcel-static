@@ -1,10 +1,10 @@
+import chalk from 'chalk';
+import { packageJson as defaultPackageJson } from 'configs';
 import fs from 'fs-extra';
+import { plugins } from 'modules/pluginFactory';
 import path from 'path';
 import { store } from 'store';
-import { packageJson as defaultPackageJson } from 'configs';
-import { plugins } from 'modules/pluginFactory';
 import { PackageJson, PlgName, PlgToolName, PluginBase } from 'types';
-import chalk from 'chalk';
 
 const packageJson: PackageJson = {
   ...defaultPackageJson,

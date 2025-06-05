@@ -1,14 +1,14 @@
-import { store } from 'store';
-import fs from 'fs-extra';
-import path from 'path';
 import chalk from 'chalk';
 import { parcelConfig as parcelCfg } from 'configs';
-import { plugins } from './pluginFactory';
-import { tailwindConfig } from 'plugins/tailwind';
 import merge from 'deepmerge';
+import fs from 'fs-extra';
+import path from 'path';
+import { tailwindConfig } from 'plugins/tailwind';
+import { store } from 'store';
 import {
   EslintCfg,
   ParcelCfg,
+  PlgMarkupName,
   PluginBase,
   PluginConfig,
   PostcssCfg,
@@ -17,6 +17,8 @@ import {
   StyleLintCfg,
   TypescriptCfg,
 } from 'types';
+
+import { plugins } from './pluginFactory';
 
 let stylelintConfig: StyleLintCfg = {};
 let eslintConfig: EslintCfg = {};
@@ -48,7 +50,13 @@ export async function configsHandler() {
     try {
       await fs.writeFile(
         path.join(projectInitData.projectPath, `tailwind.config.${scriptPlugin.fileExt}`),
-        tailwindConfig(`${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`, scriptPlugin.fileExt, markupPlugin.name),
+        // Passing Plugins to prevent cyclic dependency
+        tailwindConfig(
+          plugins,
+          `,${markupPlugin.fileExt}, ${scriptPlugin.fileExt}`,
+          scriptPlugin.fileExt,
+          markupPlugin.name as PlgMarkupName,
+        ),
       );
     } catch (err) {
       console.error(chalk.red('Error: '), 'Error when saving tailwind config');

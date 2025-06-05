@@ -1,8 +1,18 @@
-import { plugins } from 'modules/pluginFactory';
-import { PluginBase, PlgMarkupName } from 'types';
+import { PlgMarkupName, PluginBase, Plugins } from 'types';
 
-export const tailwindConfig = (extensions: string, scriptName: string, markup: PlgMarkupName) => {
-  const baseConfig = {
+interface BaseConfig {
+  content: string[];
+  separator: string;
+  theme: {
+    extend: {
+      colors: Record<string, string>;
+    };
+  };
+  plugins: string[];
+}
+
+export const tailwindConfig = (plugins: Plugins, extensions: string, scriptName: string, markup: PlgMarkupName) => {
+  const baseConfig: BaseConfig = {
     content: [`./src/**/*.{${extensions}}`],
     separator: markup === 'pug' ? "'_'" : "':'",
     theme: {

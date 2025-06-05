@@ -1,10 +1,11 @@
-import fs from 'fs-extra';
+import { confirm, input, select } from '@inquirer/prompts';
 import chalk from 'chalk';
-import { input, select, confirm } from '@inquirer/prompts';
-import validate from 'validate-npm-package-name';
+import fs from 'fs-extra';
 import { basename, resolve } from 'path';
-import { store } from '../store';
 import path from 'path';
+import validate from 'validate-npm-package-name';
+
+import { store } from '../store';
 
 export async function getProjectInitData(name?: string) {
   let projectPath;
