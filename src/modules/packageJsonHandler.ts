@@ -65,13 +65,27 @@ export async function packageJsonHandler() {
     if (userChoice.stylelint && plugin.type === 'style') addToolScript(plugin.name, 'stylelint');
   });
 
+  // Handling specific versions of plug-in technologies
+  const preparedDefaultDeps = (pName: PlgName, base: keyof PluginBase['devDeps']) => {
+    const pluginDeps = plugins.getDevDeps(pName, base);
+    const extDeps = new Set(Object.keys(packageJson.devDependencies));
+
+    return Object.keys(pluginDeps).reduce(
+      (acc, item) => {
+        if (!extDeps.has(item)) acc[item] = pluginDeps[item];
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+  };
+
   packageJson.devDependencies = {
     ...packageJson.devDependencies,
-    ...(userChoice.prettier && plugins.getDevDeps('prettier', 'default')),
-    ...(userChoice.eslint && plugins.getDevDeps('eslint', 'default')),
-    ...(userChoice.eslint && userChoice.prettier && plugins.getDevDeps('eslint', 'prettier')),
-    ...(userChoice.stylelint && plugins.getDevDeps('stylelint', 'default')),
-    ...(userChoice.stylelint && userChoice.prettier && plugins.getDevDeps('stylelint', 'prettier')),
+    ...(userChoice.prettier && preparedDefaultDeps('prettier', 'default')),
+    ...(userChoice.eslint && preparedDefaultDeps('eslint', 'default')),
+    ...(userChoice.eslint && userChoice.prettier && preparedDefaultDeps('eslint', 'prettier')),
+    ...(userChoice.stylelint && preparedDefaultDeps('stylelint', 'default')),
+    ...(userChoice.stylelint && userChoice.prettier && preparedDefaultDeps('stylelint', 'prettier')),
   };
 
   try {

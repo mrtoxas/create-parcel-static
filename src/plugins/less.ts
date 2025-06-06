@@ -7,7 +7,7 @@ export const lessPlugin = (): PluginBase => ({
   fileExt: 'less',
   devDeps: {
     default: {
-      '@parcel/transformer-less': '^2.12.0',
+      '@parcel/transformer-less': '^2.15.2',
     },
     stylelint: {
       'stylelint-config-standard-less': '^3.0.1',
