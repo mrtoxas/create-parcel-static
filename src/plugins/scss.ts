@@ -7,11 +7,11 @@ export const scssPlugin = (): PluginBase => ({
   fileExt: 'scss',
   devDeps: {
     default: {
-      '@parcel/transformer-sass': '^2.12.0',
+      '@parcel/transformer-sass': '^2.15.2',
     },
     stylelint: {
-      'stylelint-config-standard-scss': '^13.0.0',
-      'stylelint-scss': '^6.2.0',
+      'stylelint-config-standard-scss': '^15.0.1',
+      'stylelint-scss': '^6.12.0',
     },
   },
   configs: {
@@ -21,6 +21,7 @@ export const scssPlugin = (): PluginBase => ({
         'at-rule-no-unknown': null,
         'scss/at-rule-no-unknown': true,
         'scss/selector-no-redundant-nesting-selector': true,
+        'lightness-notation': null,
       },
       extends: ['stylelint-scss', 'stylelint-config-standard-scss'],
     },

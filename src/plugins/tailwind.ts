@@ -1,8 +1,18 @@
-import { plugins } from 'modules/pluginFactory';
-import { PluginBase, PlgMarkupName } from 'types';
+import { PlgMarkupName, PluginBase, Plugins } from 'types';
 
-export const tailwindConfig = (extensions: string, scriptName: string, markup: PlgMarkupName) => {
-  const baseConfig = {
+interface BaseConfig {
+  content: string[];
+  separator: string;
+  theme: {
+    extend: {
+      colors: Record<string, string>;
+    };
+  };
+  plugins: string[];
+}
+
+export const tailwindConfig = (plugins: Plugins, extensions: string, scriptName: string, markup: PlgMarkupName) => {
+  const baseConfig: BaseConfig = {
     content: [`./src/**/*.{${extensions}}`],
     separator: markup === 'pug' ? "'_'" : "':'",
     theme: {
@@ -40,8 +50,8 @@ export const tailwindPlugin = (): PluginBase => ({
   fileExt: 'css',
   devDeps: {
     default: {
-      postcss: '^8.4.38',
-      tailwindcss: '^3.4.3',
+      postcss: '^8.5.4',
+      tailwindcss: '^3.4.17',
     },
     stylelint: {
       'stylelint-config-tailwindcss': '^0.0.7',
@@ -57,6 +67,7 @@ export const tailwindPlugin = (): PluginBase => ({
       extends: ['stylelint-config-standard', 'stylelint-config-tailwindcss'],
       rules: {
         'property-no-vendor-prefix': null,
+        'lightness-notation': null,
       },
     },
   },

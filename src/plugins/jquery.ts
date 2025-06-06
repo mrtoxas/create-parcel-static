@@ -1,5 +1,5 @@
-import { PluginBase } from 'types';
 import merge from 'deepmerge';
+import { PluginBase } from 'types';
 
 const baseConfig: PluginBase = {
   name: 'jquery',
@@ -45,12 +45,12 @@ const jqueryTsConfig = {
   fileExt: 'ts',
   devDeps: {
     default: {
-      typescript: '^5.3.3',
+      typescript: '^5.8.3',
       '@types/jquery': '^3.5.30',
     },
     eslint: {
-      '@typescript-eslint/eslint-plugin': '^7.0.2',
-      '@typescript-eslint/parser': '^7.0.2',
+      '@typescript-eslint/eslint-plugin': '^7.18.0',
+      '@typescript-eslint/parser': '^7.18.0',
     },
   },
   configs: {
@@ -62,7 +62,7 @@ const jqueryTsConfig = {
   },
   scripts: {
     default: {
-      types: `tsc --noEmit`,
+      'check:types': `tsc --noEmit`,
     },
     prettier: {
       'prettier:scripts': 'prettier src/scripts/**/*.ts --check',

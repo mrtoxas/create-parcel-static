@@ -12,4 +12,4 @@ const colorize = (): void => {
   });
 };
 
-$(document).ready(colorize);
+$(colorize);

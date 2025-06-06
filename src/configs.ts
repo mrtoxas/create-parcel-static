@@ -13,9 +13,9 @@ export const packageJson = {
   author: '',
   license: 'ISC',
   devDependencies: {
-    parcel: '^2.12.0',
-    rimraf: '^5.0.7',
-    '@parcel/config-default': '^2.12.0',
+    parcel: '^2.15.2',
+    rimraf: '^6.0.1',
+    '@parcel/config-default': '^2.15.2',
     'parcel-reporter-static-files-copy': '^1.5.3',
   },
 };

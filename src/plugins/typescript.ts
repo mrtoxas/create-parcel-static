@@ -20,11 +20,11 @@ export const typescriptPlugin = (): PluginBase => ({
   fileExt: 'ts',
   devDeps: {
     default: {
-      typescript: '^5.3.3',
+      typescript: '5.8.3',
     },
     eslint: {
-      '@typescript-eslint/eslint-plugin': '^7.0.2',
-      '@typescript-eslint/parser': '^7.0.2',
+      '@typescript-eslint/eslint-plugin': '^7.18.0',
+      '@typescript-eslint/parser': '^7.18.0',
     },
   },
   configs: {
@@ -37,7 +37,7 @@ export const typescriptPlugin = (): PluginBase => ({
   },
   scripts: {
     default: {
-      types: `tsc --noEmit`,
+      'check:types': `tsc --noEmit`,
     },
     prettier: {
       'prettier:scripts': 'prettier src/scripts/**/*.ts --check',

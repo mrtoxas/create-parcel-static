@@ -1,7 +1,7 @@
-import { QuestionList, UserProject, AppProjectArgs, PluginBase } from 'types';
-import { select, confirm } from '@inquirer/prompts';
-import { plugins } from 'modules/pluginFactory';
+import { confirm, select } from '@inquirer/prompts';
 import chalk from 'chalk';
+import { plugins } from 'modules/pluginFactory';
+import { AppProjectArgs, PluginBase, QuestionList, UserProject } from 'types';
 
 const preparedChoices = (data: PluginBase['name'][]) => {
   return data.reduce((acc, curr) => {

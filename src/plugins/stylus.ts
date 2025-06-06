@@ -7,9 +7,11 @@ export const stylusPlugin = (): PluginBase => ({
   fileExt: 'styl',
   devDeps: {
     default: {
-      '@parcel/transformer-stylus': '2.12.0',
+      '@parcel/transformer-stylus': '^2.15.2',
+      'stylelint-config-standard': '^36.0.1',
     },
     stylelint: {
+      stylelint: '^15.10.3',
       'stylelint-stylus': '^1.0.0',
     },
     prettier: {

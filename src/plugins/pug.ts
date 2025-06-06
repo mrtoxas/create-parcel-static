@@ -7,10 +7,10 @@ export const pugPlugin = (): PluginBase => ({
   fileExt: 'pug',
   devDeps: {
     default: {
-      '@parcel/transformer-pug': '2.12.0',
+      '@parcel/transformer-pug': '^2.15.2',
     },
     prettier: {
-      '@prettier/plugin-pug': '^3.0.0',
+      '@prettier/plugin-pug': '^3.4.0',
     },
   },
   scripts: {

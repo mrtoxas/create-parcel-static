@@ -14,7 +14,7 @@ export const prettierPlugin = (): PluginBase => ({
   name: 'prettier',
   devDeps: {
     default: {
-      prettier: '^3.2.5',
+      prettier: '^3.5.3',
     },
   },
   configs: {

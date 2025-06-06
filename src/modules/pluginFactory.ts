@@ -1,6 +1,6 @@
 import { cssPlugin } from 'plugins/css';
-import { eslintPlugin } from 'plugins/eslint';
 import { ejsPlugin } from 'plugins/ejs';
+import { eslintPlugin } from 'plugins/eslint';
 import { htmlPlugin } from 'plugins/html';
 import { javascriptPlugin } from 'plugins/javascript';
 import { jqueryPlugin, jqueryTsPlugin } from 'plugins/jquery';

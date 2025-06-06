@@ -25,10 +25,10 @@ export const eslintPlugin = (): PluginBase => ({
   devDeps: {
     default: {
       eslint: '^8.57.0',
-      'eslint-plugin-import': '^2.29.1',
+      'eslint-plugin-import': '^2.31.0',
     },
     prettier: {
-      'eslint-config-prettier': '^9.1.0',
+      'eslint-config-prettier': '^10.1.5',
     },
   },
   configs: {
