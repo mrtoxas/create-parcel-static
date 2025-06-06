@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import minimist from 'minimist';
 import { configsHandler } from 'modules/configsHandler';
 import { projectChoices } from 'modules/projectChoices';
+import { getPackage } from 'modules/versionsHandler';
 import { AppArguments } from 'types';
 
 import { helpHandler } from './modules/helpHandler';
@@ -11,6 +12,11 @@ import { cleanUpDir, getProjectInitData } from './modules/projectInit';
 import { store } from './store';
 
 export async function app() {
+  const version = getPackage();
+  if (version) {
+    console.log(chalk.dim(`📦 create-parcel-static v${version.version}`));
+  }
+
   const argv = minimist<AppArguments>(process.argv.slice(2), { string: ['_'] });
 
   if (argv.help || argv.h) {

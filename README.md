@@ -6,9 +6,11 @@ Project builder for creating static sites based Parcel v.2 creates a development
 This builder provides an easy and efficient way to deploy a development environment to build lightweight, fast and simple static sites without relying on heavyweight tools.
 
 ### Usage: 
+⚠️ Add `@latest` to ensure the latest version is used, especially if you encounter caching issues.
+
 > _You can use your preferred package manager - npm, yarn, pnpm, bun, ..._
 ```bash
-npm create parcel-static
+npm create parcel-static@latest
 ```
 Then answer the constructor's questions and follow instructions in your terminal.
 
@@ -23,12 +25,15 @@ Then answer the constructor's questions and follow instructions in your terminal
 
 ### Command line
 You can use the command line to easily create projects. 
+
 ```bash
-# Warning: npm requires a double dash before specifying options
-$ npm create parcel-static [project-name] -- [options]
-$ yarn create parcel-static [project-name] [options]
-$ pnpm create parcel-static [project-name] [options]
-$ bun create parcel-static [project-name] [options]
+# npm (note the double dash before options)
+npm create parcel-static@latest [project-name] -- [options]
+
+# yarn, pnpm, bun (no double dash needed)
+yarn create parcel-static [project-name] [options]
+pnpm create parcel-static [project-name] [options]
+bun create parcel-static [project-name] [options]
 ```
 Arguments:
 ```bash
@@ -92,6 +97,7 @@ $ yarn create parcel-static --eslint --prettier
 - **`prettier:scripts:fix`** - Fix script-files formatting with Prettier
 - **`prettier:styles:check`** - Check style files formatting with Prettier
 - **`prettier:styles:fix`** - Fix style-files formatting with Prettier
+- **`check:types`** - Check TypeScript types (only if TypeScript is used)
 
 ### References
 For more information about the Parcel bundler, visit its [repository](https://github.com/parcel-bundler/parcel).  
