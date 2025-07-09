@@ -20,6 +20,8 @@ Options:
   --stylelint     Add Stylelint
   --prettier      Add Prettier
   --no-eslint     Exclude ESLint (works similarly with Stylelint and Prettier)
+
+  --version       Display package version
     
   --help, --h     Display this help message
 
