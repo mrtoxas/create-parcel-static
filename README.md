@@ -41,14 +41,15 @@ Arguments:
 ```
 Options:
 ```bash
---markup       Choose template engine: 'html' | 'pug' | 'ejs'
---style        Choose style processing tool: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind'
---script       Choose JavaScript tool: 'javascript' | 'typescript' | 'jquery' | 'jqueryts'
---eslint       Add ESLint
---stylelint    Add Stylelint
---prettier     Add Prettier
---no-eslint    Exclude ESLint (works similarly with Stylelint and Prettier)
---help, --h    Display help message
+--markup        Choose template engine: 'html' | 'pug' | 'ejs'
+--style         Choose style processing tool: 'css' | 'scss' | 'sass' | 'stylus' | 'less' | 'tailwind'
+--script        Choose JavaScript tool: 'javascript' | 'typescript' | 'jquery' | 'jqueryts'
+--eslint        Add ESLint
+--stylelint     Add Stylelint
+--prettier      Add Prettier
+--no-eslint     Exclude ESLint (works similarly with Stylelint and Prettier)
+--version, --v  Display package version
+--help, --h     Display help message
 ```
 Examples:
 ```bash
