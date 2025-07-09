@@ -12,15 +12,17 @@ import { cleanUpDir, getProjectInitData } from './modules/projectInit';
 import { store } from './store';
 
 export async function app() {
-  const version = getPackage();
-  if (version) {
-    console.log(chalk.dim(`📦 create-parcel-static v${version.version}`));
-  }
+  const version = getPackage();  
 
   const argv = minimist<AppArguments>(process.argv.slice(2), { string: ['_'] });
 
   if (argv.help || argv.h) {
     helpHandler();
+    process.exit(0);
+  }
+
+  if (argv.version || argv.v) {
+    console.log(chalk.dim(`📦 create-parcel-static v${version.version}`));
     process.exit(0);
   }
 

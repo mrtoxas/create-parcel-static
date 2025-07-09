@@ -58,6 +58,8 @@ export interface AppProjectArgs {
 export interface AppArguments extends AppProjectArgs {
   help?: string;
   h?: string;
+  version?: string;
+  v?: string;
 }
 
 interface QuestionSelect {
